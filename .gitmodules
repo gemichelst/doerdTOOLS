@@ -1,0 +1,3 @@
+[submodule "myDevices"]
+	path = myDevices
+	url = https://github.com/gemichelst/myDevices.git
