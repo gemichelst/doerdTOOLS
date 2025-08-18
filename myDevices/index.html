@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myDevices - Geräte Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">
+                        <span class="header__icon">📱</span>
+                        myDevices
+                    </h1>
+                    <div class="header__actions">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Geräte suchen...">
+                        <button id="addDeviceBtn" class="btn btn--primary">
+                            ➕ Neues Gerät
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Dashboard -->
+                <div id="dashboard" class="dashboard">
+                    <div class="dashboard__header">
+                        <h2>Meine Geräte</h2>
+                        <div class="stats">
+                            <span id="deviceCount" class="stats__item">0 Geräte</span>
+                        </div>
+                    </div>
+                    <div id="deviceGrid" class="device-grid">
+                        <!-- Device cards will be populated here -->
+                    </div>
+                    <div id="emptyState" class="empty-state hidden">
+                        <div class="empty-state__icon">📱</div>
+                        <h3>Keine Geräte gefunden</h3>
+                        <p>Fügen Sie Ihr erstes Gerät hinzu, um loszulegen.</p>
+                        <button class="btn btn--primary" onclick="showAddDeviceModal()">
+                            ➕ Erstes Gerät hinzufügen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Device Detail View -->
+                <div id="deviceDetail" class="device-detail hidden">
+                    <div class="device-detail__header">
+                        <button id="backBtn" class="btn btn--secondary">
+                            ← Zurück
+                        </button>
+                        <div class="device-info">
+                            <div class="device-info__icon" id="deviceIcon">📱</div>
+                            <div class="device-info__content">
+                                <h2 id="deviceName">Device Name</h2>
+                                <p id="deviceType" class="device-type">Device Type</p>
+                                <p id="deviceDescription" class="device-description">Device Description</p>
+                            </div>
+                        </div>
+                        <button id="editDeviceBtn" class="btn btn--secondary">
+                            ✏️ Bearbeiten
+                        </button>
+                    </div>
+
+                    <div class="file-tabs">
+                        <button class="tab-btn active" data-category="all">Alle</button>
+                        <button class="tab-btn" data-category="Treiber">🔧 Treiber</button>
+                        <button class="tab-btn" data-category="Tools">🛠️ Tools</button>
+                        <button class="tab-btn" data-category="Keys">🔑 Keys</button>
+                        <button class="tab-btn" data-category="Daten">📊 Daten</button>
+                        <button class="tab-btn" data-category="Dokumentation">📋 Docs</button>
+                    </div>
+
+                    <div class="file-section">
+                        <div class="file-section__header">
+                            <h3 id="currentCategoryTitle">Alle Dateien</h3>
+                            <button id="uploadFileBtn" class="btn btn--primary">
+                                📁 Datei hochladen
+                            </button>
+                        </div>
+                        <div id="fileList" class="file-list">
+                            <!-- Files will be populated here -->
+                        </div>
+                        <div id="noFiles" class="no-files hidden">
+                            <div class="no-files__icon">📁</div>
+                            <p>Keine Dateien in dieser Kategorie</p>
+                            <button class="btn btn--primary" onclick="showUploadModal()">
+                                Erste Datei hochladen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add/Edit Device Modal -->
+    <div id="deviceModal" class="modal hidden">
+        <div class="modal__backdrop" onclick="hideDeviceModal()"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3 id="deviceModalTitle">Neues Gerät hinzufügen</h3>
+                <button class="modal__close" onclick="hideDeviceModal()">×</button>
+            </div>
+            <form id="deviceForm" class="modal__form">
+                <div class="form-group">
+                    <label for="deviceNameInput">Gerätename *</label>
+                    <input type="text" id="deviceNameInput" class="form-input" required placeholder="z.B. Gaming PC">
+                </div>
+                <div class="form-group">
+                    <label for="deviceTypeSelect">Gerätetyp *</label>
+                    <select id="deviceTypeSelect" class="form-select" required>
+                        <option value="">Typ auswählen</option>
+                        <option value="Computer">💻 Computer</option>
+                        <option value="Smartphone">📱 Smartphone</option>
+                        <option value="Tablet">📟 Tablet</option>
+                        <option value="IoT Device">🌐 IoT Device</option>
+                        <option value="Network Device">🔌 Network Device</option>
+                        <option value="Gaming Console">🎮 Gaming Console</option>
+                        <option value="Smart TV">📺 Smart TV</option>
+                        <option value="Andere">⚙️ Andere</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="deviceDescInput">Beschreibung</label>
+                    <textarea id="deviceDescInput" class="form-textarea" placeholder="Optionale Beschreibung des Geräts"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deviceIconSelect">Icon</label>
+                    <select id="deviceIconSelect" class="form-select">
+                        <option value="💻">💻 Computer</option>
+                        <option value="📱">📱 Smartphone</option>
+                        <option value="📟">📟 Tablet</option>
+                        <option value="🌐">🌐 IoT Device</option>
+                        <option value="🔌">🔌 Network Device</option>
+                        <option value="🎮">🎮 Gaming Console</option>
+                        <option value="📺">📺 Smart TV</option>
+                        <option value="⚙️">⚙️ Andere</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" onclick="hideDeviceModal()">Abbrechen</button>
+                    <button type="submit" class="btn btn--primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Upload File Modal -->
+    <div id="uploadModal" class="modal hidden">
+        <div class="modal__backdrop" onclick="hideUploadModal()"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3>Datei hochladen</h3>
+                <button class="modal__close" onclick="hideUploadModal()">×</button>
+            </div>
+            <form id="uploadForm" class="modal__form">
+                <div class="form-group">
+                    <label for="fileInput">Datei auswählen *</label>
+                    <input type="file" id="fileInput" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="fileNameInput">Dateiname *</label>
+                    <input type="text" id="fileNameInput" class="form-input" required placeholder="z.B. NVIDIA Treiber">
+                </div>
+                <div class="form-group">
+                    <label for="categorySelect">Kategorie *</label>
+                    <select id="categorySelect" class="form-select" required>
+                        <option value="">Kategorie auswählen</option>
+                        <option value="Treiber">🔧 Treiber</option>
+                        <option value="Tools">🛠️ Tools</option>
+                        <option value="Keys">🔑 Keys</option>
+                        <option value="Daten">📊 Daten</option>
+                        <option value="Dokumentation">📋 Dokumentation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="versionInput">Version</label>
+                    <input type="text" id="versionInput" class="form-input" placeholder="z.B. 1.0.0">
+                </div>
+                <div class="form-group">
+                    <label for="osSelect">Betriebssystem</label>
+                    <select id="osSelect" class="form-select">
+                        <option value="Universal">🌐 Universal</option>
+                        <option value="Windows">🪟 Windows</option>
+                        <option value="Linux">🐧 Linux</option>
+                        <option value="macOS">🍎 macOS</option>
+                        <option value="Android">🤖 Android</option>
+                        <option value="iOS">📱 iOS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cpuSelect">CPU Typ</label>
+                    <select id="cpuSelect" class="form-select">
+                        <option value="Universal">🌐 Universal</option>
+                        <option value="x64">💻 x64</option>
+                        <option value="x86">🖥️ x86</option>
+                        <option value="ARM64">📱 ARM64</option>
+                        <option value="ARM">📟 ARM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descriptionInput">Beschreibung</label>
+                    <textarea id="descriptionInput" class="form-textarea" placeholder="Optionale Beschreibung der Datei"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" onclick="hideUploadModal()">Abbrechen</button>
+                    <button type="submit" class="btn btn--primary">Hochladen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal__backdrop" onclick="hideConfirmModal()"></div>
+        <div class="modal__content modal__content--small">
+            <div class="modal__header">
+                <h3 id="confirmTitle">Bestätigung</h3>
+                <button class="modal__close" onclick="hideConfirmModal()">×</button>
+            </div>
+            <div class="modal__body">
+                <p id="confirmMessage">Sind Sie sicher?</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn--secondary" onclick="hideConfirmModal()">Abbrechen</button>
+                <button type="button" id="confirmBtn" class="btn btn--danger">Bestätigen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+        <button class="toast__close" onclick="hideToast()">×</button>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

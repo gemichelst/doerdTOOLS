@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>growBuddy - Cannabis Aufzucht Planer</title>
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>growBuddy</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-view="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-btn" data-view="groups">
+                        <i class="fas fa-leaf"></i>
+                        <span>Aufzuchtgruppen</span>
+                    </button>
+                    <button class="nav-btn" data-view="calendar">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Kalender</span>
+                    </button>
+                    <button class="nav-btn" data-view="tasks">
+                        <i class="fas fa-tasks"></i>
+                        <span>Aufgaben</span>
+                    </button>
+                    <button class="nav-btn" data-view="documentation">
+                        <i class="fas fa-camera"></i>
+                        <span>Dokumentation</span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Dashboard View -->
+            <div class="view dashboard-view active" id="dashboard-view">
+                <div class="container">
+                    <div class="page-header">
+                        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                        <button class="btn btn-primary" id="add-group-btn">
+                            <i class="fas fa-plus"></i>
+                            Neue Aufzuchtgruppe
+                        </button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="total-groups">0</div>
+                                <div class="stat-label">Aktive Gruppen</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="total-plants">0</div>
+                                <div class="stat-label">Pflanzen gesamt</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="pending-tasks">0</div>
+                                <div class="stat-label">Offene Aufgaben</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="avg-age">0</div>
+                                <div class="stat-label">Ø Alter (Tage)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-sections">
+                        <section class="groups-section">
+                            <h3>Aktive Aufzuchtgruppen</h3>
+                            <div class="groups-grid" id="dashboard-groups">
+                                <!-- Groups will be populated by JavaScript -->
+                            </div>
+                        </section>
+
+                        <section class="tasks-section">
+                            <h3>Anstehende Aufgaben</h3>
+                            <div class="tasks-preview" id="dashboard-tasks">
+                                <!-- Tasks will be populated by JavaScript -->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups View -->
+            <div class="view groups-view" id="groups-view">
+                <div class="container">
+                    <div class="page-header">
+                        <h2><i class="fas fa-leaf"></i> Aufzuchtgruppen</h2>
+                        <button class="btn btn-primary" id="add-group-btn-2">
+                            <i class="fas fa-plus"></i>
+                            Neue Gruppe
+                        </button>
+                    </div>
+
+                    <div class="groups-list" id="groups-list">
+                        <!-- Groups will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div class="view calendar-view" id="calendar-view">
+                <div class="container">
+                    <div class="page-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Kalender</h2>
+                        <div class="calendar-controls">
+                            <button class="btn btn-secondary" id="prev-month">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="current-month" id="current-month"></span>
+                            <button class="btn btn-secondary" id="next-month">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-container">
+                        <div class="calendar" id="calendar">
+                            <!-- Calendar will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks View -->
+            <div class="view tasks-view" id="tasks-view">
+                <div class="container">
+                    <div class="page-header">
+                        <h2><i class="fas fa-tasks"></i> Aufgaben</h2>
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">Alle</button>
+                            <button class="filter-btn" data-filter="pending">Offen</button>
+                            <button class="filter-btn" data-filter="completed">Erledigt</button>
+                            <button class="filter-btn" data-filter="overdue">Überfällig</button>
+                        </div>
+                    </div>
+
+                    <div class="tasks-list" id="tasks-list">
+                        <!-- Tasks will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentation View -->
+            <div class="view documentation-view" id="documentation-view">
+                <div class="container">
+                    <div class="page-header">
+                        <h2><i class="fas fa-camera"></i> Dokumentation</h2>
+                        <button class="btn btn-primary" id="add-documentation-btn">
+                            <i class="fas fa-plus"></i>
+                            Dokumentation hinzufügen
+                        </button>
+                    </div>
+
+                    <div class="documentation-list" id="documentation-list">
+                        <!-- Documentation will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modals -->
+        <div class="modal" id="group-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="group-modal-title">Neue Aufzuchtgruppe</h3>
+                    <button class="modal-close" id="close-group-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="group-form" class="modal-body">
+                    <div class="form-group">
+                        <label for="group-name">Gruppenname *</label>
+                        <input type="text" id="group-name" required placeholder="z.B. Northern Lights Indoor">
+                    </div>
+                    <div class="form-group">
+                        <label for="plant-count">Anzahl Pflanzen *</label>
+                        <input type="number" id="plant-count" min="1" max="50" required placeholder="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="strain">Sorte *</label>
+                        <select id="strain" required>
+                            <option value="">Sorte auswählen</option>
+                            <option value="Northern Lights">Northern Lights</option>
+                            <option value="White Widow">White Widow</option>
+                            <option value="Skunk #1">Skunk #1</option>
+                            <option value="AK-47">AK-47</option>
+                            <option value="Blueberry">Blueberry</option>
+                            <option value="Haze">Haze</option>
+                            <option value="Kush">Kush</option>
+                            <option value="Amnesia">Amnesia</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Andere">Andere</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Standort *</label>
+                        <select id="location" required>
+                            <option value="">Standort auswählen</option>
+                            <option value="Indoor (Growbox)">Indoor (Growbox)</option>
+                            <option value="Outdoor (Garten)">Outdoor (Garten)</option>
+                            <option value="Gewächshaus">Gewächshaus</option>
+                            <option value="Balkon">Balkon</option>
+                            <option value="Dachboden">Dachboden</option>
+                            <option value="Keller">Keller</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="start-date">Startdatum *</label>
+                        <input type="date" id="start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notizen</label>
+                        <textarea id="notes" placeholder="Zusätzliche Informationen..."></textarea>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-group">Abbrechen</button>
+                    <button type="submit" form="group-form" class="btn btn-primary" id="save-group">Speichern</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="task-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="task-modal-title">Aufgabe bearbeiten</h3>
+                    <button class="modal-close" id="close-task-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="task-modal-body">
+                    <!-- Task details will be populated by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-task">Schließen</button>
+                    <button type="button" class="btn btn-success" id="complete-task">
+                        <i class="fas fa-check"></i>
+                        Erledigt markieren
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="documentation-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Dokumentation hinzufügen</h3>
+                    <button class="modal-close" id="close-documentation-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="documentation-form" class="modal-body">
+                    <div class="form-group">
+                        <label for="doc-group">Aufzuchtgruppe *</label>
+                        <select id="doc-group" required>
+                            <option value="">Gruppe auswählen</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc-date">Datum *</label>
+                        <input type="date" id="doc-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc-type">Typ *</label>
+                        <select id="doc-type" required>
+                            <option value="">Typ auswählen</option>
+                            <option value="photo">Foto</option>
+                            <option value="fertilizing">Düngung</option>
+                            <option value="watering">Bewässerung</option>
+                            <option value="measurement">Messung</option>
+                            <option value="note">Notiz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc-notes">Beschreibung *</label>
+                        <textarea id="doc-notes" required placeholder="Beschreibung der Dokumentation..."></textarea>
+                    </div>
+                    <div class="form-group" id="photo-upload-group" style="display: none;">
+                        <label for="doc-photo">Foto</label>
+                        <input type="file" id="doc-photo" accept="image/*">
+                        <div class="file-info">Max. 5MB, JPG/PNG Format</div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-documentation">Abbrechen</button>
+                    <button type="submit" form="documentation-form" class="btn btn-primary">Speichern</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="modal" id="confirm-modal">
+            <div class="modal-content small">
+                <div class="modal-header">
+                    <h3 id="confirm-title">Bestätigung</h3>
+                </div>
+                <div class="modal-body">
+                    <p id="confirm-message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="confirm-cancel">Abbrechen</button>
+                    <button type="button" class="btn btn-danger" id="confirm-ok">Bestätigen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/src/js/app.js"></script>
+</body>
+</html>
