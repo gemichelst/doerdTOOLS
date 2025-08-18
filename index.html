@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>doerdTOOLS - Tools Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+            background-color: #ffffff;
+        }
+        
+        .header-section {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header-section h1 {
+            font-size: 3.5em;
+            margin: 0 0 15px 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .header-section p {
+            font-size: 1.2em;
+            margin: 0;
+            opacity: 0.95;
+        }
+        
+        .tools-container {
+            display: flex;
+            gap: 40px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tool-section {
+            flex: 1;
+            min-width: 350px;
+            max-width: 450px;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #e1e4e8;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+        
+        .tool-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .tool-icon-link {
+            display: inline-block;
+            margin-bottom: 25px;
+            transition: transform 0.2s ease;
+        }
+        
+        .tool-icon-link:hover {
+            transform: scale(1.05);
+        }
+        
+        .tool-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .tool-icon:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .tool-title {
+            margin: 20px 0 15px 0;
+            color: #24292e;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        
+        .tool-description {
+            color: #586069;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .launch-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .launch-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .info-section {
+            background: #f6f8fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 60px;
+            border: 1px solid #e1e4e8;
+        }
+        
+        .info-section h2 {
+            color: #24292e;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: #586069;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        .info-section ul {
+            line-height: 1.8;
+        }
+        
+        .info-section li {
+            margin-bottom: 8px;
+            color: #24292e;
+        }
+        
+        .github-link {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #586069;
+            border-top: 1px solid #e1e4e8;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .tool-section {
+                min-width: auto;
+                max-width: none;
+            }
+            
+            .header-section {
+                padding: 30px 20px;
+            }
+            
+            .header-section h1 {
+                font-size: 2.5em;
+            }
+            
+            body {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tool-section {
+                padding: 25px 15px;
+            }
+            
+            .tool-title {
+                font-size: 1.8em;
+            }
+            
+            .info-section {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body class="markdown-body">
+
+<div class="header-section">
+    <h1>doerdMIDI</h1>
+    <p>MIDI tools collection</p>
+</div>
+
+<div class="tools-container">
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdMIDI/MIDIorganiser/" class="tool-icon-link">
+            <img src="midiOrganizer.png" alt="MIDI Organizer" class="tool-icon">
+        </a>
+        <h2 class="tool-title">MIDIorganizer</h2>
+        <p class="tool-description">
+            Organisiere deine MIDI-Geräte und behalte den Überblick über MIDI-Ausgänge und Daten.
+            Jedes Gerät und jeder Controller kann mit seinen MIDI-Daten aufgelistet werden.
+        </p>
+        <a href="https://gemichelst.github.io/doerdMIDI/MIDIorganiser/" class="launch-button">
+            Tool starten →
+        </a>
+    </div>
+
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdMIDI/MIDItranslator/" class="tool-icon-link">
+            <img src="midiTranslator.png" alt="MIDI Translator" class="tool-icon">
+        </a>
+        <h2 class="tool-title">MIDItranslator</h2>
+        <p class="tool-description">
+            Übersetze rohe MIDI-Input-Hexadezimalwerte in gebräuchliche MIDI-Befehle.
+            Ein unverzichtbares Tool für MIDI-Entwicklung und Debugging.
+        </p>
+        <a href="https://gemichelst.github.io/doerdMIDI/MIDItranslator/" class="launch-button">
+            Tool starten →
+        </a>
+    </div>
+</div>
+
+<div class="info-section">
+    <h2>📋 Über das Projekt</h2>
+    <p>
+        <strong>doerdMIDI</strong> ist eine Sammlung von MIDI-Tools für Musiker und Entwickler. 
+        Alle Tools sind browser-basiert und nutzen moderne Web-APIs für die MIDI-Integration.
+    </p>
+
+    <h3>✨ Features</h3>
+    <ul>
+        <li>Browser-basierte Tools - keine Installation erforderlich</li>
+        <li>Moderne Web MIDI API Integration</li>
+        <li>Responsive Design für alle Geräte</li>
+        <li>Open Source und kostenlos</li>
+        <li>Echtzeit MIDI-Verarbeitung</li>
+        <li>Intuitive Benutzeroberfläche</li>
+    </ul>
+
+    <h3>🔧 Technische Details</h3>
+    <ul>
+        <li>Progressive Web App (PWA) Technologie</li>
+        <li>Web MIDI API für Hardware-Integration</li>
+        <li>Responsive CSS Grid Layouts</li>
+        <li>Cross-Browser Kompatibilität</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        <a href="https://github.com/gemichelst/doerdMIDI" class="github-link" target="_blank">
+            📁 GitHub Repository anzeigen
+        </a>
+    </p>
+</div>
+
+<div class="footer">
+    <p><strong>doerdMIDI</strong> - Entwickelt für die MIDI-Community</p>
+    <p>
+        <a href="https://github.com/gemichelst/doerdMIDI" class="github-link" target="_blank">GitHub</a> | 
+        <a href="mailto:contact@doerdmidi.com" class="github-link">Kontakt</a>
+    </p>
+</div>
+
+</body>
+</html>
