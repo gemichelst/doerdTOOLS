@@ -4,8 +4,8 @@
   "description": "Network Device Scanner and Manager",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#162227",
-  "theme_color": "#0891b2",
+  "background_color": "#1f2121",
+  "theme_color": "#33808d",
   "orientation": "portrait-primary",
   "icons": [
     {
