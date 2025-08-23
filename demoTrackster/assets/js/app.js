@@ -65,7 +65,7 @@ class DemoTrackster {
                     plays: 0,
                     genre: "Deep House",
                     priority: "high"
-                }
+                },
                 {
                     id: 3,
                     recipient: "label3",
