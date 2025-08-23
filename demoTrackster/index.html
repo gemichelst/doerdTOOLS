@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demoTrackster - Demo Submission Tracker</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="logo">🎵 demoTrackster</h2>
+            <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#dashboard" class="nav-link active" data-section="dashboard">📊 Dashboard</a></li>
+            <li><a href="#submissions" class="nav-link" data-section="submissions">📨 Submissions</a></li>
+            <li><a href="#tracks" class="nav-link" data-section="tracks">🎵 Track Library</a></li>
+            <li><a href="#playlists" class="nav-link" data-section="playlists">📻 Playlists</a></li>
+            <li><a href="#labels" class="nav-link" data-section="labels">🏷️ Label Database</a></li>
+            <li><a href="#templates" class="nav-link" data-section="templates">📄 Templates</a></li>
+            <li><a href="#export" class="nav-link" data-section="export">📤 Export</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="search-container">
+                <input type="text" placeholder="Search..." class="search-input" id="globalSearch">
+            </div>
+            <div class="top-bar-actions">
+                <button class="btn btn--primary" id="addSubmissionBtn">+ New Submission</button>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Overview of your demo submission performance</p>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📨</div>
+                    <div class="stat-content">
+                        <h3 id="totalSubmissions">0</h3>
+                        <p>Total Submissions</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3 id="responseRate">0%</h3>
+                        <p>Response Rate</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-content">
+                        <h3 id="pendingResponses">0</h3>
+                        <p>Pending Responses</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-content">
+                        <h3 id="failedDeliveries">0</h3>
+                        <p>Failed Deliveries</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">▶️</div>
+                    <div class="stat-content">
+                        <h3 id="totalPlays">0</h3>
+                        <p>Total Plays</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <h3 id="thisMonthSubmissions">0</h3>
+                        <p>This Month</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Submission Status</h3>
+                    </div>
+                    <canvas id="statusChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Submissions by Genre</h3>
+                    </div>
+                    <canvas id="genreChart"></canvas>
+                </div>
+                <div class="chart-container full-width">
+                    <div class="chart-header">
+                        <h3>Submission Timeline</h3>
+                    </div>
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <div class="section-header">
+                    <h3>Recent Activity</h3>
+                    <button class="btn btn--secondary">View All</button>
+                </div>
+                <div class="activity-feed" id="activityFeed">
+                    <!-- Activity items will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Submissions Section -->
+        <section id="submissions" class="content-section">
+            <div class="page-header">
+                <h1>Demo Submissions</h1>
+                <p>Track and manage all your demo submissions</p>
+            </div>
+            
+            <!-- Filters and Actions -->
+            <div class="filters-section">
+                <div class="filters-row">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="responded">Responded</option>
+                        <option value="interested">Interested</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                    <select id="genreFilter" class="filter-select">
+                        <option value="">All Genres</option>
+                        <option value="Deep House">Deep House</option>
+                        <option value="Tech House">Tech House</option>
+                        <option value="Techno">Techno</option>
+                        <option value="Progressive House">Progressive House</option>
+                        <option value="Minimal Techno">Minimal Techno</option>
+                        <option value="Melodic House">Melodic House</option>
+                    </select>
+                    <input type="date" id="dateFromFilter" class="filter-input">
+                    <input type="date" id="dateToFilter" class="filter-input">
+                    <button class="btn btn--secondary" id="clearFilters">Clear Filters</button>
+                </div>
+                <div class="bulk-actions">
+                    <button class="btn btn--secondary" id="bulkDelete">Delete Selected</button>
+                    <button class="btn btn--secondary" id="bulkExport">Export Selected</button>
+                </div>
+            </div>
+
+            <!-- Submissions Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th class="sortable" data-sort="recipient">Recipient</th>
+                            <th class="sortable" data-sort="status">Status</th>
+                            <th class="sortable" data-sort="date_submitted">Date Submitted</th>
+                            <th>Tracks</th>
+                            <th>Response Details</th>
+                            <th class="sortable" data-sort="plays">Plays</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissionsTableBody">
+                        <!-- Submissions will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Track Library Section -->
+        <section id="tracks" class="content-section">
+            <div class="page-header">
+                <h1>Track Library</h1>
+                <p>Manage your music tracks and metadata</p>
+                <button class="btn btn--primary" id="addTrackBtn">+ Add Track</button>
+            </div>
+            
+            <div class="tracks-grid" id="tracksGrid">
+                <!-- Track cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Playlists Section -->
+        <section id="playlists" class="content-section">
+            <div class="page-header">
+                <h1>Playlist Manager</h1>
+                <p>Create and manage playlists for submissions</p>
+                <button class="btn btn--primary" id="addPlaylistBtn">+ Create Playlist</button>
+            </div>
+            
+            <div class="playlists-grid" id="playlistsGrid">
+                <!-- Playlist cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Labels Section -->
+        <section id="labels" class="content-section">
+            <div class="page-header">
+                <h1>Label Database</h1>
+                <p>Manage record label contacts and information</p>
+                <button class="btn btn--primary" id="addLabelBtn">+ Add Label</button>
+            </div>
+            
+            <div class="labels-grid" id="labelsGrid">
+                <!-- Label cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Templates Section -->
+        <section id="templates" class="content-section">
+            <div class="page-header">
+                <h1>Email Templates</h1>
+                <p>Create and manage email templates for submissions</p>
+                <button class="btn btn--primary" id="addTemplateBtn">+ New Template</button>
+            </div>
+            
+            <div class="templates-list" id="templatesList">
+                <!-- Template items will be populated here -->
+            </div>
+        </section>
+
+        <!-- Export Section -->
+        <section id="export" class="content-section">
+            <div class="page-header">
+                <h1>Export Data</h1>
+                <p>Export your submission data in various formats</p>
+            </div>
+            
+            <div class="export-options">
+                <div class="export-card">
+                    <h3>CSV Export</h3>
+                    <p>Export submissions as CSV file</p>
+                    <button class="btn btn--primary" id="exportCSV">Export CSV</button>
+                </div>
+                <div class="export-card">
+                    <h3>PDF Report</h3>
+                    <p>Generate PDF report of submissions</p>
+                    <button class="btn btn--primary" id="exportPDF">Export PDF</button>
+                </div>
+                <div class="export-card">
+                    <h3>JSON Data</h3>
+                    <p>Export raw data as JSON</p>
+                    <button class="btn btn--primary" id="exportJSON">Export JSON</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Add/Edit Submission Modal -->
+    <div id="submissionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="submissionModalTitle">Add New Submission</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="submissionForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="submissionLabel">Label Name *</label>
+                        <input type="text" id="submissionLabel" placeholder="e.g., Ametist Records" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="submissionEmail">Email Address *</label>
+                        <input type="email" id="submissionEmail" placeholder="demos@label.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="submissionContact">Contact Person</label>
+                        <input type="text" id="submissionContact" placeholder="A&R Manager">
+                    </div>
+                    <div class="form-group">
+                        <label for="submissionGenre">Genre</label>
+                        <select id="submissionGenre">
+                            <option value="Deep House">Deep House</option>
+                            <option value="Tech House">Tech House</option>
+                            <option value="Techno">Techno</option>
+                            <option value="Progressive House">Progressive House</option>
+                            <option value="Minimal Techno">Minimal Techno</option>
+                            <option value="Melodic House">Melodic House</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="submissionPlaylist">Playlist URL</label>
+                    <input type="url" id="submissionPlaylist" placeholder="https://soundcloud.com/artist/playlist">
+                </div>
+                <div class="form-group">
+                    <label for="submissionTracks">Track Names (one per line)</label>
+                    <textarea id="submissionTracks" rows="4" placeholder="Track 1&#10;Track 2&#10;Track 3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="submissionPriority">Priority</label>
+                        <select id="submissionPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="submissionStatus">Status</label>
+                        <select id="submissionStatus">
+                            <option value="pending" selected>Pending</option>
+                            <option value="responded">Responded</option>
+                            <option value="interested">Interested</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelSubmission">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Submission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Track Modal -->
+    <div id="trackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="trackModalTitle">Add New Track</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="trackForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="trackTitle">Track Title *</label>
+                        <input type="text" id="trackTitle" placeholder="e.g., Deep Journey" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trackGenre">Genre</label>
+                        <select id="trackGenre">
+                            <option value="Deep House">Deep House</option>
+                            <option value="Tech House">Tech House</option>
+                            <option value="Techno">Techno</option>
+                            <option value="Progressive House">Progressive House</option>
+                            <option value="Minimal Techno">Minimal Techno</option>
+                            <option value="Melodic House">Melodic House</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="trackBPM">BPM</label>
+                        <input type="number" id="trackBPM" placeholder="120" min="60" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label for="trackKey">Key</label>
+                        <input type="text" id="trackKey" placeholder="Am">
+                    </div>
+                    <div class="form-group">
+                        <label for="trackDuration">Duration</label>
+                        <input type="text" id="trackDuration" placeholder="6:32">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelTrack">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Track</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Playlist Modal -->
+    <div id="playlistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="playlistModalTitle">Create New Playlist</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="playlistForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="playlistName">Playlist Name *</label>
+                        <input type="text" id="playlistName" placeholder="e.g., Deep House Demos 2025" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="playlistPlatform">Platform</label>
+                        <select id="playlistPlatform">
+                            <option value="SoundCloud">SoundCloud</option>
+                            <option value="Dropbox">Dropbox</option>
+                            <option value="WeTransfer">WeTransfer</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="playlistURL">Playlist URL</label>
+                    <input type="url" id="playlistURL" placeholder="https://soundcloud.com/artist/playlist">
+                </div>
+                <div class="form-group">
+                    <label for="playlistTracks">Select Tracks</label>
+                    <div class="track-selector" id="trackSelector">
+                        <!-- Track checkboxes will be populated here -->
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelPlaylist">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Playlist</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Label Modal -->
+    <div id="labelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="labelModalTitle">Add New Label</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="labelForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="labelName">Label Name *</label>
+                        <input type="text" id="labelName" placeholder="e.g., Ametist Records" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="labelEmail">Demo Email *</label>
+                        <input type="email" id="labelEmail" placeholder="demos@label.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="labelContact">Contact Person</label>
+                        <input type="text" id="labelContact" placeholder="A&R Manager">
+                    </div>
+                    <div class="form-group">
+                        <label for="labelCountry">Country</label>
+                        <input type="text" id="labelCountry" placeholder="Germany">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="labelWebsite">Website</label>
+                    <input type="url" id="labelWebsite" placeholder="https://label.com">
+                </div>
+                <div class="form-group">
+                    <label for="labelGenres">Accepted Genres (comma separated)</label>
+                    <input type="text" id="labelGenres" placeholder="Deep House, Tech House">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="labelResponseTime">Response Time</label>
+                        <input type="text" id="labelResponseTime" placeholder="2-4 weeks">
+                    </div>
+                    <div class="form-group">
+                        <label for="labelSubmissionMethod">Submission Method</label>
+                        <select id="labelSubmissionMethod">
+                            <option value="email">Email</option>
+                            <option value="trackstack">Trackstack</option>
+                            <option value="form">Online Form</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="labelGuidelines">Submission Guidelines</label>
+                    <textarea id="labelGuidelines" rows="3" placeholder="Send 3-4 finished tracks, no demos"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelLabel">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Label</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Template Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="templateModalTitle">Create New Template</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="templateForm" class="modal-form">
+                <div class="form-group">
+                    <label for="templateName">Template Name *</label>
+                    <input type="text" id="templateName" placeholder="e.g., Standard Demo Submission" required>
+                </div>
+                <div class="form-group">
+                    <label for="templateSubject">Email Subject *</label>
+                    <input type="text" id="templateSubject" placeholder="Demo Submission - {artist_name} - {track_titles}" required>
+                </div>
+                <div class="form-group">
+                    <label for="templateBody">Email Body *</label>
+                    <textarea id="templateBody" rows="15" placeholder="Hello {contact_person},..." required></textarea>
+                </div>
+                <div class="template-variables">
+                    <h4>Available Variables:</h4>
+                    <div class="variables-list">
+                        <span class="variable">{artist_name}</span>
+                        <span class="variable">{label_name}</span>
+                        <span class="variable">{contact_person}</span>
+                        <span class="variable">{playlist_url}</span>
+                        <span class="variable">{track_list}</span>
+                        <span class="variable">{submission_date}</span>
+                        <span class="variable">{location}</span>
+                        <span class="variable">{contact_info}</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelTemplate">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

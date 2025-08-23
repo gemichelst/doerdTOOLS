@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <defs>
+        <linearGradient x1="65.9816109%" y1="25.4954561%" x2="35.6727528%" y2="59.6070865%" id="linearGradient-1">
+            <stop stop-color="#676767" offset="0%"></stop>
+            <stop stop-color="#000000" offset="81.3757997%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="8" y="8" width="1008" height="1008" rx="82"></rect>
+        <filter x="-0.7%" y="-0.7%" width="101.4%" height="101.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="2" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="6" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <circle id="path-4" cx="311.5" cy="311.5" r="311.5"></circle>
+        <filter x="-3.3%" y="-3.3%" width="106.6%" height="106.6%" filterUnits="objectBoundingBox" id="filter-5">
+            <feMorphology radius="8" operator="erode" in="SourceAlpha" result="shadowSpreadInner1"></feMorphology>
+            <feGaussianBlur stdDeviation="6" in="shadowSpreadInner1" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="-6" dy="12" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.467359209 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rectangle">
+            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+            <use stroke="#FFFFFF" stroke-width="4" xlink:href="#path-2"></use>
+        </g>
+        <g id="txt" transform="translate(172.000000, 797.000000)" fill="#FFFFFF">
+            <text id="trackster" font-family="RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-SemiBold, Roboto Flex" font-size="162" font-weight="500">
+                <tspan x="20.4120803" y="165">trackster</tspan>
+            </text>
+            <text id="demo" font-family="RobotoMono-Regular, Roboto Mono" font-size="282" font-weight="normal" line-spacing="90" letter-spacing="-8.7037037">
+                <tspan x="0" y="295">demo</tspan>
+            </text>
+        </g>
+        <g id="inner" transform="translate(70.129310, 59.000000)">
+            <g id="disc" transform="translate(130.870690, 0.000000)">
+                <g id="Oval">
+                    <use fill="#D8D8D8" fill-rule="evenodd" style="mix-blend-mode: color-burn;" xlink:href="#path-4"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                    <use stroke="#FFFFFF" stroke-width="9" xlink:href="#path-4"></use>
+                </g>
+                <circle id="Oval" stroke="#FFFFFF" stroke-width="2" cx="311.5" cy="311.5" r="55.5"></circle>
+                <path d="M253.850765,193 C289.62358,174.14308 332.37642,174.14308 368.149235,193 L398,61.2750391 C341.782902,40.9083203 280.217098,40.9083203 224,61.2750391 L253.850765,193 Z" id="Path" fill="#D8D8D8" style="mix-blend-mode: lighten;"></path>
+                <path d="M196.134762,372 C211.766286,399.66218 237.532593,420.174444 268,429.2111 L242.06707,559 C168.737849,540.887346 107.197366,491.238757 74,423.409694 L196.134762,372 Z" id="Path" fill="#D8D8D8" style="mix-blend-mode: normal;"></path>
+            </g>
+        </g>
+    </g>
+</svg>
