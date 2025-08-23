@@ -1,4 +1,0 @@
-Filename,Purpose,Size,Description,Key Features
-index.html,Main HTML Structure,25.7 KB,"Complete HTML markup with all sections, modals, and components","Semantic HTML5, Accessibility, Modal System, Navigation"
-style.css,Complete Styling System,48.9 KB,"Professional dark theme, animations, responsive layouts","CSS Grid/Flexbox, Custom Properties, Animations, Responsive Design"
-app.js,Full Application Logic,92.7 KB,Complete JavaScript with all features implemented,"ES6+ Classes, Web Audio API, Canvas, Event Handling"

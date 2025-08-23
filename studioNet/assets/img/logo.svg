@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <defs>
+        <linearGradient x1="65.9816109%" y1="25.4954561%" x2="35.6727528%" y2="59.6070865%" id="linearGradient-1">
+            <stop stop-color="#031574" offset="0%"></stop>
+            <stop stop-color="#1830AB" offset="81.3757997%"></stop>
+            <stop stop-color="#031574" offset="100%"></stop>
+        </linearGradient>
+        <path d="M59.277704,8 L964.722296,8 C982.552671,8 989.018396,9.85651222 995.536914,13.3426541 C1002.05543,16.8287959 1007.1712,21.9445674 1010.65735,28.4630859 C1014.14349,34.9816044 1016,41.4473292 1016,59.277704 L1016,964.722296 C1016,982.552671 1014.14349,989.018396 1010.65735,995.536914 C1007.1712,1002.05543 1002.05543,1007.1712 995.536914,1010.65735 C989.018396,1014.14349 982.552671,1016 964.722296,1016 L59.277704,1016 C41.4473292,1016 34.9816044,1014.14349 28.4630859,1010.65735 C21.9445674,1007.1712 16.8287959,1002.05543 13.3426541,995.536914 C9.85651222,989.018396 8,982.552671 8,964.722296 L8,59.277704 C8,41.4473292 9.85651222,34.9816044 13.3426541,28.4630859 C16.8287959,21.9445674 21.9445674,16.8287959 28.4630859,13.3426541 C34.9816044,9.85651222 41.4473292,8 59.277704,8 Z" id="path-2"></path>
+        <filter x="-0.6%" y="-0.6%" width="101.2%" height="101.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="2" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="-5" dy="8" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="100%" y1="19.9266396%" x2="0%" y2="88.28125%" id="linearGradient-4">
+            <stop stop-color="#EEEEEE" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#5D5D5D" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="92.1392099%" y1="10.7205089%" x2="7.86079011%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#EEEEEE" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#5D5D5D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rectangle">
+            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+            <path stroke="#FFFFFF" stroke-width="4" d="M965.341535,10.0007519 C982.13781,10.0418506 988.350854,11.7675612 994.593716,15.1062805 C1000.75854,18.4032656 1005.59673,23.2414574 1008.89372,29.4062836 C1012.27315,35.7252783 1014,42.0137236 1014,59.277704 L1014,964.722296 C1014,981.986276 1012.27315,988.274722 1008.89372,994.593716 C1005.59673,1000.75854 1000.75854,1005.59673 994.593716,1008.89372 C988.274722,1012.27315 981.986276,1014 964.722296,1014 L59.277704,1014 C42.0137236,1014 35.7252783,1012.27315 29.4062836,1008.89372 C23.2414574,1005.59673 18.4032656,1000.75854 15.1062805,994.593716 C11.7268452,988.274722 10,981.986276 10,964.722296 L10,59.277704 C10,42.0137236 11.7268452,35.7252783 15.1062805,29.4062836 C18.4032656,23.2414574 23.2414574,18.4032656 29.4062836,15.1062805 C35.647881,11.7682377 41.8593598,10.0425123 58.6530986,10.0007705 Z" stroke-linejoin="square"></path>
+        </g>
+        <g id="txt" transform="translate(60.000000, 673.000000)" fill="#FFFFFF">
+            <text id="studio" font-family="RobotoFlexNormalNormalNormalNormalNormalNormalNormalNormalNormalDefault-SemiBold, Roboto Flex" font-size="222" font-weight="500" letter-spacing="-12.1">
+                <tspan x="60.2508004" y="206">studio</tspan>
+            </text>
+            <text id="net" font-family="RobotoMono-Regular, Roboto Mono" font-size="183" font-weight="normal" letter-spacing="-13.088398">
+                <tspan x="560.12931" y="268">net</tspan>
+            </text>
+        </g>
+        <g id="folder" style="mix-blend-mode: normal;" transform="translate(192.000000, 108.000000)" fill-rule="nonzero">
+            <path d="M600,80 L600,40 L200,40 L200,0 L0,0 L0,560 L639.98,560 L640,80 L600,80 Z M599.98,519.98 L40,519.98 L40,40 L160,40 L160,120 L599.98,120 L599.98,519.98 Z" id="Shape" fill="url(#linearGradient-4)"></path>
+            <path d="M439,224.865174 L239,175 L239,323.9767 C232.72,321.740952 226.06,320.303685 219,320.303685 C185.84,320.303685 159,347.17259 159,380.189803 C159,413.266902 185.84,440.075921 219,440.075921 C252.1,440.075921 279,413.266902 279,380.189803 L279,226.082859 L399,256.04588 L399,363.900779 C392.72,361.66503 386.06,360.227764 379,360.227764 C345.84,360.227764 319,387.096669 319,420.113882 C319,453.190981 345.84,480 379,480 C412.1,480 439,453.190981 439,420.113882 L439,224.865174 Z" id="Path" fill="url(#linearGradient-5)"></path>
+        </g>
+    </g>
+</svg>
