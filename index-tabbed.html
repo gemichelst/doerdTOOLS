@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>doerdi tools collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: 'Inter', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .tab-container {
+      width: 95%;
+      margin: 2rem auto;
+      background: #222;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      padding-bottom: 1rem;
+      max-width: 800px;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #333;
+      justify-content: flex-start;
+      overflow-x: auto;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.7rem 1.2rem;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-weight: 600;
+      font-size: 1rem;
+      outline: none;
+      transition: background 0.2s;
+      border-radius: 6px 6px 0 0;
+      margin-right: 0.2rem;
+    }
+    .tab img {
+      height: 1.7em;
+      width: 1.7em;
+      margin-right: 0.6em;
+      background: #fff;
+      border-radius: 100%;
+      object-fit: contain;
+      box-shadow: 0 1px 6px #111a;
+    }
+    .tab.active {
+      color: #fff;
+      background: #333;
+      border-bottom: 2px solid #44e6a4;
+    }
+    .tab-content {
+      display: none;
+      padding: 2rem 2rem 1rem 2rem;
+      animation: fadeIn 0.5s;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .app-logo-large {
+      display: block;
+      height: 72px;
+      width: 72px;
+      margin-bottom: 1rem;
+      background: #fff;
+      border-radius: 50%;
+      object-fit: contain;
+      box-shadow: 0 2px 14px #111a;
+    }
+    .app-link {
+      display: block;
+      margin-top: 1.2em;
+      color: #44e6a4;
+      text-decoration: none;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 1.1em;
+      transition: color 0.2s;
+    }
+    .app-link:hover {
+      color: #ffee55;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 730px) {
+      h1 { font-size: 1.6rem; }
+      .tab-container { padding-bottom: 0.2rem; }
+      .tab-content { padding: 1rem 0.3rem; }
+      .app-logo-large { height: 56px; width: 56px; }
+      .tabs { flex-wrap: wrap; }
+      .tab { font-size: 0.97rem; padding: 0.6rem 0.7rem; }
+      .tab img { height: 1.3em; width: 1.3em; }
+    }
+    @media (max-width: 415px) {
+      h1 { font-size: 1.1rem; }
+      .tab-container { width: 99%; }
+      .tabs { flex-wrap: wrap; }
+      .tab { font-size: 0.88rem; padding: 0.55rem 0.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>doerdi tools collection</h1>
+  <div class="tab-container">
+    <div class="tabs">
+      <button class="tab active" data-tab="demoTrackster">
+        <img src="demoTrackster/LOGO.png" alt="demoTrackster logo"/>
+        demoTrackster
+      </button>
+      <button class="tab" data-tab="studioNet">
+        <img src="studioNet/LOGO.png" alt="studioNet logo"/>
+        studioNet
+      </button>
+      <button class="tab" data-tab="myDevices">
+        <img src="myDevices/LOGO.png" alt="myDevices logo"/>
+        myDevices
+      </button>
+      <button class="tab" data-tab="growBuddy">
+        <img src="growBuddy/LOGO.png" alt="growBuddy logo"/>
+        growBuddy
+      </button>
+      <button class="tab" data-tab="NetworkDeviceLister">
+        <img src="NetworkDeviceLister/LOGO.png" alt="NetworkDeviceLister logo"/>
+        NetworkDeviceLister
+      </button>
+      <button class="tab" data-tab="SCmanager">
+        <img src="SCmanager/LOGO.png" alt="SCmanager logo"/>
+        SCmanager
+      </button>
+      <button class="tab" data-tab="getReviewed">
+        <img src="getReviewed/LOGO.png" alt="getReviewed logo"/>
+        getReviewed
+      </button>
+    </div>
+    <div class="tab-contents">
+      <div class="tab-content active" id="demoTrackster">
+        <img class="app-logo-large" src="demoTrackster/assets/img/logo.png" alt="demoTrackster logo"/>
+        <strong>The demoTrackster application</strong> provides a complete solution for managing every aspect of the demo submission process, from initial track organization to label response tracking.<br>
+        Built with a modern, dark-themed interface optimized for the electronic music scene, the app features an intuitive dashboard, comprehensive data management, and professional workflow tools.
+        <a class="app-link" href="demoTrackster/">demoTrackster →</a>
+      </div>
+      <div class="tab-content" id="studioNet">
+        <img class="app-logo-large" src="studioNet/assets/img/logo.png" alt="studioNet logo"/>
+        <strong>The studioNet</strong> is a modern web application which provides a complete solution for music production teams to collaborate, share files, and manage their creative workflow.
+        <a class="app-link" href="studioNet/">studioNet →</a>
+      </div>
+      <div class="tab-content" id="myDevices">
+        <img class="app-logo-large" src="myDevices/assets/img/logo.png" alt="myDevices logo"/>
+        <strong>Verwalte alle deine Geräte zentral</strong> und behalte den Überblick über Treiber, Tools, Keys und Daten.<br>
+        Manage all your devices centrally and keep track of drivers, tools, keys, and data. Each device can be organized with its files, versions, and metadata for different operating systems.
+        <a class="app-link" href="myDevices/">myDevices →</a>
+      </div>
+      <div class="tab-content" id="growBuddy">
+        <img class="app-logo-large" src="growBuddy/src/assets/logo.png" alt="growBuddy logo"/>
+        <strong>Professioneller Kalenderplaner für Cannabis-Aufzucht</strong> mit automatischen Erinnerungen für Düngung und Bewässerung.<br>
+        Professional cannabis grow calendar planner with automatic reminders for fertilization and watering. Manage grow groups, track growth phases from germination to harvest, and document your grow with photos and detailed logs.
+        <a class="app-link" href="growBuddy/">growBuddy →</a>
+      </div>
+      <div class="tab-content" id="NetworkDeviceLister">
+        <img class="app-logo-large" src="NetworkDeviceLister/LOGO.png" alt="NetworkDeviceLister logo"/>
+        <strong>Scanne und verwalte alle Geräte in deinem lokalen Netzwerk.</strong><br>
+        Scan and manage all devices on your local network. Categorize devices by type (server, router, desktop, smart home), automatically generate host files, and efficiently manage IP addresses.
+        <a class="app-link" href="NetworkDeviceLister/">NetworkDeviceLister →</a>
+      </div>
+      <div class="tab-content" id="SCmanager">
+        <img class="app-logo-large" src="SCmanager/LOGO.png" alt="SCmanager logo"/>
+        <strong>Verwalte mehrere SoundCloud-Profile gleichzeitig</strong> und behalte den Überblick über deine Musik.<br>
+        Manage multiple SoundCloud profiles simultaneously and keep track of your music. Create and organize playlists, upload tracks, and analyze your performance with detailed insights and analytics.
+        <a class="app-link" href="SCmanager/">SCmanager →</a>
+      </div>
+      <div class="tab-content" id="getReviewed">
+        <img class="app-logo-large" src="getReviewed/LOGO.png" alt="getReviewed logo"/>
+        <strong>Automatische Review-Aggregation für Ihr Unternehmen.</strong><br>
+        Automatic review aggregation for your business. Collect and analyze customer reviews from Trustpilot, Kununu, Google Reviews, TripAdvisor, Trusted Shops, and other major platforms in a clear dashboard with KPIs, time filters, and detailed analytics.
+        <a class="app-link" href="getReviewed/">getReviewed →</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const tabname = tab.getAttribute('data-tab');
+        document.querySelectorAll('.tab-content').forEach(tc => {
+          tc.classList.remove('active');
+          if(tc.id === tabname) tc.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

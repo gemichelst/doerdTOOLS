@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>doerdTOOLS - Tools Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+            background-color: #ffffff;
+        }
+        .disabled {
+            display: none;
+            visibility: hidden;
+        }
+        
+        .header-section {
+            text-align: center;
+            background: linear-gradient(135deg, #262936 0%, #4b81a2 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header-section h1 {
+            font-size: 3.5em;
+            margin: 0 0 15px 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .header-section p {
+            font-size: 1.2em;
+            margin: 0;
+            opacity: 0.95;
+        }
+        
+        .tools-container {
+            display: flex;
+            gap: 40px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tool-section {
+            flex: 1;
+            min-width: 350px;
+            max-width: 450px;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #e1e4e8;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+        
+        .tool-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .tool-icon-link {
+            display: inline-block;
+            margin-bottom: 25px;
+            transition: transform 0.2s ease;
+        }
+        
+        .tool-icon-link:hover {
+            transform: scale(1.05);
+        }
+        
+        .tool-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .tool-icon:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .tool-title {
+            margin: 20px 0 15px 0;
+            color: #24292e;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        
+        .tool-description {
+            color: #586069;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .launch-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #262936 0%, #4b81a2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .launch-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .info-section {
+            background: #f6f8fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 60px;
+            border: 1px solid #e1e4e8;
+        }
+        
+        .info-section h2 {
+            color: #24292e;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: #586069;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        .info-section ul {
+            line-height: 1.8;
+        }
+        
+        .info-section li {
+            margin-bottom: 8px;
+            color: #24292e;
+        }
+        
+        .github-link {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #586069;
+            border-top: 1px solid #e1e4e8;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .tool-section {
+                min-width: auto;
+                max-width: none;
+            }
+            
+            .header-section {
+                padding: 30px 20px;
+            }
+            
+            .header-section h1 {
+                font-size: 2.5em;
+            }
+            
+            body {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tool-section {
+                padding: 25px 15px;
+            }
+            
+            .tool-title {
+                font-size: 1.8em;
+            }
+            
+            .info-section {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body class="markdown-body" style="margin-left: auto;margin-right: auto;">
+
+<div class="header-section">
+    <h1>doerdTOOLS</h1>
+    <p>doerdi tools collection</p>
+</div>
+
+<div class="tools-container">
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdTOOLS/demoTrackster/" class="tool-icon-link">
+            <img src="demoTrackster/assets/img/logo.png" alt="demoTrackster - managing every aspect of the demo submission process" class="tool-icon">
+        </a>
+        <h2 class="tool-title">demoTrackster</h2>
+        <p class="tool-description de disabled">
+            The demoTrackster application provides a complete solution for managing every aspect of the demo submission process, from initial track organization to label response tracking. Built with a modern, dark-themed interface optimized for the electronic music scene, the app features an intuitive dashboard, comprehensive data management, and professional workflow tools.
+        </p>
+        <p class="tool-description"> 
+            The demoTrackster application provides a complete solution for managing every aspect of the demo submission process, from initial track organization to label response tracking. Built with a modern, dark-themed interface optimized for the electronic music scene, the app features an intuitive dashboard, comprehensive data management, and professional workflow tools.
+        </p>
+        <a href="https://gemichelst.github.io/doerdTOOLS/demoTrackster/" class="launch-button">
+            demoTrackster →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdTOOLS/studioNet/" class="tool-icon-link">
+            <img src="studioNet/assets/img/logo.png" alt="studioNet - Music Studio Collaboration Platform" class="tool-icon">
+        </a>
+        <h2 class="tool-title">studioNet</h2>
+        <p class="tool-description de disabled">
+            The studioNet is a modern web application which provides a complete solution for music production teams to collaborate, share files, and manage their creative workflow.
+        </p>
+        <p class="tool-description"> 
+            The studioNet is a modern web application which provides a complete solution for music production teams to collaborate, share files, and manage their creative workflow.
+        </p>
+        <a href="https://gemichelst.github.io/doerdTOOLS/studioNet/" class="launch-button">
+            studioNet →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdTOOLS/myDevices/" class="tool-icon-link">
+            <img src="myDevices/assets/logo.png" alt="myDevices Manager" class="tool-icon">
+        </a>
+        <h2 class="tool-title">myDevices</h2>
+        <p class="tool-description de disabled">
+            Verwalte alle deine Geräte zentral und behalte den Überblick über Treiber, Tools, Keys und Daten.
+            Jedes Gerät kann mit seinen Dateien, Versionen und Metadaten für verschiedene Betriebssysteme organisiert werden.
+        </p>
+        <p class="tool-description"> 
+            Manage all your devices centrally and keep track of drivers, tools, keys, and data. Each device can be organized with its files, versions, and metadata for different operating systems.
+        </p>
+        <a href="https://gemichelst.github.io/doerdTOOLS/myDevices/" class="launch-button">
+            myDevices →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdTOOLS/growBuddy/" class="tool-icon-link">
+            <img src="growBuddy/assets/logo.png" alt="growBuddy Cannabis Aufzucht Planer" class="tool-icon">
+        </a>
+        <h2 class="tool-title">growBuddy</h2>
+        <p class="tool-description de disabled">
+            Professioneller Kalenderplaner für Cannabis-Aufzucht mit automatischen Erinnerungen für Düngung und Bewässerung.
+            Verwalte Aufzuchtgruppen, verfolge Wachstumsphasen von der Keimung bis zur Ernte und dokumentiere deinen Anbau mit Fotos und detaillierten Logs.
+        </p>
+        <p class="tool-description"> 
+            Professional cannabis grow calendar planner with automatic reminders for fertilization and watering. Manage grow groups, track growth phases from germination to harvest, and document your grow with photos and detailed logs.
+        </p>
+        <a href="https://gemichelst.github.io/doerdTOOLS/growBuddy/" class="launch-button">
+            growBuddy →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://gemichelst.github.io/doerdTOOLS/networkDeviceLister/" class="tool-icon-link">
+            <img src="networkDeviceLister.png" alt="Network Device Lister" class="tool-icon">
+        </a>
+        <h2 class="tool-title">Network Device Lister</h2>
+        <p class="tool-description de disabled">
+            Scanne und verwalte alle Geräte in deinem lokalen Netzwerk. 
+            Kategorisiere Geräte nach Typ (Server, Router, Desktop, Smart Home), 
+            generiere Host-Dateien automatisch und verwalte IP-Adressen effizient.
+        </p>
+        <p class="tool-description"> 
+            Scan and manage all devices on your local network.
+            Categorize devices by type (server, router, desktop, smart home),
+            automatically generate host files, and efficiently manage IP addresses.
+        </p>
+        <a href="https://gemichelst.github.io/doerdTOOLS/networkDeviceLister/" class="launch-button">
+            NetworkDeviceLister →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://github.com/yourusername/soundcloud-manager" class="tool-icon-link">
+            <img src="soundcloudManager.png" alt="SoundCloud Manager" class="tool-icon">
+        </a>
+        <h2 class="tool-title">SoundCloud Manager</h2>
+        <p class="tool-description de disabled">
+            Verwalte mehrere SoundCloud-Profile gleichzeitig und behalte den Überblick über deine Musik.
+            Erstelle und organisiere Playlists, lade Tracks hoch und analysiere deine Performance mit detaillierten Insights und Analytics.
+        </p> 
+        <p class="tool-description"> 
+            Manage multiple SoundCloud profiles simultaneously and keep track of your music. 
+            Create and organize playlists, upload tracks, and analyze your performance with detailed insights and analytics.
+        </p>
+        <a href="https://github.com/yourusername/soundcloud-manager" class="launch-button">
+            SCmanager →
+        </a>
+    </div>
+    <div class="tool-section">
+        <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/124c2339a071d081da9987fcd1b56d39/1503dccb-4e30-4c26-99fe-39baa8a84e71/index.html" class="tool-icon-link">
+            <img src="getReviewed.png" alt="getReviewed" class="tool-icon">
+        </a>
+        <h2 class="tool-title">getReviewed</h2>
+        <p class="tool-description de disabled">
+            Automatische Review-Aggregation für Ihr Unternehmen. Sammeln und analysieren Sie Kundenbewertungen von Trustpilot, Kununu, Google Reviews, TripAdvisor, Trusted Shops und anderen wichtigen Plattformen in einem übersichtlichen Dashboard mit KPIs, Zeitfiltern und detaillierten Analysen.
+        </p>
+        <p class="tool-description"> 
+            Automatic review aggregation for your business. Collect and analyze customer reviews from Trustpilot, Kununu, Google Reviews, TripAdvisor, Trusted Shops, and other major platforms in a clear dashboard with KPIs, time filters, and detailed analytics.
+        </p>
+        <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/124c2339a071d081da9987fcd1b56d39/1503dccb-4e30-4c26-99fe-39baa8a84e71/index.html" class="launch-button">
+            getReviewed →
+        </a>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- <div class="info-section">
+    <h2>📋 Über das Projekt</h2>
+    <p>
+        <strong>doerdTOOLS</strong> ist eine Sammlung von MIDI-Tools für Musiker und Entwickler. 
+        Alle Tools sind browser-basiert und nutzen moderne Web-APIs für die MIDI-Integration.
+    </p>
+
+    <h3>✨ Features</h3>
+    <ul>
+        <li>Browser-basierte Tools - keine Installation erforderlich</li>
+        <li>Moderne Web MIDI API Integration</li>
+        <li>Responsive Design für alle Geräte</li>
+        <li>Open Source und kostenlos</li>
+        <li>Echtzeit MIDI-Verarbeitung</li>
+        <li>Intuitive Benutzeroberfläche</li>
+    </ul>
+
+    <h3>🔧 Technische Details</h3>
+    <ul>
+        <li>Progressive Web App (PWA) Technologie</li>
+        <li>Web MIDI API für Hardware-Integration</li>
+        <li>Responsive CSS Grid Layouts</li>
+        <li>Cross-Browser Kompatibilität</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        <a href="https://github.com/gemichelst/doerdTOOLS" class="github-link" target="_blank">
+            📁 GitHub Repository anzeigen
+        </a>
+    </p>
+</div>-->
+
+<div class="footer">
+    <p><strong>doerdTOOLS</strong> - made with love</p>
+    <p>
+        <a href="https://github.com/gemichelst" class="github-link" target="_blank">GitHub</a>
+    </p>
+</div>
+
+</body>
+</html>
