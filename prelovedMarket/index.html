@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreLoved Market - Premium Marktplatz für getragene Mode & Fetisch-Artikel</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <h1>PreLoved Market</h1>
+                <span class="brand-tagline">Premium Marketplace</span>
+            </div>
+            
+            <div class="nav-search">
+                <input type="text" class="search-input" placeholder="Suche nach Produkten, Verkäufern..." id="searchInput">
+                <button class="search-btn" id="searchBtn">🔍</button>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn btn--outline btn--sm">Anmelden</button>
+                <button class="btn btn--primary btn--sm">Registrieren</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Der fairste Marktplatz für getragene Mode</h1>
+                <p class="hero-subtitle">Nur 15% Kommission statt 30-33% • Verifizierte Verkäufer • 24/7 Premium Support</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">€230M</span>
+                        <span class="stat-label">Marktvolumen 2024</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15%</span>
+                        <span class="stat-label">Kommission</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Premium Support</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn--primary btn--lg" id="browseSellersBtn">Verkäufer entdecken</button>
+                    <button class="btn btn--outline btn--lg" id="browseCategoriesBtn">Kategorien durchsuchen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Navigation -->
+    <nav class="category-nav">
+        <div class="container">
+            <div class="category-tabs">
+                <button class="category-tab active" data-view="sellers">👥 Verkäufer-Übersicht</button>
+                <button class="category-tab" data-view="categories">🛍️ Kategorien</button>
+                <button class="category-tab" data-view="featured">⭐ Highlights</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Seller Overview Section -->
+            <section id="sellersView" class="content-section active">
+                <div class="section-header">
+                    <h2>Verifizierte Verkäufer</h2>
+                    <p>Entdecken Sie unsere geprüften und bewerteten Verkäufer</p>
+                    
+                    <!-- Filter Controls -->
+                    <div class="filter-controls">
+                        <select class="form-control filter-select" id="specialtyFilter">
+                            <option value="">Alle Spezialisierungen</option>
+                        </select>
+                        <select class="form-control filter-select" id="ratingFilter">
+                            <option value="">Alle Bewertungen</option>
+                            <option value="4.5">4.5+ Sterne</option>
+                            <option value="4.0">4.0+ Sterne</option>
+                        </select>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="verifiedFilter">
+                            <span class="checkmark"></span>
+                            Nur verifizierte Verkäufer
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="onlineFilter">
+                            <span class="checkmark"></span>
+                            Nur online Verkäufer
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="sellers-grid" id="sellersGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categoriesView" class="content-section">
+                <div class="section-header">
+                    <h2>Produktkategorien</h2>
+                    <p>Finden Sie genau das, was Sie suchen</p>
+                </div>
+                
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Featured Section -->
+            <section id="featuredView" class="content-section">
+                <div class="section-header">
+                    <h2>Highlights & Neuheiten</h2>
+                    <p>Die besten Angebote und neuesten Produkte</p>
+                </div>
+                
+                <div class="featured-content">
+                    <div class="featured-item">
+                        <div class="featured-badge">🔥 Trending</div>
+                        <h3>Luxus-Dessous von SilkGoddess</h3>
+                        <p>Exklusive Seide-Kollektionen mit über 95% positiven Bewertungen</p>
+                        <button class="btn btn--primary">Jetzt ansehen</button>
+                    </div>
+                    
+                    <div class="featured-item">
+                        <div class="featured-badge">✨ Neu</div>
+                        <h3>Designer Vintage Collection</h3>
+                        <p>Seltene Vintage-Stücke von verifizierten Designer-Experten</p>
+                        <button class="btn btn--primary">Entdecken</button>
+                    </div>
+                    
+                    <div class="featured-item">
+                        <div class="featured-badge">💎 Premium</div>
+                        <h3>Fetisch & Latex Spezialist</h3>
+                        <p>Hochwertige Latex- und Leder-Artikel von LatexLady</p>
+                        <button class="btn btn--primary">Profil besuchen</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Seller Profile Modal -->
+    <div class="modal hidden" id="sellerModal">
+        <div class="modal-overlay" id="sellerModalOverlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <div class="seller-header">
+                    <div class="seller-avatar-large" id="modalSellerAvatar">👤</div>
+                    <div class="seller-info-large">
+                        <h2 id="modalSellerName">Verkäufer Name</h2>
+                        <div class="seller-badges">
+                            <span class="verification-badge" id="modalVerificationBadge">✓ Verifiziert</span>
+                            <span class="online-status" id="modalOnlineStatus">● Online</span>
+                        </div>
+                        <div class="seller-rating-large">
+                            <div class="stars" id="modalSellerStars">⭐⭐⭐⭐⭐</div>
+                            <span id="modalSellerRating">4.9</span>
+                            <span class="rating-count">(<span id="modalReviewCount">127</span> Bewertungen)</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="modal-close" id="closeSellerModal">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="seller-profile-content">
+                    <div class="seller-stats-large">
+                        <div class="stat-item">
+                            <span class="stat-number" id="modalActiveListings">24</span>
+                            <span class="stat-label">Aktive Anzeigen</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="modalMemberSince">2022</span>
+                            <span class="stat-label">Mitglied seit</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Positive Bewertungen</span>
+                        </div>
+                    </div>
+                    
+                    <div class="seller-specialties-large">
+                        <h4>Spezialisierungen:</h4>
+                        <div class="specialties-tags" id="modalSpecialties">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="seller-actions-large">
+                        <button class="btn btn--primary btn--lg">💬 Nachricht senden</button>
+                        <button class="btn btn--outline btn--lg">⭐ Als Favorit speichern</button>
+                        <button class="btn btn--outline btn--lg">📱 Profil folgen</button>
+                    </div>
+                    
+                    <div class="seller-listings-preview">
+                        <h4>Aktuelle Angebote (Auswahl):</h4>
+                        <div class="listings-grid">
+                            <div class="listing-preview">
+                                <div class="listing-image">📷</div>
+                                <div class="listing-info">
+                                    <h5>Seiden-Slip, 2 Tage getragen</h5>
+                                    <p class="listing-price">€25.00</p>
+                                </div>
+                            </div>
+                            <div class="listing-preview">
+                                <div class="listing-image">📷</div>
+                                <div class="listing-info">
+                                    <h5>Spitzen-BH Set, wie neu</h5>
+                                    <p class="listing-price">€45.00</p>
+                                </div>
+                            </div>
+                            <div class="listing-preview">
+                                <div class="listing-image">📷</div>
+                                <div class="listing-info">
+                                    <h5>Strümpfe, 1 Tag getragen</h5>
+                                    <p class="listing-price">€15.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn--outline btn--full-width">Alle Angebote ansehen (24)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal hidden" id="categoryModal">
+        <div class="modal-overlay" id="categoryModalOverlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="modalCategoryTitle">Kategorie Details</h2>
+                <button type="button" class="modal-close" id="closeCategoryModal">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="category-details">
+                    <div class="category-filters">
+                        <h4>Erweiterte Filter:</h4>
+                        <div class="filter-grid">
+                            <div class="filter-group">
+                                <label class="form-label">Tragezeit:</label>
+                                <select class="form-control" id="wearTimeFilter">
+                                    <option value="">Alle Tragezeiten</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label">Größe:</label>
+                                <select class="form-control" id="sizeFilter">
+                                    <option value="">Alle Größen</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label">Farbe:</label>
+                                <select class="form-control" id="colorFilter">
+                                    <option value="">Alle Farben</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label">Preisspanne:</label>
+                                <div class="price-range">
+                                    <input type="range" min="10" max="500" value="250" class="price-slider" id="priceRange">
+                                    <span class="price-display">€10 - €<span id="priceValue">250</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-subcategories" id="modalSubcategories">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>PreLoved Market</h4>
+                    <p>Der fairste Marktplatz für getragene Mode und Fetisch-Artikel. Nur 15% Kommission, 100% Qualität.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Für Käufer</h4>
+                    <ul>
+                        <li><a href="#">Käuferschutz</a></li>
+                        <li><a href="#">Sicherheit</a></li>
+                        <li><a href="#">Bewertungen</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Für Verkäufer</h4>
+                    <ul>
+                        <li><a href="#">Verkaufen starten</a></li>
+                        <li><a href="#">Verifizierung</a></li>
+                        <li><a href="#">Provisionen</a></li>
+                        <li><a href="#">Verkäufer-Guide</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Widerrufsrecht</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 PreLoved Market. Alle Rechte vorbehalten. | 🔒 SSL-verschlüsselt | 🇩🇪 DSGVO-konform</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./app.js"></script>
+</body>
+</html>
