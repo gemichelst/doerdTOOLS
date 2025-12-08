@@ -22,6 +22,23 @@
             --color-hashtag-border: #a5e4f0;
         }
 
+        [data-theme="dark"] {
+            --color-bg-primary: #1a1a1a;
+            --color-surface: #2d2d2d;
+            --color-primary: #32a8c6;
+            --color-primary-hover: #3bc2d8;
+            --color-text: #e8e8e8;
+            --color-text-secondary: #b0b0b0;
+            --color-border: #3f3f3f;
+            --color-accent-1: #f472b6;
+            --color-accent-2: #fbbf24;
+            --color-accent-3: #10b981;
+            --color-accent-4: #8b5cf6;
+            --color-accent-5: #ef4444;
+            --color-hashtag-bg: #1f3a42;
+            --color-hashtag-border: #2d5a68;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -40,6 +57,37 @@
             margin: 0 auto;
             padding: 20px;
         }
+        /* DARK MODE TOGGLE */
+        .theme-toggle-container {
+            position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        }
+        .theme-toggle-btn {
+            background: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(50, 168, 198, 0.2);
+        }
+        .theme-toggle-btn:hover {
+            background: var(--color-primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(50, 168, 198, 0.3);
+        }
+        .theme-icon {
+            font-size: 18px;
+        display: inline-block;
+        }
 
         /* HEADER */
         .header {
@@ -50,6 +98,10 @@
             border-radius: 16px;
             margin-bottom: 40px;
             box-shadow: 0 10px 30px rgba(50, 168, 198, 0.2);
+        }
+        [data-theme="dark"] .header {
+            background: linear-gradient(135deg, #1e6b7f 0%, #145362 100%);
+            box-shadow: 0 10px 30px rgba(50, 168, 198, 0.1);
         }
 
         .header h1 {
@@ -130,6 +182,7 @@
             background: #000;
             border-color: #000;
         }
+        [data-theme="dark"] .platform-btn[data-platform="tiktok"].active { color: white; }
 
         .platform-btn[data-platform="youtube"] {
             color: #ff0000;
@@ -166,6 +219,7 @@
             background: #000;
             border-color: #000;
         }
+        [data-theme="dark"] .platform-btn[data-platform="twitter"].active { color: white; }
 
         .platform-btn[data-platform="bandcamp"] {
             color: #1a1a1a;
@@ -235,6 +289,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
         }
+        [data-theme="dark"] .example-card {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
 
         .example-card.active {
             display: block;
@@ -244,6 +301,9 @@
         .example-card:hover {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
             transform: translateY(-4px);
+        }
+        [data-theme="dark"] .example-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
         @keyframes fadeIn {
@@ -392,6 +452,10 @@
             margin-bottom: 24px;
             font-size: 13px;
         }
+        [data-theme="dark"] .platform-info {
+            background: linear-gradient(135deg, rgba(50, 168, 198, 0.1) 0%, rgba(50, 168, 198, 0.05) 100%);
+            border: 1px solid rgba(50, 168, 198, 0.3);
+        }
 
         .platform-info strong {
             color: var(--color-primary);
@@ -470,10 +534,21 @@
                 font-size: 12px;
                 padding: 6px 12px;
             }
+            .theme-toggle-container {
+                position: static;
+                margin-bottom: 20px;
+            }
+            .theme-toggle-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="theme-toggle-container">
+        <button class="theme-toggle-btn" id="themeToggle"><span class="theme-icon">☀️</span><span>Dark Mode</span></button>
+    </div>
     <div class="container">
         <!-- HEADER -->
         <div class="header">
@@ -1500,6 +1575,25 @@
     </div>
 
     <script>
+        // Dark mode toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', currentTheme);
+        updateThemeButton(currentTheme);
+        themeToggle.addEventListener('click', () => {
+            const theme = htmlElement.getAttribute('data-theme');
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        });
+        function updateThemeButton(theme) {
+            const icon = theme === 'light' ? '☀️' : '🌙';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            themeToggle.innerHTML = `<span class="theme-icon">${icon}</span><span>${text}</span>`;
+        }
         // Hashtag data by platform and category
         const hashtagData = {
             "instagram": {
