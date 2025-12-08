@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOERD Social Media Content Examples</title>
+    <title>DOERD Social Media Content Examples + Hashtag Guide</title>
     <style>
         :root {
             --color-bg-primary: #fdfcfa;
@@ -18,6 +18,8 @@
             --color-accent-3: #10b981;
             --color-accent-4: #8b5cf6;
             --color-accent-5: #ef4444;
+            --color-hashtag-bg: #f0f9fb;
+            --color-hashtag-border: #a5e4f0;
         }
 
         * {
@@ -68,6 +70,16 @@
             margin-top: 10px;
         }
 
+        .header .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+
         /* PLATFORM SELECTOR */
         .platform-selector {
             display: grid;
@@ -101,274 +113,6 @@
             box-shadow: 0 6px 16px rgba(50, 168, 198, 0.3);
         }
 
-        /* CONTENT DISPLAY */
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* CATEGORY TABS */
-        .category-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid var(--color-border);
-            padding-bottom: 15px;
-        }
-
-        .category-tab {
-            padding: 10px 16px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--color-text-secondary);
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .category-tab:hover {
-            color: var(--color-primary);
-        }
-
-        .category-tab.active {
-            color: var(--color-primary);
-        }
-
-        .category-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -17px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--color-primary);
-        }
-
-        /* EXAMPLES GRID */
-        .examples-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .example-card {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            display: none;
-        }
-
-        .example-card.active {
-            display: block;
-        }
-
-        .example-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 8px 24px rgba(50, 168, 198, 0.12);
-            transform: translateY(-4px);
-        }
-
-        .example-number {
-            display: inline-block;
-            background: var(--color-primary);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 32px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        .example-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--color-text);
-        }
-
-        .example-format {
-            display: inline-block;
-            background: #f3f4f6;
-            color: var(--color-text-secondary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .example-description {
-            color: var(--color-text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .example-content {
-            background: #f9fafb;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            line-height: 1.5;
-            border-left: 3px solid var(--color-primary);
-        }
-
-        .example-caption {
-            background: #f0fdf4;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            font-style: italic;
-            border-left: 3px solid var(--color-accent-3);
-        }
-
-        .example-section {
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-
-        .example-section strong {
-            color: var(--color-text);
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .example-tips {
-            background: #fef3c7;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            border-left: 3px solid var(--color-accent-2);
-            margin-top: 12px;
-        }
-
-        .example-tips strong {
-            display: block;
-            margin-bottom: 4px;
-            color: var(--color-text);
-        }
-
-        /* TAGS */
-        .example-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
-        }
-
-        .tag {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* STATS & INFO BOXES */
-        .info-box {
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-            border-left: 4px solid var(--color-primary);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .info-box strong {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--color-text);
-        }
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--color-text-secondary);
-        }
-
-        .empty-state p {
-            font-size: 16px;
-        }
-
-        /* COPY BUTTON */
-        .copy-btn {
-            background: #f3f4f6;
-            border: 1px solid var(--color-border);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            margin-top: 12px;
-        }
-
-        .copy-btn:hover {
-            background: var(--color-primary);
-            color: white;
-            border-color: var(--color-primary);
-        }
-
-        /* FOOTER */
-        .footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 2px solid var(--color-border);
-            text-align: center;
-            color: var(--color-text-secondary);
-            font-size: 14px;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .platform-selector {
-                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            }
-
-            .examples-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .category-tabs {
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-        }
-
-        /* PLATFORM COLORS */
         .platform-btn[data-platform="instagram"] {
             color: #e1306c;
         }
@@ -423,15 +167,6 @@
             border-color: #000;
         }
 
-        .platform-btn[data-platform="email"] {
-            color: #32a8c6;
-        }
-
-        .platform-btn[data-platform="email"].active {
-            background: var(--color-primary);
-            border-color: var(--color-primary);
-        }
-
         .platform-btn[data-platform="bandcamp"] {
             color: #1a1a1a;
         }
@@ -441,13 +176,300 @@
             border-color: #1a1a1a;
         }
 
-        .platform-btn[data-platform="discord"] {
-            color: #5865f2;
+        /* CONTENT DISPLAY */
+        .content-section {
+            display: none;
         }
 
-        .platform-btn[data-platform="discord"].active {
-            background: #5865f2;
-            border-color: #5865f2;
+        .content-section.active {
+            display: block;
+        }
+
+        /* CATEGORY TABS */
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 12px;
+        }
+
+        .category-tab {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            color: var(--color-text-secondary);
+        }
+
+        .category-tab:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .category-tab.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        /* CONTENT CARDS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .example-card {
+            display: none;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .example-card.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .example-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .example-number {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .example-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--color-text);
+        }
+
+        .example-format {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            background: var(--color-hashtag-bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .example-content {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: var(--color-text-secondary);
+        }
+
+        .example-content strong {
+            color: var(--color-text);
+        }
+
+        .example-content br {
+            margin: 4px 0;
+        }
+
+        .example-caption {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--color-text);
+            background: var(--color-hashtag-bg);
+            padding: 12px;
+            border-left: 3px solid var(--color-primary);
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .example-tips {
+            font-size: 13px;
+            color: var(--color-text);
+            background: rgba(16, 185, 129, 0.08);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        /* HASHTAG SECTION - NEW */
+        .hashtag-section {
+            background: linear-gradient(135deg, var(--color-hashtag-bg) 0%, rgba(165, 228, 240, 0.3) 100%);
+            border: 1px solid var(--color-hashtag-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+
+        .hashtag-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .hashtag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .hashtag {
+            display: inline-block;
+            background: white;
+            border: 1px solid var(--color-hashtag-border);
+            color: var(--color-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hashtag:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .hashtag-copy-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .hashtag-copy-btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        /* PLATFORM-SPECIFIC INFO BOXES */
+        .platform-info {
+            background: linear-gradient(135deg, rgba(50, 168, 198, 0.05) 0%, rgba(50, 168, 198, 0.02) 100%);
+            border: 1px solid rgba(50, 168, 198, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+
+        .platform-info strong {
+            color: var(--color-primary);
+        }
+
+        /* GUIDE SECTION */
+        .guide-section {
+            background: var(--color-surface);
+            border: 2px dashed var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+
+        .guide-section h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--color-primary);
+        }
+
+        .guide-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--color-hashtag-bg);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .platform-selector {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tabs {
+                gap: 4px;
+            }
+
+            .category-tab {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
         }
     </style>
 </head>
@@ -456,1634 +478,1048 @@
         <!-- HEADER -->
         <div class="header">
             <h1>🎵 DOERD Content Examples Hub</h1>
-            <p>Social Media Content Ideas by Platform</p>
-            <div class="subtitle">Choose a platform → Select a category → Explore 4-5 content examples</div>
-        </div>
-
-        <div class="info-box">
-            <strong>📋 How to Use This:</strong>
-            Select any platform below to see content examples organized by category. Each example includes format, caption suggestions, and engagement tips. Perfect for your Monday 30-minute planning sessions!
+            <p>Social Media Content Ideas + Platform-Specific Hashtags</p>
+            <p>Complete Artist Development Plan Resource</p>
+            <div class="badge">✨ Enhanced with 2025 Hashtag Research</div>
+            <div class="subtitle">Perfect for Monday 30-minute content planning sessions • Update weekly • Scale over time</div>
         </div>
 
         <!-- PLATFORM SELECTOR -->
         <div class="platform-selector">
             <button class="platform-btn active" data-platform="instagram">📸 Instagram</button>
             <button class="platform-btn" data-platform="tiktok">🎬 TikTok</button>
-            <button class="platform-btn" data-platform="youtube">▶️ YouTube</button>
+            <button class="platform-btn" data-platform="youtube">🎥 YouTube</button>
             <button class="platform-btn" data-platform="facebook">👥 Facebook</button>
-            <button class="platform-btn" data-platform="soundcloud">☁️ SoundCloud</button>
-            <button class="platform-btn" data-platform="twitter">𝕏 Twitter/X</button>
-            <button class="platform-btn" data-platform="email">✉️ Email</button>
+            <button class="platform-btn" data-platform="soundcloud">🎙️ SoundCloud</button>
+            <button class="platform-btn" data-platform="twitter">𝕏 Twitter</button>
             <button class="platform-btn" data-platform="bandcamp">🎵 Bandcamp</button>
-            <button class="platform-btn" data-platform="discord">💜 Discord</button>
         </div>
 
         <!-- INSTAGRAM CONTENT -->
-        <div class="content-section active" id="instagram">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="production">Studio & Production</button>
-                <button class="category-tab" data-category="dj">DJ & Live</button>
-                <button class="category-tab" data-category="bts">Behind-the-Scenes</button>
-                <button class="category-tab" data-category="releases">Releases & Music</button>
+        <div id="instagram" class="content-section active" data-platform="instagram">
+            <div class="platform-info">
+                <strong>📱 Instagram Strategy:</strong> Use 8-10 hashtags • Post hashtags in first comment for 23% better reach • Mix high-volume, mid-volume, and niche tags
             </div>
 
-            <div class="examples-grid">
-                <!-- Production Examples -->
-                <div class="example-card active" data-category="production">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="engagement">Engagement</button>
+                <button class="category-tab" data-category="production">Production</button>
+                <button class="category-tab" data-category="release">Releases</button>
+                <button class="category-tab" data-category="behind-scenes">Behind Scenes</button>
+                <button class="category-tab" data-category="personal">Personal</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- ENGAGEMENT -->
+                <div class="example-card active" data-category="engagement">
                     <div class="example-number">1</div>
-                    <div class="example-title">"How I Made" Series</div>
-                    <div class="example-format">Reel • 45 seconds</div>
+                    <div class="example-title">Carousel Post</div>
+                    <div class="example-format">Carousel • 5-7 slides</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Show progression from blank DAW → finished track<br>
-                        0-5s: Chord loop • 5-15s: Melody • 15-25s: Drums • 25-35s: Effects • 35-45s: Master
+                        <strong>Slides:</strong><br>
+                        1. Cover • 2. Music mood • 3. Production stats • 4. Story • 5. Behind-scenes • 6. Call-to-action • 7. Link to release
                     </div>
-                    <div class="example-caption">"Started with just a chord progression, ended up here 🎹✨ This one's dropping [Date] on [Label]"</div>
+                    <div class="example-caption">\"New deep house journey starts here 🎚️\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Ask followers what synth they want added next
+                        <strong>💡 Tip:</strong> Add stickers/polls for interaction. First slide is thumbnail—make it count!
                     </div>
-                    <div class="example-tags">
-                        <span class="tag">#ProducerLife</span>
-                        <span class="tag">#DeepHouse</span>
-                        <span class="tag">#MusicProduction</span>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#housemusic</span>
+                            <span class="hashtag">#newmusic</span>
+                            <span class="hashtag">#independentmusician</span>
+                            <span class="hashtag">#deephousemusic</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#doerd</span>
+                            <span class="hashtag">#substanceovertrends</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #housemusic #newmusic #independentmusician #deephousemusic #berlinmusic #doerd #substanceovertrends')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="production">
+                <div class="example-card" data-category="engagement">
                     <div class="example-number">2</div>
+                    <div class="example-title">Reel: Music Production</div>
+                    <div class="example-format">Reel • 15-30 seconds</div>
+                    <div class="example-content">
+                        <strong>Content:</strong> Speed-run production moment<br>
+                        • Start with silence • Add drum pattern • Layer strings • Add bass • Final mix • Show result • CTA
+                    </div>
+                    <div class="example-caption">\"3-minute deep house production challenge ⚡\"</div>
+                    <div class="example-tips">
+                        <strong>💡 Tip:</strong> Use trending audio in first 3 seconds. Instagram prioritizes Reels heavily.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#beatmaker</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#producerlife</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#studiodaily</span>
+                            <span class="hashtag">#creativealgorithm</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musicproduction #beatmaker #deephouse #producerlife #sounddesign #studiodaily #creativealgorithm #doerd')">Copy All</button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTION -->
+                <div class="example-card" data-category="production">
+                    <div class="example-number">3</div>
                     <div class="example-title">Studio Setup Tour</div>
                     <div class="example-format">Stories • 8-10 clips</div>
                     <div class="example-content">
                         <strong>Content:</strong> Pan across studio<br>
-                        • Keyboard/MIDI controller<br>
-                        • Monitors & headphones<br>
-                        • DAW on screen<br>
-                        • Personal touches
+                        • Keyboard/MIDI controller • Monitors & headphones • DAW on screen • Personal touches
                     </div>
-                    <div class="example-caption">"Studio setup tour! Everything I use to create deep house"</div>
+                    <div class="example-caption">\"Studio setup tour! Everything I use to create deep house\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Story poll asking "What should I add to studio?"
+                        <strong>💡 Engagement Tip:</strong> Story poll asking \"What should I add to studio?\"
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouseproducer</span>
+                            <span class="hashtag">#studiodaily</span>
+                            <span class="hashtag">#artistlife</span>
+                            <span class="hashtag">#musicianlife</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#musicproduction</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouseproducer #studiodaily #artistlife #musicianlife #berlinmusic #musicproduction #doerd')">Copy All</button>
                     </div>
                 </div>
 
                 <div class="example-card" data-category="production">
-                    <div class="example-number">3</div>
+                    <div class="example-number">4</div>
                     <div class="example-title">Production Breakdown</div>
                     <div class="example-format">Carousel • 5-7 slides</div>
                     <div class="example-content">
                         <strong>Slides:</strong><br>
                         1. Cover • 2. BPM/Key info • 3. Instruments • 4. Mixing • 5. Sound design • 6. Inspiration • 7. YouTube link
                     </div>
-                    <div class="example-caption">"Swipe through for a deep dive into how [Track] came to life"</div>
+                    <div class="example-caption">\"How I make emotional deep house 🎚️ Full breakdown 👇\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Ask what production topic they want explained next
+                        <strong>💡 Tip:</strong> Link to YouTube tutorial for deeper dive. Drive traffic between platforms!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#deephousetutorial</span>
+                            <span class="hashtag">#productiontutorial</span>
+                            <span class="hashtag">#ableton</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#deephouse</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musicproduction #deephousetutorial #productiontutorial #ableton #sounddesign #deephouse')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="production">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Sample & Sound Design</div>
-                    <div class="example-format">Reel • 60 seconds</div>
-                    <div class="example-content">
-                        <strong>Show:</strong> Raw sample → Processing (EQ, compression) → Final in context → Before/after
-                    </div>
-                    <div class="example-caption">"Sound design tip: This simple pad became 10x more interesting with [effect]"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Full breakdown in Stories, ask for participation
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="production">
+                <!-- RELEASE -->
+                <div class="example-card" data-category="release">
                     <div class="example-number">5</div>
-                    <div class="example-title">Equipment Review</div>
-                    <div class="example-format">Reel • 30 seconds</div>
+                    <div class="example-title">Release Announcement</div>
+                    <div class="example-format">Feed Post + Stories</div>
                     <div class="example-content">
-                        <strong>Review:</strong> Gear item → Why you love it → 3 key reasons → How it changed production
+                        <strong>Content:</strong><br>
+                        • Album art (high quality) • Release date • Platforms (Spotify, Apple Music, Bandcamp) • Pre-order link • Behind-story snippet
                     </div>
-                    <div class="example-caption">"Been using [Equipment] for [Time]. Here's why it changed my production"</div>
+                    <div class="example-caption">\"'[Album Name]' is out everywhere now 🎵 2 years in the making 💫\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Ask what's their essential studio gear
+                        <strong>💡 Strategy:</strong> Post announcement 1 week before, then release day post, then post-release celebration.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#newmusic</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#deephousemusic</span>
+                            <span class="hashtag">#release</span>
+                            <span class="hashtag">#independentmusician</span>
+                            <span class="hashtag">#musicrelease</span>
+                            <span class="hashtag">#supportindependent</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#newmusic #deephouse #deephousemusic #release #independentmusician #musicrelease #supportindependent #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <!-- DJ & Live Examples -->
-                <div class="example-card" data-category="dj">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Gig Announcement Teaser</div>
-                    <div class="example-format">Reel + Feed Post • 15-30s</div>
+                <div class="example-card" data-category="release">
+                    <div class="example-number">6</div>
+                    <div class="example-title">Spotify Playlist Add</div>
+                    <div class="example-format">Stories • Screenshot</div>
                     <div class="example-content">
-                        <strong>Content:</strong> 3-4 clips from past performances + high-energy moments<br>
-                        Text overlay: "This Saturday 🔥"
+                        <strong>Content:</strong> Screenshot playlist feature<br>
+                        • Celebrate curator adds • Tag playlist account • Show playlist cover + follower count
                     </div>
-                    <div class="example-caption">"This Saturday @ [Venue] 🎵 First 50 followers get free entry code in DMs"</div>
+                    <div class="example-caption">\"Honored to be on '[Playlist Name]' 🎶 Thanks [Curator]!\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Daily countdown stories (3 days, 1 day, 1 hour before)
+                        <strong>💡 Community:</strong> Tag curators—they often reshare to their audience!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephousemusic</span>
+                            <span class="hashtag">#spotifyplaylist</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#newmusic</span>
+                            <span class="hashtag">#musiccurator</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephousemusic #spotifyplaylist #deephouse #newmusic #musiccurator #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="dj">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Live Set Highlights</div>
-                    <div class="example-format">Reel • 45 seconds</div>
+                <!-- BEHIND SCENES -->
+                <div class="example-card" data-category="behind-scenes">
+                    <div class="example-number">7</div>
+                    <div class="example-title">Day in the Life</div>
+                    <div class="example-format">Stories • 10-12 clips</div>
                     <div class="example-content">
-                        <strong>Show:</strong> Crowd reaction • DJ booth moment • Peak energy • Audience dancing
+                        <strong>Show:</strong><br>
+                        • Morning routine • Coffee ritual • Studio setup • Production session • Lunch break • Listening test • Personal moment • Evening wind-down
                     </div>
-                    <div class="example-caption">"Last night at [Venue] was 🔥. Full 2-hour set on YouTube now"</div>
+                    <div class="example-caption">\"A day creating deep house in Berlin 🏙️\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Which track had them moving most? (poll in comments)
+                        <strong>💡 Authenticity:</strong> Show real moments, not just polished content. Stories allow rawness.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#dayinthelife</span>
+                            <span class="hashtag">#artistlife</span>
+                            <span class="hashtag">#musicianlife</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#creativeprocess</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#dayinthelife #artistlife #musicianlife #berlinmusic #creativeprocess #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="dj">
-                    <div class="example-number">3</div>
-                    <div class="example-title">B2B (Back-to-Back) Collab</div>
-                    <div class="example-format">Carousel • 4-6 slides</div>
+                <!-- PERSONAL -->
+                <div class="example-card" data-category="personal">
+                    <div class="example-number">8</div>
+                    <div class="example-title">Personal Story Post</div>
+                    <div class="example-format">Carousel • 3-5 slides</div>
                     <div class="example-content">
-                        <strong>Slides:</strong> Cover + both DJs + quote + venue info + why special + tickets
+                        <strong>Story Idea:</strong><br>
+                        • Moment of inspiration • Challenge faced • How music helped • Lesson learned • Call-to-action
                     </div>
-                    <div class="example-caption">"Excited to announce [DJ] for a B2B set this [Date]"</div>
+                    <div class="example-caption">\"Why I make emotional deep house instead of chasing trends\"</div>
                     <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Story takeover with collaborating DJ
+                        <strong>💡 Connection:</strong> Personal stories drive deep follower connection and superfan loyalty.
                     </div>
-                </div>
-
-                <div class="example-card" data-category="dj">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Post-Gig Celebration</div>
-                    <div class="example-format">Stories (5-8) + Feed Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Crowd shots • Energy moments • DJ booth view • Audience reactions
-                    </div>
-                    <div class="example-caption">"What an incredible night! Thank you to everyone. See you next time 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Repost best fan comments & thank followers
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="dj">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Studio Listening Session</div>
-                    <div class="example-format">Live • 30-45 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Play unreleased track • Take live feedback • Explain decisions • Q&A about DJing
-                    </div>
-                    <div class="example-caption">"Going LIVE tomorrow 7pm CET with new track premiere! Come ask questions"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Announce day before, pin in Stories
-                    </div>
-                </div>
-
-                <!-- Behind-the-Scenes Examples -->
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Day in the Life Vlog</div>
-                    <div class="example-format">Reel • 45-60 seconds</div>
-                    <div class="example-content">
-                        <strong>Structure:</strong> Morning coffee → Studio session → Analytics checking → Relaxation → Night reflection
-                    </div>
-                    <div class="example-caption">"A typical Monday of making music. Studio time is my favorite part"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Ask about their creative routine
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Personal Inspiration Story</div>
-                    <div class="example-format">Carousel • 5-7 slides</div>
-                    <div class="example-content">
-                        <strong>Slides:</strong> Throwback photo • Story context • How it shaped you • Current reflection • Impact
-                    </div>
-                    <div class="example-caption">"That experience shaped everything about how I make music today"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> What moment shaped YOUR creative journey?
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Creative Challenge</div>
-                    <div class="example-format">Reel • 60 seconds</div>
-                    <div class="example-content">
-                        <strong>Challenge:</strong> Make beat in 1 hour using only [3 sounds]<br>
-                        Show: Timelapse → Final result → Playback
-                    </div>
-                    <div class="example-caption">"1-hour beat challenge using only [3 sounds]. Try it and tag me!"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Repost best submissions from followers
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Fan Feature & Shoutout</div>
-                    <div class="example-format">Story + Reel</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Screenshot fan art → Feature their message → Quote about impact → Thank you
-                    </div>
-                    <div class="example-caption">"Shoutout to [Fan] for this amazing art! This is why I make music 🙏"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Consider monthly "Fan Spotlight" feature
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Vulnerable/Real Moment</div>
-                    <div class="example-format">Photo + Caption</div>
-                    <div class="example-content">
-                        <strong>Topic:</strong> Creative struggles • Mental health perspective • Growth mindset • Rest importance
-                    </div>
-                    <div class="example-caption">"Not every session produces a banger. Some days the inspiration doesn't flow and that's okay"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Vulnerable content builds deepest community connection
-                    </div>
-                </div>
-
-                <!-- Releases & Music Examples -->
-                <div class="example-card" data-category="releases">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Release Announcement (4 weeks)</div>
-                    <div class="example-format">Feed Post + Story Series</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Official artwork + Release date + Track title + Label + 15-30s preview
-                    </div>
-                    <div class="example-caption">"Coming [Month Date] on [Label] 🎵 Pre-save NOW at [link]"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Countdown stories, artwork reveal, label announcement
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="releases">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Pre-Release Countdown</div>
-                    <div class="example-format">Daily Stories + 2-3 Reels</div>
-                    <div class="example-content">
-                        <strong>Timeline:</strong> 7 days: announcement • 5 days: 30s clip • 3 days: 30s clip • 1 day: mashup • Release: OUT NOW
-                    </div>
-                    <div class="example-caption">"48 HOURS until [Release]. Here's what's coming 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Build momentum with daily content
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="releases">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Release Day Celebration</div>
-                    <div class="example-format">Multiple posts throughout day</div>
-                    <div class="example-content">
-                        <strong>Posts:</strong> Morning announcement • Afternoon story • Evening milestone celebration
-                    </div>
-                    <div class="example-caption">"IT'S HERE 🔥 [Release] is out NOW on all platforms"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Reply to EVERY comment, share fan reactions
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="releases">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Playlist Placement Victory</div>
-                    <div class="example-format">Story + Feed Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Screenshot of playlist placement + listener count + celebration
-                    </div>
-                    <div class="example-caption">"[Track] just added to [Playlist] (45K listeners) 🔥 Thank you curators!"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Tag playlist curators to say thanks
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="releases">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Collaboration Announcement</div>
-                    <div class="example-format">Carousel • 4-6 slides</div>
-                    <div class="example-content">
-                        <strong>Slides:</strong> Cover • Both artists • Release date • What makes it special • Story • Pre-save
-                    </div>
-                    <div class="example-caption">"Excited to announce [Artist] for collaboration! We've been planning this for weeks"</div>
-                    <div class="example-tips">
-                        <strong>💡 Engagement Tip:</strong> Story takeover with collaborating artist
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#emotionalmusic</span>
+                            <span class="hashtag">#artistjourney</span>
+                            <span class="hashtag">#authenticart</span>
+                            <span class="hashtag">#musicwithmeaning</span>
+                            <span class="hashtag">#substanceovertrends</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#emotionalmusic #artistjourney #authenticart #musicwithmeaning #substanceovertrends #doerd')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- TIKTOK CONTENT -->
-        <div class="content-section" id="tiktok">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="trending">Trending Audio + Music</button>
-                <button class="category-tab" data-category="performance">DJ Performance & Energy</button>
-                <button class="category-tab" data-category="bts">Behind-the-Scenes</button>
-                <button class="category-tab" data-category="education">Educational/Tutorial</button>
+        <div id="tiktok" class="content-section" data-platform="tiktok">
+            <div class="platform-info">
+                <strong>📱 TikTok Strategy:</strong> Maximum 5 hashtags • Use #fyp & #foryoupage (43% reach boost!) • Focus on trending audio + first 3 seconds • Quality > quantity
             </div>
 
-            <div class="examples-grid">
-                <!-- Trending Examples -->
-                <div class="example-card active" data-category="trending">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="viral">Viral Moments</button>
+                <button class="category-tab" data-category="tutorials">Tutorials</button>
+                <button class="category-tab" data-category="performance">Performance</button>
+                <button class="category-tab" data-category="behind-scenes">Behind Scenes</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- VIRAL -->
+                <div class="example-card active" data-category="viral">
                     <div class="example-number">1</div>
-                    <div class="example-title">Trending Sound Transition</div>
+                    <div class="example-title">Trending Sound Transformation</div>
                     <div class="example-format">Video • 15-30 seconds</div>
                     <div class="example-content">
-                        <strong>Format:</strong> 5s trending sound → Cut to studio → 10s your track → Hook
+                        <strong>Format:</strong><br>
+                        • Use trending audio • Show "before" (normal) • Transition • Show "after" (twisted/deep house version) • Text overlay: \"When deep house meets [trend]\"
                     </div>
-                    <div class="example-caption">"[Trending sound] meets deep house? 🔥 [Track name] out [Date]"</div>
+                    <div class="example-caption">\"POV: A trending sound meets deep house production\"</div>
                     <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> First 3 frames are crucial for hook
+                        <strong>💡 Critical:</strong> Trending audio matters MORE than hashtags. Update daily with new sounds.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#fyp</span>
+                            <span class="hashtag">#foryoupage</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #musicproduction #fyp #foryoupage #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="trending">
+                <div class="example-card" data-category="viral">
                     <div class="example-number">2</div>
-                    <div class="example-title">"Watch This" Hook Format</div>
-                    <div class="example-format">Video • 15 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Text: "Watch this [emotion]" → Visual hook → Strong payoff with track drop
-                    </div>
-                    <div class="example-caption">"That moment when the drop hits 🔥 [Track Name] - [Date]"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Strong first frame keeps viewers watching
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="trending">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Production Speed Run</div>
-                    <div class="example-format">Timelapse • 30-45 seconds</div>
-                    <div class="example-content">
-                        <strong>Flow:</strong> Blank DAW → Layer instruments → Speed up → Beat drop moment → Final waveform
-                    </div>
-                    <div class="example-caption">"Made this in 4 hours 🎵 Starting from nothing"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Use trending "beat producer POV" format
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="trending">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Before/After Sound Design</div>
-                    <div class="example-format">Comparison • 20-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Split screen: Left = raw sound, Right = processed sound, Center text: "vs"
-                    </div>
-                    <div class="example-caption">"Same pad. Different processing. Which one hits harder? 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Split-screen format gets high engagement
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="trending">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Trending Format: "This is how..."</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Text: "This is how [artist] makes deep house" → Quick cuts of process → Track playing
-                    </div>
-                    <div class="example-caption">"Honestly not wrong 😂 [Track Name]"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Humor + education = high engagement
-                    </div>
-                </div>
-
-                <!-- Performance Examples -->
-                <div class="example-card" data-category="performance">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Peak Moment Highlight</div>
-                    <div class="example-format">Video • 15-20 seconds</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Before peak → Transition → Crowd reaction → High energy throughout
-                    </div>
-                    <div class="example-caption">"When the beat drops and the crowd feels it 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Sync cuts to beat drops for algorithm boost
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="performance">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Transition/Mixing Moment</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Focus:</strong> Close-up hands on mixer → Technical skill → Both tracks playing → Seamless transition
-                    </div>
-                    <div class="example-caption">"Transitioning from old school to new deep house 🎵"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Technical skill content performs well
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="performance">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Crowd Energy Moment</div>
-                    <div class="example-format">Video • 15-20 seconds</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Crowd dancing → Your reaction → Fast cuts on beat → High energy
-                    </div>
-                    <div class="example-caption">"This is why I DJ 🔥 The energy was unmatched"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Crowd participation videos = high engagement
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="performance">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Behind the Booth</div>
+                    <div class="example-title">Speed Run Production</div>
                     <div class="example-format">Video • 20-30 seconds</div>
                     <div class="example-content">
-                        <strong>Flow:</strong> Prep shots → Technical setup → Your focus → Performance moment
+                        <strong>Hook First:</strong> Text says \"5-min deep house\" • Show monitor • Rapid clicking/production • Final audio plays • Text: \"Did I cook? 🎚️\"
                     </div>
-                    <div class="example-caption">"Setup before the show 🎵 Everything checked, energy ready"</div>
+                    <div class="example-caption">\"5 minute deep house challenge 🔥 Worth it?\"</div>
                     <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Process content keeps watch-time high
+                        <strong>💡 Engagement:</strong> Ask question in caption. Comments = algorithm boost!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#beatmaker</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#creativeflow</span>
+                            <span class="hashtag">#fyp</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musicproduction #beatmaker #deephouse #creativeflow #fyp')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="performance">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Gear Demo</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Show equipment → Demo feature (crossfader, hot cues) → 3-5s track with it
-                    </div>
-                    <div class="example-caption">"Using [Equipment] to create this transition 🔥 Game changer"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Equipment reviews get manufacturer reposts
-                    </div>
-                </div>
-
-                <!-- Behind-the-Scenes Examples -->
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Studio Vibe Videos</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Aesthetic studio shots (coffee, keyboards, screens, 3am grinding) + beat playing
-                    </div>
-                    <div class="example-caption">"3am studio sessions hit different 🎵"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Pair with trending "late night creative" audio
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Music Taste Sharing</div>
-                    <div class="example-format">Video • 20 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Text: "If you like [Artist], you'll love [Artist]" → Artwork → 3-5s snippet
-                    </div>
-                    <div class="example-caption">"Recommending [Artist]. Tag someone with this taste"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Recommendation content drives discovery engagement
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
+                <!-- TUTORIALS -->
+                <div class="example-card" data-category="tutorials">
                     <div class="example-number">3</div>
-                    <div class="example-title">Day in the Life</div>
-                    <div class="example-format">Video • 30-45 seconds</div>
-                    <div class="example-content">
-                        <strong>Sequence:</strong> Morning → Studio → Production → Lunch → Gig prep → Evening → Night
-                    </div>
-                    <div class="example-caption">"A day in the life of a deep house producer in Berlin 🇩🇪"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Day-in-life videos trend consistently
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Reaction/Opinion Content</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Text question → Your reaction/answer → Brief explanation → "Agree or disagree?"
-                    </div>
-                    <div class="example-caption">"Hot take: [Your opinion about deep house] 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Controversial opinions drive comments
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Funny Producer Moments</div>
-                    <div class="example-format">Video • 20-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> "When you spend 3 hours on one sound" • "Finding that perfect sample" • "DAW crashing"
-                    </div>
-                    <div class="example-caption">"If you produce, you felt this 😂"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Relatable humor = viral potential
-                    </div>
-                </div>
-
-                <!-- Educational Examples -->
-                <div class="example-card" data-category="education">
-                    <div class="example-number">1</div>
                     <div class="example-title">Quick Production Tip</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
+                    <div class="example-format">Video • 15-20 seconds</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Problem shown → Solution applied → Result shown + text overlay with steps
+                        <strong>Format:</strong> Text overlay guides • Show DAW • Demonstrate technique • Before/after audio • Link to full tutorial
                     </div>
-                    <div class="example-caption">"Save this production hack 🎵 Works for any deep house track"</div>
+                    <div class="example-caption">\"One simple trick that changed my deep house sound\"</div>
                     <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Tutorial content saved frequently = high retention
+                        <strong>💡 Value:</strong> TikTok rewards educational content. Drive to YouTube for full tutorials.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#productiontip</span>
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#fyp</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#productiontip #musicproduction #deephouse #sounddesign #fyp')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="education">
-                    <div class="example-number">2</div>
-                    <div class="example-title">"Get Started With" Series</div>
-                    <div class="example-format">Video • 20-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Flow:</strong> Step 1: BPM setup → Step 2: Drum pattern → Step 3: Melody → Step 4: Listen back
-                    </div>
-                    <div class="example-caption">"Get started making deep house today 🎵"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Series content keeps viewers engaged across multiple videos
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="education">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Gear Recommendation</div>
-                    <div class="example-format">Video • 15-30 seconds</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "Best affordable [Equipment]" → Show item → Demo → Price point
-                    </div>
-                    <div class="example-caption">"Budget-friendly deep house setup for beginners 🎵"</div>
-                    <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Include price = higher engagement & affiliate potential
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="education">
+                <!-- PERFORMANCE -->
+                <div class="example-card" data-category="performance">
                     <div class="example-number">4</div>
-                    <div class="example-title">Mixing Technique</div>
-                    <div class="example-format">Video • 25-35 seconds</div>
+                    <div class="example-title">DJ Set Clip</div>
+                    <div class="example-format">Video • 15-20 seconds</div>
                     <div class="example-content">
-                        <strong>Flow:</strong> Technique name → Show before → Setup mixer/plugin → Show after → Comparison
+                        <strong>Best Moments:</strong> Energy peak • Crowd reaction • Smooth transition • Mixing moment
                     </div>
-                    <div class="example-caption">"This mixing technique adds so much depth 🔥"</div>
+                    <div class="example-caption">\"Saturday night deep house energy ✨ Full set on YouTube\"</div>
                     <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Visual before/after = high engagement
+                        <strong>💡 Cross-Promotion:</strong> Clip from YouTube → TikTok → Instagram Reel. One production, multiple platforms.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#djlife</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#livemusic</span>
+                            <span class="hashtag">#party</span>
+                            <span class="hashtag">#fyp</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#djlife #deephouse #livemusic #party #fyp')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="education">
+                <!-- BEHIND SCENES -->
+                <div class="example-card" data-category="behind-scenes">
                     <div class="example-number">5</div>
-                    <div class="example-title">Software/Plugin Feature</div>
-                    <div class="example-format">Video • 20-30 seconds</div>
+                    <div class="example-title">Studio Aesthetic</div>
+                    <div class="example-format">Video • 10-15 seconds</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Plugin name → Show interface → Before sound → After sound → Your take
+                        <strong>Content:</strong> Slow pan of studio • Equipment in frame • Ambient lighting • Creative workspace • Your hands on controller
                     </div>
-                    <div class="example-caption">"[Plugin] is actually goated for deep house production 🎵"</div>
+                    <div class="example-caption">\"Creating beats in the flow ✨\"</div>
                     <div class="example-tips">
-                        <strong>💡 TikTok Hack:</strong> Plugin reviews get software company reposts & reach
+                        <strong>💡 Visual:</strong> Aesthetic content performs well. Good lighting + clean setup = more saves/shares.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#studiodaily</span>
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#vibe</span>
+                            <span class="hashtag">#chill</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #studiodaily #musicproduction #vibe #chill')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- YOUTUBE CONTENT -->
-        <div class="content-section" id="youtube">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="longform">DJ Sets & Mixes</button>
-                <button class="category-tab" data-category="bts">Behind-the-Scenes & Storytelling</button>
-                <button class="category-tab" data-category="education">Educational/Masterclass</button>
+        <div id="youtube" class="content-section" data-platform="youtube">
+            <div class="platform-info">
+                <strong>🎥 YouTube Strategy:</strong> Use 8-12 hashtags in description • Watch time > hashtags • Chapters & timestamps boost watch time • Consistency is key
             </div>
 
-            <div class="examples-grid">
-                <!-- DJ Sets Examples -->
-                <div class="example-card active" data-category="longform">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="performances">DJ Sets</button>
+                <button class="category-tab" data-category="tutorials">Tutorials</button>
+                <button class="category-tab" data-category="vlogs">Vlogs</button>
+                <button class="category-tab" data-category="interviews">Interviews</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- DJ SETS -->
+                <div class="example-card active" data-category="performances">
                     <div class="example-number">1</div>
-                    <div class="example-title">Full Gig Recording</div>
-                    <div class="example-format">Video • 45-90 minutes</div>
+                    <div class="example-title">Full DJ Set • 60 mins</div>
+                    <div class="example-format">Video • 60 minutes</div>
                     <div class="example-content">
-                        <strong>Content:</strong> High-quality audio + booth footage + crowd reactions<br>
-                        Chapters: Organize into 15-min segments with track IDs<br>
-                        Full tracklist with timestamps in description
+                        <strong>Description Elements:</strong><br>
+                        • Opening hook (first 30 seconds described) • Chapters (timestamps) • Tracklist with timestamps • Links to tracks • Subscribe CTA
                     </div>
-                    <div class="example-caption">"[Venue] Full DJ Set - DOERD [Date]"</div>
+                    <div class="example-caption">\"Deep House Mix - Sunday Evening Sessions\"</div>
                     <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Pin comment with full tracklist • Link all artists to Spotify
+                        <strong>💡 Pro Tip:</strong> First comment with full tracklist. Updates boost algorithm.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#djset</span>
+                            <span class="hashtag">#housemusicmix</span>
+                            <span class="hashtag">#liveperformance</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#doerd</span>
+                            <span class="hashtag">#electronicmusic</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #djset #housemusicmix #liveperformance #berlinmusic #doerd #electronicmusic')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="longform">
+                <!-- TUTORIALS -->
+                <div class="example-card" data-category="tutorials">
                     <div class="example-number">2</div>
-                    <div class="example-title">Studio Session Recording</div>
-                    <div class="example-format">Video • 30-60 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Real-time production session<br>
-                        Explain creative decisions • Show workflow • Play finished track + Q&A at end
-                    </div>
-                    <div class="example-caption">"Producing a Deep House Track from Scratch | Studio Session"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Detailed chapters • Link to finished track • Include tools used
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="longform">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Production Tutorial Series</div>
-                    <div class="example-format">Video • 15-30 minutes per episode</div>
-                    <div class="example-content">
-                        <strong>Episodes:</strong><br>
-                        • Sound Design Deep Dive<br>
-                        • Compression Techniques<br>
-                        • Creating Movement<br>
-                        • Mixing Vocals<br>
-                        • Creating Hypnotic Grooves
-                    </div>
-                    <div class="example-caption">"[Technique] - Deep House Production Tutorial"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Series content boosts subscriber retention
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="longform">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Equipment Review/Setup Tour</div>
-                    <div class="example-format">Video • 15-25 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Studio tour • Each gear: what/why/how • Sound comparisons • Budget breakdown
-                    </div>
-                    <div class="example-caption">"My Deep House Studio Setup 2025 - Complete Walkthrough"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Affiliate links in description • Show prices • Include alternatives
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="longform">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Artist Interview/Collaboration</div>
-                    <div class="example-format">Video • 30-60 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Interview with collaborating artist • How you met • Working together • Joint session
-                    </div>
-                    <div class="example-caption">"[Artist] x DOERD - Interview & Studio Session"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Tag collaborator • Link to their channels • Announce collaboration
-                    </div>
-                </div>
-
-                <!-- Behind-the-Scenes Examples -->
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Day in the Life Vlog</div>
-                    <div class="example-format">Video • 10-20 minutes</div>
-                    <div class="example-content">
-                        <strong>Flow:</strong> Morning routine → Studio prep → Production session → Break/lunch → Admin tasks → Evening
-                    </div>
-                    <div class="example-caption">"A Day in My Life as a Deep House Producer | Berlin Studio"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Authentic daily content builds audience connection
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Personal Documentary Series</div>
-                    <div class="example-format">Video • 20-40 minutes per part</div>
-                    <div class="example-content">
-                        <strong>Series:</strong><br>
-                        Part 1: How I got into electronic music<br>
-                        Part 2: The struggle years<br>
-                        Part 3: The MOODS transformation<br>
-                        Part 4: Where I am now
-                    </div>
-                    <div class="example-caption">"From Marzahn to the Dancefloor - My Story"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Personal story content gets highest retention & shares
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Collab Process Vlog</div>
+                    <div class="example-title">Production Tutorial</div>
                     <div class="example-format">Video • 15-30 minutes</div>
                     <div class="example-content">
-                        <strong>Content:</strong> Initial idea → First session → Development over multiple days → Final mixing
+                        <strong>Structure:</strong><br>
+                        • Problem statement (first 30 secs) • Step-by-step solution • Before/after demo • Chapters for navigation • Downloadable presets link
                     </div>
-                    <div class="example-caption">"Creating a Deep House Track With [Artist] | Full Process"</div>
+                    <div class="example-caption">\"How to Create Emotional Deep House in Ableton Live\"</div>
                     <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Process content shows authenticity & builds trust
+                        <strong>💡 SEO:</strong> Video title + description keywords = search visibility. \"How to...\" videos rank well.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#deephousetutorial</span>
+                            <span class="hashtag">#ableton</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#beatmaking</span>
+                            <span class="hashtag">#productiontutorial</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musicproduction #deephousetutorial #ableton #sounddesign #beatmaking #productiontutorial #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Tour Vlog / Festival Experience</div>
-                    <div class="example-format">Video • 20-35 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Travel → Meet local DJs → Soundcheck → Behind-scenes → Performance → Reflections
-                    </div>
-                    <div class="example-caption">"[Festival Name] 2025 | Live Performance & Behind the Scenes"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Travel vlog content performs exceptionally well
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="bts">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Community Initiative Spotlight</div>
-                    <div class="example-format">Video • 12-20 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Intro to cause • Interview with organizer • How you're involved • Call to action
-                    </div>
-                    <div class="example-caption">"Using Music for Good - Community Project Impact"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Purpose-driven content builds loyal, engaged community
-                    </div>
-                </div>
-
-                <!-- Educational Examples -->
-                <div class="example-card" data-category="education">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Production Masterclass</div>
-                    <div class="example-format">Video • 45-75 minutes</div>
-                    <div class="example-content">
-                        <strong>Cover:</strong> Full workflow • Advanced techniques • Mixing & mastering strategy • Q&A
-                    </div>
-                    <div class="example-caption">"Deep House Production Masterclass | Ableton Full Workflow"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Detailed chapters • Downloadable resources • Active Q&A
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="education">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Gear & Plugin Recommendations</div>
-                    <div class="example-format">Video • 20-30 minutes</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Essential plugins • Budget vs premium • How to use each • Demo in track
-                    </div>
-                    <div class="example-caption">"Best Plugins for Deep House Production 2025"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Include affiliate links • Compare pricing tiers
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="education">
+                <!-- VLOGS -->
+                <div class="example-card" data-category="vlogs">
                     <div class="example-number">3</div>
-                    <div class="example-title">"How to Get Your First Gig" Guide</div>
-                    <div class="example-format">Video • 25-35 minutes</div>
+                    <div class="example-title">Studio Vlog</div>
+                    <div class="example-format">Video • 10-20 minutes</div>
                     <div class="example-content">
-                        <strong>Topics:</strong> Networking • Demo submission • Building skills • Booking agencies • Promotion
+                        <strong>Format:</strong> Morning setup • Production session • Challenge/breakthrough • End-of-day reflection • Sneak peek of upcoming work
                     </div>
-                    <div class="example-caption">"How to Get Your First DJ Gig - Complete Guide"</div>
+                    <div class="example-caption">\"A Day Creating Deep House in Berlin | Studio Vlog\"</div>
                     <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Based on your real experience = most valuable to audience
+                        <strong>💡 Authenticity:</strong> Vlogs build parasocial connection. Regular schedule (weekly) builds subscriber base.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#dayinthelife</span>
+                            <span class="hashtag">#musicproduction</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#studiodaily</span>
+                            <span class="hashtag">#berlinartist</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#dayinthelife #musicproduction #deephouse #studiodaily #berlinartist #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="education">
+                <!-- INTERVIEWS -->
+                <div class="example-card" data-category="interviews">
                     <div class="example-number">4</div>
-                    <div class="example-title">Music Theory for Producers</div>
-                    <div class="example-format">Video • 30-45 minutes</div>
+                    <div class="example-title">Artist Interview</div>
+                    <div class="example-format">Video • 20-45 minutes</div>
                     <div class="example-content">
-                        <strong>Topics:</strong> Music theory basics • Key theory • Chord progressions • Harmonic movement
+                        <strong>Topics:</strong><br>
+                        • Journey to deep house • Production philosophy • Current projects • Challenges • Industry insights • Advice for emerging artists
                     </div>
-                    <div class="example-caption">"Music Theory for Electronic Producers | Deep House Edition"</div>
+                    <div class="example-caption">\"[Guest Name] Interview: Making Emotional Deep House\"</div>
                     <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Educational content attracts serious producers
+                        <strong>💡 Growth:</strong> Interviews attract guest's audience. Cross-promotion multiplier effect!
                     </div>
-                </div>
-
-                <div class="example-card" data-category="education">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Mental Health & Creative Wellbeing</div>
-                    <div class="example-format">Video • 20-30 minutes</div>
-                    <div class="example-content">
-                        <strong>Topics:</strong> Creative blocks • Burnout prevention • Mental health in music • Sustainable practice
-                    </div>
-                    <div class="example-caption">"Mental Health & Creativity - My Approach as a Producer"</div>
-                    <div class="example-tips">
-                        <strong>💡 YouTube Tip:</strong> Vulnerable content gets highest engagement & audience loyalty
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#interview</span>
+                            <span class="hashtag">#musicproducer</span>
+                            <span class="hashtag">#artisttalk</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#independentmusic</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #interview #musicproducer #artisttalk #berlinmusic #independentmusic #doerd')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- FACEBOOK CONTENT -->
-        <div class="content-section" id="facebook">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="community">Community Building</button>
-                <button class="category-tab" data-category="visual">Visual & Media</button>
-                <button class="category-tab" data-category="discussion">Discussion & Engagement</button>
+        <div id="facebook" class="content-section" data-platform="facebook">
+            <div class="platform-info">
+                <strong>👥 Facebook Strategy:</strong> Use 5-8 hashtags in first comment • Community engagement > viral reach • Discussion-oriented content performs best
             </div>
 
-            <div class="examples-grid">
-                <!-- Community Examples -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="community">Community</button>
+                <button class="category-tab" data-category="events">Events</button>
+                <button class="category-tab" data-category="releases">Releases</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- COMMUNITY -->
                 <div class="example-card active" data-category="community">
                     <div class="example-number">1</div>
-                    <div class="example-title">Long-Form Storytelling</div>
-                    <div class="example-format">Text Post + Image</div>
+                    <div class="example-title">Long-Form Story</div>
+                    <div class="example-format">Post • 500-800 words</div>
                     <div class="example-content">
-                        <strong>Format:</strong> 200-400 words personal story<br>
-                        Example: "Why I Created the MOODS Compilation Series"<br>
-                        Includes link to larger narrative + call to engagement
+                        <strong>Topics:</strong> Personal journey • Why deep house matters • Philosophy • Challenges • Vision for future
                     </div>
-                    <div class="example-caption">"Wanted to share the story behind MOODS... This one comes from a deeply personal place"</div>
+                    <div class="example-caption">\"Why I create emotional deep house instead of chasing trends\"</div>
                     <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Reply to EVERY comment • Build conversation threads
+                        <strong>💡 Facebook Gold:</strong> Facebook rewards long-form content. Older demographic appreciates depth over short clips.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#musiccommunity</span>
+                            <span class="hashtag">#artistjourney</span>
+                            <span class="hashtag">#authenticmusic</span>
+                            <span class="hashtag">#musicwithmeaning</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #musiccommunity #artistjourney #authenticmusic #musicwithmeaning #doerd')">Copy All</button>
                     </div>
                 </div>
 
                 <div class="example-card" data-category="community">
                     <div class="example-number">2</div>
-                    <div class="example-title">Event Announcement (Gig)</div>
-                    <div class="example-format">Event Post with Details</div>
+                    <div class="example-title">Q&A Session</div>
+                    <div class="example-format">Post • Discussion</div>
                     <div class="example-content">
-                        <strong>Include:</strong> Venue + Date/Time • Description • Artist lineup • Ticket link • Why special
+                        <strong>Example:</strong> \"Ask me anything about deep house production, this industry, or my creative process. Live for 2 hours!\"
                     </div>
-                    <div class="example-caption">"DOERD Live @ [Venue] - Deep House Night [Date]"</div>
+                    <div class="example-caption">\"I'm taking your questions about deep house production\"</div>
                     <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Use Facebook Events feature • Remind followers 1 week & 1 day before
+                        <strong>💡 Community:</strong> Q&A sessions build loyal community. Comments = algorithm favorite. Reply to every comment!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musictalks</span>
+                            <span class="hashtag">#deephouseproduction</span>
+                            <span class="hashtag">#musicindustry</span>
+                            <span class="hashtag">#artisttalk</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musictalks #deephouseproduction #musicindustry #artisttalk #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="community">
+                <!-- EVENTS -->
+                <div class="example-card" data-category="events">
                     <div class="example-number">3</div>
-                    <div class="example-title">Album/Release Announcement</div>
-                    <div class="example-format">Shared Content + Message</div>
+                    <div class="example-title">Gig Announcement</div>
+                    <div class="example-format">Event Post</div>
                     <div class="example-content">
-                        <strong>Content:</strong> Release details + personal note + behind-scenes story + listen links
+                        <strong>Include:</strong> Venue • Date/Time • Lineup • Ticket link • Description • Photos
                     </div>
-                    <div class="example-caption">"After months of work, [Release Name] is finally here 🎵"</div>
+                    <div class="example-caption">\"Playing at [Venue] on [Date]! Tickets link below 🎵\"</div>
                     <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Share to Spotify/Apple Music links • Create shareable image
+                        <strong>💡 Promotion:</strong> Facebook Events get high visibility. Share to personal friends list + groups.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#livemusic</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#berlinmusic</span>
+                            <span class="hashtag">#musiccommunity</span>
+                            <span class="hashtag">#supportlocal</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#livemusic #deephouse #berlinmusic #musiccommunity #supportlocal #doerd')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="community">
+                <!-- RELEASES -->
+                <div class="example-card" data-category="releases">
                     <div class="example-number">4</div>
-                    <div class="example-title">Milestone Celebration</div>
-                    <div class="example-format">Text Post + Image</div>
+                    <div class="example-title">Album Release Post</div>
+                    <div class="example-format">Post + Story + Event</div>
                     <div class="example-content">
-                        <strong>Celebrate:</strong> 1M Spotify streams • 50th gig this year • Label signing • Personal reflection
+                        <strong>Post:</strong> Album artwork + story • Facebook Event for release date • Story with countdown • Friend tags for promotion
                     </div>
-                    <div class="example-caption">"Hit [Milestone]! Grateful for every person who supported this journey 🙏"</div>
+                    <div class="example-caption">\"'[Album Name]' is available everywhere now 🎵\"</div>
                     <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Thank supporters individually • Share milestone post widely
+                        <strong>💡 Reach:</strong> Create Facebook Event for release. Event invites = massive reach boost!
                     </div>
-                </div>
-
-                <div class="example-card" data-category="community">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Community Input / Feedback Request</div>
-                    <div class="example-format">Poll or Discussion Post</div>
-                    <div class="example-content">
-                        <strong>Ask:</strong> "Help me decide: which of 3 unreleased tracks should I release first?"<br>
-                        Share 30-sec clips • Ask for votes in comments
-                    </div>
-                    <div class="example-caption">"Help me pick! Listen to each and comment which one should come first"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Commit to using community feedback • Report results
-                    </div>
-                </div>
-
-                <!-- Visual Examples -->
-                <div class="example-card" data-category="visual">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Studio Photo Album</div>
-                    <div class="example-format">Photo Album • 5-10 images</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Different studio angles • Equipment close-ups • You working • Monitor screens • Ambient
-                    </div>
-                    <div class="example-caption">"Studio Tour - Where the Magic Happens"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Tag equipment manufacturers • Answer questions in comments
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="visual">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Performance Photo Gallery</div>
-                    <div class="example-format">Album • 5-10 concert photos</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Best gig shots • DJ booth moments • Crowd energy • Collaborators • Setup
-                    </div>
-                    <div class="example-caption">"Live @ [Venue] - [Date]"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Tag venue & other DJs • Let people tag themselves
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="visual">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Video Highlight Reel</div>
-                    <div class="example-format">Video • 2-3 minutes</div>
-                    <div class="example-content">
-                        <strong>Flow:</strong> Studio clips + Live moments + Travel + Music playing + Text overlays
-                    </div>
-                    <div class="example-caption">"2025 Highlights - A Year in DOERD's Life"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Native Facebook video gets higher reach than YouTube links
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="visual">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Infographic / Visual Tip</div>
-                    <div class="example-format">Single Designed Image</div>
-                    <div class="example-content">
-                        <strong>Topics:</strong> "5 Tips for Beginner Producers" • "How to Get First Gig" • "Essential Studio Gear"
-                    </div>
-                    <div class="example-caption">"Made this quick visual guide. Save this if it helps!"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Infographics get high shares • Make downloadable version
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="visual">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Unfiltered Behind-the-Scenes</div>
-                    <div class="example-format">Album or carousel</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Funny moments • Equipment fails • Travel chaos • Production breakthroughs • Candid
-                    </div>
-                    <div class="example-caption">"Some unfiltered moments from the past few weeks. Real creative life 😂"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Authentic content builds deeper connection than polished posts
-                    </div>
-                </div>
-
-                <!-- Discussion Examples -->
-                <div class="example-card" data-category="discussion">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Music Recommendation Thread</div>
-                    <div class="example-format">Text Post + Album Cover</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> "Currently obsessed with [Artist/Album]" + Why you love it + 3 key tracks + Open Q
-                    </div>
-                    <div class="example-caption">"If you haven't heard [Artist], do yourself a favor"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Reply to every recommendation • Build community around music taste
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="discussion">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Hot Takes / Opinion Post</div>
-                    <div class="example-format">Text Post</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "Unpopular opinion: [Your take]" + Explanation + Invite discussion
-                    </div>
-                    <div class="example-caption">"Hot take: Vinyl is more about the ritual than the sound"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Genuine opinions drive more engagement than neutral posts
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="discussion">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Community Questions</div>
-                    <div class="example-format">Text Post</div>
-                    <div class="example-content">
-                        <strong>Examples:</strong> "What's the most underrated producer?" • "Ableton or Logic?" • "Best Berlin venue?"
-                    </div>
-                    <div class="example-caption">"Genuinely curious about your answers. I'll reply to everyone 👇"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Q&A posts drive high engagement • Respond to every comment
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="discussion">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Gratitude / Thank You Post</div>
-                    <div class="example-format">Text Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Acknowledge supporters • Celebrate community wins • Specific thank yous • Offer support
-                    </div>
-                    <div class="example-caption">"Thank you to everyone who's listened, shared, or came to a show 🙏"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Vulnerability & gratitude build strongest communities
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="discussion">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Collaboration Call</div>
-                    <div class="example-format">Text Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> What you're working on + What you're looking for + How to reach out + Timeline
-                    </div>
-                    <div class="example-caption">"Looking for [vocalists/producers] to collaborate. DM if interested!"</div>
-                    <div class="example-tips">
-                        <strong>💡 Facebook Tip:</strong> Clear CTA • Specific about needs • Easy to respond
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#newmusic</span>
+                            <span class="hashtag">#deephousemusic</span>
+                            <span class="hashtag">#independentmusician</span>
+                            <span class="hashtag">#supportindependent</span>
+                            <span class="hashtag">#musicrelease</span>
+                            <span class="hashtag">#doerd</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#newmusic #deephousemusic #independentmusician #supportindependent #musicrelease #doerd')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- REMAINING PLATFORMS -->
-        <div class="content-section" id="soundcloud">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="unreleased">WIP & Demos</button>
-                <button class="category-tab" data-category="sets">DJ Sets & Mixes</button>
+        <!-- SOUNDCLOUD CONTENT -->
+        <div id="soundcloud" class="content-section" data-platform="soundcloud">
+            <div class="platform-info">
+                <strong>🎙️ SoundCloud Strategy:</strong> 6-8 tags • Authenticity signals (#wipmusic, #feedbackwelcome) = key differentiator • Underground discovery platform • Direct artist-to-fan relationship
             </div>
 
-            <div class="examples-grid">
-                <div class="example-card active" data-category="unreleased">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="original">Original Music</button>
+                <button class="category-tab" data-category="wip">Work In Progress</button>
+                <button class="category-tab" data-category="remixes">Remixes</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- ORIGINAL -->
+                <div class="example-card active" data-category="original">
                     <div class="example-number">1</div>
-                    <div class="example-title">Work-in-Progress Upload</div>
-                    <div class="example-format">Audio • Early stage</div>
+                    <div class="example-title">Original Track Upload</div>
+                    <div class="example-format">Audio • Full track</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Raw production file + Request specific feedback + What's next
+                        <strong>Metadata:</strong> Professional cover art • Detailed description • Production info • Collaboration credits • Links to other platforms
                     </div>
-                    <div class="example-caption">"WIP - Feedback Welcome: What should I improve?"</div>
+                    <div class="example-caption">\"New deep house track exploring emotional landscapes 🎵\"</div>
                     <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Ask for specific feedback • Community loves early access
+                        <strong>💡 SoundCloud Pro:</strong> Allows direct linking + monetization. Build fanbase here for independent release model.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#originalmusic</span>
+                            <span class="hashtag">#independentartist</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#housemusic</span>
+                            <span class="hashtag">#newartist</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #originalmusic #independentartist #sounddesign #housemusic #newartist')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="unreleased">
+                <!-- WIP -->
+                <div class="example-card" data-category="wip">
                     <div class="example-number">2</div>
-                    <div class="example-title">Demo / Pre-Release Preview</div>
-                    <div class="example-format">Audio • Almost final</div>
+                    <div class="example-title">Work In Progress</div>
+                    <div class="example-format">Audio • Rough mix</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Near-final version + Official release date + Pre-save link
+                        <strong>Description:</strong> What stage • Feedback request • Timeline • Genre • Mood • Collaboration openness
                     </div>
-                    <div class="example-caption">"Demo - Out [Date] on [Label]"</div>
+                    <div class="example-caption">\"WIP - Deep house track at mixing stage. Feedback welcome! 🎚️\"</div>
                     <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Build momentum for official release • Link to pre-save
+                        <strong>💡 Community:</strong> SoundCloud artists actively seek collaborators here. Open to feedback builds community.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#wipmusic</span>
+                            <span class="hashtag">#feedbackwelcome</span>
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#sounddesign</span>
+                            <span class="hashtag">#collaboration</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#wipmusic #feedbackwelcome #deephouse #sounddesign #collaboration')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="unreleased">
+                <!-- REMIXES -->
+                <div class="example-card" data-category="remixes">
                     <div class="example-number">3</div>
-                    <div class="example-title">Experimental / Genre-Bending</div>
-                    <div class="example-format">Audio • Creative project</div>
+                    <div class="example-title">Remix / Edit</div>
+                    <div class="example-format">Audio • Remix</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Remix or reinterpretation + Creative direction + One-off project
+                        <strong>Credit:</strong> Tag original artist • Link to original • Remix description • Your production philosophy applied
                     </div>
-                    <div class="example-caption">"[Track] Interpretation - DOERD Remix"</div>
+                    <div class="example-caption">\"Deep house remix of [Original Artist] - Taking it to deeper waters 🌊\"</div>
                     <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Tag original artist • Share with their fans
+                        <strong>💡 Growth:</strong> Remixes get discovery. Original artist often repost = huge exposure!
                     </div>
-                </div>
-
-                <div class="example-card" data-category="unreleased">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Bootleg / Mashup</div>
-                    <div class="example-format">Audio • Creative mashup</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> 2 tracks mashup + Your production skills + Free download
-                    </div>
-                    <div class="example-caption">"[Artist1] x [Artist2] Mashup - FREE DL"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Playful tone acceptable • Make it downloadable
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="unreleased">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Frequent Release Schedule</div>
-                    <div class="example-format">Consistent uploads</div>
-                    <div class="example-content">
-                        <strong>Strategy:</strong> Every 2-4 weeks upload: originals, remixes, edits, collabs
-                    </div>
-                    <div class="example-caption">"Keep followers engaged through consistent uploads"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Underground discovery platform • A&R scouts browse frequently
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="sets">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Full DJ Set Upload</div>
-                    <div class="example-format">Audio • 45-120 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> High-quality audio + Full tracklist with timestamps + Support all artists
-                    </div>
-                    <div class="example-caption">"[Venue] Full Set - [Date]"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Link all tracks in description • Build community around sets
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="sets">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Studio Mix / Listening Session</div>
-                    <div class="example-format">Audio • 30-60 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Continuous mix + Unreleased tracks + Pure music, no talking
-                    </div>
-                    <div class="example-caption">"Studio Mix - Deep House Session"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Perfect for work/study listeners • Consistent engagement
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="sets">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Collaboration Mix</div>
-                    <div class="example-format">Audio • 45-75 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> You + Collaborator pick tracks + Mix live in studio + Document process
-                    </div>
-                    <div class="example-caption">"[Collab] x DOERD - B2B Studio Mix"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Cross-promotion with collaborator • Tap their audience
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="sets">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Curated Playlist Mix</div>
-                    <div class="example-format">Audio • 60-90 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> 10-15 favorite tracks mixed + Your taste + Support emerging artists
-                    </div>
-                    <div class="example-caption">"DOERD's Favorite Deep House Tracks [Month/Year] - Mix"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Showcase taste • Support emerging producers
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="sets">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Live Festival Recording</div>
-                    <div class="example-format">Audio • 45-90 minutes</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Festival recordings + Special guest collaborations + Document major events
-                    </div>
-                    <div class="example-caption">"DOERD Live @ [Festival] [Date] - Full Set"</div>
-                    <div class="example-tips">
-                        <strong>💡 SoundCloud Tip:</strong> Credit collaborators • Thank organizers
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#remix</span>
+                            <span class="hashtag">#independentmusician</span>
+                            <span class="hashtag">#deephouselove</span>
+                            <span class="hashtag">#housemusic</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #remix #independentmusician #deephouselove #housemusic')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- TWITTER CONTENT -->
-        <div class="content-section" id="twitter">
-            <div class="examples-grid">
-                <div class="example-card active">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Release Announcement Thread</div>
-                    <div class="example-format">Tweet Thread • 3-5 tweets</div>
-                    <div class="example-content">
-                        <strong>Structure:</strong> Tweet 1: Announcement • Tweet 2: Story • Tweet 3: Thanks • Tweet 4: Milestones • Tweet 5: Invite
-                    </div>
-                    <div class="example-caption">"NEW MUSIC 🔥 [Track] out NOW on [Label]"</div>
-                    <div class="example-tips">
-                        <strong>💡 Twitter Tip:</strong> Real-time updates work best • High engagement expected
-                    </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Thought Leadership Opinion</div>
-                    <div class="example-format">Single Tweet or Thread</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Hot take about deep house, production, or music industry
-                    </div>
-                    <div class="example-caption">"Hot take: The best deep house tracks don't need a drop"</div>
-                    <div class="example-tips">
-                        <strong>💡 Twitter Tip:</strong> Controversy drives engagement • Be authentic
-                    </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Behind-the-Scenes Moment</div>
-                    <div class="example-format">Tweet + Image/Video</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "3am in studio. Found this synth sound..." + Playful caption
-                    </div>
-                    <div class="example-caption">"3am in the studio. Playing it on repeat 🎵"</div>
-                    <div class="example-tips">
-                        <strong>💡 Twitter Tip:</strong> Real-time sharing • Authentic moments resonate
-                    </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Engagement Question</div>
-                    <div class="example-format">Single Tweet</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "Quick question: What's your go-to deep house producer right now?"
-                    </div>
-                    <div class="example-caption">"Quick question: Who's making you feel something right now?"</div>
-                    <div class="example-tips">
-                        <strong>💡 Twitter Tip:</strong> Spark conversations • Discover new artists • Build community
-                    </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Gig/Event Promotion</div>
-                    <div class="example-format">Tweet + Image</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "This Saturday @ [Venue] 11pm 🔥" + Countdown tweets before
-                    </div>
-                    <div class="example-caption">"This Saturday @ [Venue]. Who's coming? 🔥"</div>
-                    <div class="example-tips">
-                        <strong>💡 Twitter Tip:</strong> Multiple announcements • Build hype countdown
-                    </div>
-                </div>
+        <div id="twitter" class="content-section" data-platform="twitter">
+            <div class="platform-info">
+                <strong>𝕏 Twitter Strategy:</strong> 2-3 hashtags MAX • Engagement > hashtags • Real-time conversations • Build industry connections • Thought leadership
             </div>
-        </div>
 
-        <!-- EMAIL CONTENT -->
-        <div class="content-section" id="email">
-            <div class="examples-grid">
-                <div class="example-card active">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="announcements">Announcements</button>
+                <button class="category-tab" data-category="insights">Insights</button>
+                <button class="category-tab" data-category="engagement">Engagement</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- ANNOUNCEMENTS -->
+                <div class="example-card active" data-category="announcements">
                     <div class="example-number">1</div>
-                    <div class="example-title">Weekly Production Tip</div>
-                    <div class="example-format">Email • 300-400 words</div>
+                    <div class="example-title">Release Announcement</div>
+                    <div class="example-format">Thread • 3-5 tweets</div>
                     <div class="example-content">
-                        <strong>Structure:</strong> Hook • Explanation • Why it matters • Step-by-step how-to • Your example • CTA
+                        <strong>Thread:</strong><br>
+                        Tweet 1: Release title + link • Tweet 2: Story behind • Tweet 3: Platform links • Tweet 4: Thank you to collaborators
                     </div>
-                    <div class="example-caption">"📚 Weekly Tip: [Technique Name]"</div>
+                    <div class="example-caption">\"Out now! New deep house journey available everywhere 🎵 Link in bio\"</div>
                     <div class="example-tips">
-                        <strong>💡 Email Tip:</strong> Reply to every email response • Build personal relationships
+                        <strong>💡 Threads:</strong> Use reply feature to create threads. Increases engagement exponentially!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephousemusic</span>
+                            <span class="hashtag">#newmusic</span>
+                            <span class="hashtag">#supportindependent</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephousemusic #newmusic #supportindependent')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card">
+                <!-- INSIGHTS -->
+                <div class="example-card" data-category="insights">
                     <div class="example-number">2</div>
-                    <div class="example-title">Behind-the-Scenes Story</div>
-                    <div class="example-format">Email • 500-700 words</div>
+                    <div class="example-title">Industry Insight</div>
+                    <div class="example-format">Tweet • Thought leadership</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Personal anecdote • Lesson learned • How it applies • Invitation for them to share
+                        <strong>Examples:</strong><br>
+                        • Music industry observation • Production philosophy • Artist challenges • Authenticity in digital age
                     </div>
-                    <div class="example-caption">"🎵 Behind the Scenes: [Story Title]"</div>
+                    <div class="example-caption">\"The best music comes from deep vulnerability, not algorithm optimization\"</div>
                     <div class="example-tips">
-                        <strong>💡 Email Tip:</strong> Vulnerability builds deepest loyalty • Authentic wins
+                        <strong>💡 Authority:</strong> Share expertise without selling. Twitter rewards genuine insights.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#musicindustry</span>
+                            <span class="hashtag">#independentartist</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#musicindustry #independentartist')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card">
+                <!-- ENGAGEMENT -->
+                <div class="example-card" data-category="engagement">
                     <div class="example-number">3</div>
-                    <div class="example-title">Curated Playlist + Commentary</div>
-                    <div class="example-format">Email • 300 words + playlist</div>
+                    <div class="example-title">Community Engagement</div>
+                    <div class="example-format">Retweet + quote / Reply</div>
                     <div class="example-content">
-                        <strong>Format:</strong> Intro thought • 8-10 tracks with commentary • Why each matters • Spotify links
+                        <strong>Strategies:</strong><br>
+                        • Reply to relevant conversations • Quote interesting threads • Share resources • Engage with peers daily
                     </div>
-                    <div class="example-caption">"🎧 This Week's Deep House Playlist"</div>
+                    <div class="example-caption">\"Great point about production ethics. In my experience...\"</div>
                     <div class="example-tips">
-                        <strong>💡 Email Tip:</strong> Help readers discover music • Support artists • Build taste authority
+                        <strong>💡 Growth:</strong> Following > followers. Engage with 10-20 peers daily. Relationships = opportunities.
                     </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Release Announcement + Exclusive</div>
-                    <div class="example-format">Email • 400-500 words</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Announcement • Track story • Exclusive content • All platform links
-                    </div>
-                    <div class="example-caption">"🔥 NEW MUSIC: [Track] Out Today + Making Story"</div>
-                    <div class="example-tips">
-                        <strong>💡 Email Tip:</strong> Email subscribers get exclusive first access • Build VIP loyalty
-                    </div>
-                </div>
-
-                <div class="example-card">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Monthly Newsletter Recap</div>
-                    <div class="example-format">Email • 700-1000 words</div>
-                    <div class="example-content">
-                        <strong>Sections:</strong> Month recap • Releases • Gigs • Milestones • Listener spotlight • Upcoming
-                    </div>
-                    <div class="example-caption">"[Month] Recap: Productions, Gigs & Lessons"</div>
-                    <div class="example-tips">
-                        <strong>💡 Email Tip:</strong> Feature one super-fan • Give them recognition • Build community
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephousemusic</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephousemusic')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- BANDCAMP CONTENT -->
-        <div class="content-section" id="bandcamp">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="release">Release Strategy</button>
-                <button class="category-tab" data-category="community">Community & Blog</button>
+        <div id="bandcamp" class="content-section" data-platform="bandcamp">
+            <div class="platform-info">
+                <strong>🎵 Bandcamp Strategy:</strong> Use genre tags + support messaging • Direct fan relationship • Artist-focused discovery • Quality > quantity
             </div>
 
-            <div class="examples-grid">
-                <div class="example-card active" data-category="release">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="releases">Releases</button>
+                <button class="category-tab" data-category="community">Community</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- RELEASES -->
+                <div class="example-card active" data-category="releases">
                     <div class="example-number">1</div>
-                    <div class="example-title">Single Track Release</div>
-                    <div class="example-format">Audio • Standalone</div>
+                    <div class="example-title">Album Release</div>
+                    <div class="example-format">Bandcamp Page</div>
                     <div class="example-content">
-                        <strong>Pricing:</strong> Pay-what-you-want (min €0.50) or €1.50-2.50<br>
-                        <strong>Description:</strong> Story + BPM/Key + Production process + Credits
+                        <strong>Elements:</strong><br>
+                        • High-quality cover art • Full tracklist • Song descriptions • Production credits • Download options • Pricing strategy
                     </div>
-                    <div class="example-caption">"[Track Name] - Single"</div>
+                    <div class="example-caption">\"Full deep house album - Direct from artist, no algorithm middleman\"</div>
                     <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Exclusive version cheaper than streaming • Direct fan support
+                        <strong>💡 Direct Support:</strong> Bandcamp Friday = maximize revenue. Fans appreciate supporting directly.
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#housemusic</span>
+                            <span class="hashtag">#originalmusic</span>
+                            <span class="hashtag">#independentmusician</span>
+                            <span class="hashtag">#bandcampfriday</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #housemusic #originalmusic #independentmusician #bandcampfriday')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="release">
+                <div class="example-card" data-category="releases">
                     <div class="example-number">2</div>
-                    <div class="example-title">EP/Album Release</div>
-                    <div class="example-format">Audio • Full project (3-6 tracks)</div>
+                    <div class="example-title">Limited Edition Release</div>
+                    <div class="example-format">Special Release</div>
                     <div class="example-content">
-                        <strong>Pricing:</strong> €5-8 EP / €10-15 album<br>
-                        <strong>Includes:</strong> Behind-scenes photos + Studio notes + Bonus content
+                        <strong>Strategy:</strong><br>
+                        • Limited copies • Collector's items • Unique artwork • Personal touch (signed, included content) • Story behind
                     </div>
-                    <div class="example-caption">"[Project Name] - EP"</div>
+                    <div class="example-caption">\"Limited edition vinyl-only deep house release - Handpicked by artist\"</div>
                     <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Release party / listening session • 4-week campaign
+                        <strong>💡 Scarcity:</strong> Limited releases create urgency. Superfans love exclusivity!
+                    </div>
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#limitededition</span>
+                            <span class="hashtag">#collectoritem</span>
+                            <span class="hashtag">#supportindependent</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #limitededition #collectoritem #supportindependent')">Copy All</button>
                     </div>
                 </div>
 
-                <div class="example-card" data-category="release">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Remix Package / B-Sides</div>
-                    <div class="example-format">Audio • Collection</div>
-                    <div class="example-content">
-                        <strong>Includes:</strong> Original + 2-3 remixes + Extended + Instrumental<br>
-                        <strong>Price:</strong> €3-5
-                    </div>
-                    <div class="example-caption">"[Track] - Remix Package"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> DJs seeking alternate versions • Producer community
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="release">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Limited Edition Collector's Item</div>
-                    <div class="example-format">Audio • Limited copies</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> Only 100 copies • Special artwork • Higher price • Bonus content • Time limit
-                    </div>
-                    <div class="example-caption">"[Project] - Limited Edition (100 copies)"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Scarcity marketing • Collector appeal • Premium pricing
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="release">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Merch Bundle</div>
-                    <div class="example-format">Audio + Physical</div>
-                    <div class="example-content">
-                        <strong>Examples:</strong> Track + T-shirt • Track + Hoodie • Track + Sticker pack<br>
-                        <strong>Price:</strong> €15-40
-                    </div>
-                    <div class="example-caption">"[Track] + T-Shirt Bundle"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Direct fan support • Higher revenue per transaction
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="community">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Behind-the-Scenes Update</div>
-                    <div class="example-format">Blog Post • Monthly</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Production update • Tour announcement • Personal update • Upcoming
-                    </div>
-                    <div class="example-caption">"Working on New Tracks - Monthly Update"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Keep community engaged • Show progress
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="community">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Producer/Artist Spotlight</div>
-                    <div class="example-format">Blog Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Interview • Why you love their work • Music analysis • Links to support
-                    </div>
-                    <div class="example-caption">"Artist Spotlight: [Producer Name]"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Support peers • Build collaborative community
-                    </div>
-                </div>
-
+                <!-- COMMUNITY -->
                 <div class="example-card" data-category="community">
                     <div class="example-number">3</div>
-                    <div class="example-title">Gear/Setup Article</div>
-                    <div class="example-format">Blog Post</div>
+                    <div class="example-title">Merch + Music Bundle</div>
+                    <div class="example-format">Bundle offer</div>
                     <div class="example-content">
-                        <strong>Content:</strong> Studio guide • Equipment recommendations • How-to • Budget alternatives
+                        <strong>Bundle Ideas:</strong><br>
+                        • Album + t-shirt • Album + stickers • Album + poster • Album + exclusive track
                     </div>
-                    <div class="example-caption">"Building Your First Home Studio - Complete Guide"</div>
+                    <div class="example-caption">\"New bundle: Album + merch collection - Limited quantities\"</div>
                     <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Help readers set up • Potential affiliate commissions
+                        <strong>💡 Revenue:</strong> Bundling increases average order value significantly. Fans want to support multiple ways!
                     </div>
-                </div>
-
-                <div class="example-card" data-category="community">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Production Process Writeup</div>
-                    <div class="example-format">Blog Post • 1000+ words</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> How I made [track] • Step-by-step • Story • Technical details • Resources
-                    </div>
-                    <div class="example-caption">"How I Made [Track] - Complete Breakdown"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Educational • Shows transparency • Builds trust
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="community">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Monthly Recap Newsletter</div>
-                    <div class="example-format">Blog Post</div>
-                    <div class="example-content">
-                        <strong>Content:</strong> Month recap • Releases • Gigs • Milestones • Thank you • What's next
-                    </div>
-                    <div class="example-caption">"[Month] Recap - Releases, Gigs & Wins"</div>
-                    <div class="example-tips">
-                        <strong>💡 Bandcamp Tip:</strong> Keep page active • Announce specials
+                    <div class="hashtag-section">
+                        <div class="hashtag-title">📌 Suggested Hashtags</div>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#deephouse</span>
+                            <span class="hashtag">#merch</span>
+                            <span class="hashtag">#supportindependent</span>
+                            <span class="hashtag">#bandcamp</span>
+                        </div>
+                        <button class="hashtag-copy-btn" onclick="copyHashtags('#deephouse #merch #supportindependent #bandcamp')">Copy All</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- DISCORD CONTENT -->
-        <div class="content-section" id="discord">
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="channel">Channel Content</button>
-                <button class="category-tab" data-category="interaction">Member Interaction</button>
-            </div>
+        <!-- GUIDE SECTION -->
+        <div class="guide-section">
+            <h3>📊 2025 Hashtag Strategy Overview for DOERD</h3>
 
-            <div class="examples-grid">
-                <div class="example-card active" data-category="channel">
-                    <div class="example-number">1</div>
-                    <div class="example-title">#announcements Channel</div>
-                    <div class="example-format">Official Updates Only</div>
-                    <div class="example-content">
-                        <strong>Examples:</strong><br>
-                        "🎵 NEW RELEASE: [Track] out now!"<br>
-                        "📅 GIGS: [Venue] [Date]"<br>
-                        "🎊 MILESTONE: 50K followers!"
-                    </div>
-                    <div class="example-caption">"Pin important announcements • Use emojis"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Frequency: 2-4 per week • Reaction emojis for engagement
-                    </div>
+            <div class="guide-stats">
+                <div class="stat-card">
+                    <div class="stat-number">8-10</div>
+                    <div class="stat-label">Instagram Hashtags Per Post</div>
                 </div>
-
-                <div class="example-card" data-category="channel">
-                    <div class="example-number">2</div>
-                    <div class="example-title">#production-tips Channel</div>
-                    <div class="example-format">Educational • 1x per week</div>
-                    <div class="example-content">
-                        <strong>Examples:</strong><br>
-                        "📚 Weekly Tip: Sidechain Compression"<br>
-                        "💡 Sound Design Challenge"<br>
-                        "🎹 Harmony Tip: Chord Progressions"
-                    </div>
-                    <div class="example-caption">"Ask follow-up questions • Respond to members' attempts"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Engagement-focused • Build expertise authority
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">5 Max</div>
+                    <div class="stat-label">TikTok Hashtags (Platform Limit)</div>
                 </div>
-
-                <div class="example-card" data-category="channel">
-                    <div class="example-number">3</div>
-                    <div class="example-title">#music-releases Channel</div>
-                    <div class="example-format">Music Discovery • Weekly</div>
-                    <div class="example-content">
-                        <strong>Format:</strong><br>
-                        "🎵 NEW MUSIC WEDNESDAY"<br>
-                        "Track: [Name] | Artist: [Name]"<br>
-                        "Why I love it: [1-2 sentences]"<br>
-                        "[Spotify link]"
-                    </div>
-                    <div class="example-caption">"Support artists • Help members discover music"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Recommendation content • Drives discovery engagement
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">8-12</div>
+                    <div class="stat-label">YouTube Description Hashtags</div>
                 </div>
-
-                <div class="example-card" data-category="channel">
-                    <div class="example-number">4</div>
-                    <div class="example-title">#live-listening-party Channel</div>
-                    <div class="example-format">Scheduled Voice Chat • Monthly</div>
-                    <div class="example-content">
-                        <strong>Format:</strong> "🎧 Join us [Day/Time] for listening party!"<br>
-                        "Listen to: [Artist/Album]"<br>
-                        "Theme: [Topic]"<br>
-                        "Voice chat link in #voice"
-                    </div>
-                    <div class="example-caption">"1-2 hour event • Real-time interaction"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Community building • Real-time connection
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">5-8</div>
+                    <div class="stat-label">Facebook Hashtags in Comments</div>
                 </div>
-
-                <div class="example-card" data-category="channel">
-                    <div class="example-number">5</div>
-                    <div class="example-title">#gig-countdown Channel</div>
-                    <div class="example-format">Event Promotion • Timeline</div>
-                    <div class="example-content">
-                        <strong>3 weeks before:</strong> "Upcoming gig!"<br>
-                        <strong>1 week:</strong> "One week until"<br>
-                        <strong>1 day:</strong> "TOMORROW!"<br>
-                        <strong>After:</strong> "Thank you all!"
-                    </div>
-                    <div class="example-caption">"Build community excitement • Meet followers"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Event engagement • Build in-person community
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">6-8</div>
+                    <div class="stat-label">SoundCloud Tags</div>
                 </div>
-
-                <div class="example-card" data-category="interaction">
-                    <div class="example-number">1</div>
-                    <div class="example-title">Weekly Q&A Session</div>
-                    <div class="example-format">Text or Voice Chat</div>
-                    <div class="example-content">
-                        <strong>Topics:</strong> "Ask me anything about production" • "First DJ gig tips" • "Building career"
-                    </div>
-                    <div class="example-caption">"Announce topic + time • Respond to each question"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Weekly or bi-weekly • Pin best Q&As
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="interaction">
-                    <div class="example-number">2</div>
-                    <div class="example-title">Production Showcase</div>
-                    <div class="example-format">Channel: #production-showcase</div>
-                    <div class="example-content">
-                        <strong>Workflow:</strong> Members post tracks + "Feedback appreciated!"<br>
-                        You listen + provide specific feedback<br>
-                        Community responds constructively<br>
-                        Highlight best submissions
-                    </div>
-                    <div class="example-caption">"Safe space for feedback • Monthly spotlight"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Community support • Growth-focused
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="interaction">
-                    <div class="example-number">3</div>
-                    <div class="example-title">Collaboration Thread</div>
-                    <div class="example-format">Channel: #collabs</div>
-                    <div class="example-content">
-                        <strong>Examples:</strong><br>
-                        "Looking for vocalist for track"<br>
-                        "Need remix help?"<br>
-                        "Producer seeking B2B partner"
-                    </div>
-                    <div class="example-caption">"Facilitate connections • Celebrate collaborations"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Create friendships • Encourage partnerships
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="interaction">
-                    <div class="example-number">4</div>
-                    <div class="example-title">Member Spotlight (Monthly)</div>
-                    <div class="example-format">Feature Format</div>
-                    <div class="example-content">
-                        <strong>Format:</strong><br>
-                        "📍 Member Spotlight: [Name]"<br>
-                        "From: [Location]"<br>
-                        "Making: [Genre]"<br>
-                        "Their contribution: [specific]"<br>
-                        "Check out: [Music links]"
-                    </div>
-                    <div class="example-caption">"Make members feel seen • Celebrate community"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Monthly recognition • Builds loyalty
-                    </div>
-                </div>
-
-                <div class="example-card" data-category="interaction">
-                    <div class="example-number">5</div>
-                    <div class="example-title">Introduce Yourself Thread</div>
-                    <div class="example-format">Channel: #introductions</div>
-                    <div class="example-content">
-                        <strong>New members post:</strong><br>
-                        • Name/Handle<br>
-                        • Where from<br>
-                        • Music interests<br>
-                        • Goals<br>
-                        • Why joined
-                    </div>
-                    <div class="example-caption">"Welcome message from you • Community replies"</div>
-                    <div class="example-tips">
-                        <strong>💡 Discord Tip:</strong> Community foundation • Make everyone feel welcome
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">2-3 Max</div>
+                    <div class="stat-label">Twitter/X Hashtags</div>
                 </div>
             </div>
+
+            <h4 style="margin-top: 24px; margin-bottom: 16px;">🎯 Key Hashtags to Build Your Brand:</h4>
+            <div style="margin-bottom: 24px;">
+                <strong>Primary Brand Tags:</strong>
+                <div class="hashtag-list" style="margin-top: 8px;">
+                    <span class="hashtag">#DOERD</span>
+                    <span class="hashtag">#emotionaldeephouse</span>
+                    <span class="hashtag">#substanceovertrends</span>
+                    <span class="hashtag">#berlindeephouse</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <strong>Core Genre Tags:</strong>
+                <div class="hashtag-list" style="margin-top: 8px;">
+                    <span class="hashtag">#deephouse</span>
+                    <span class="hashtag">#deephousemusic</span>
+                    <span class="hashtag">#housemusic</span>
+                    <span class="hashtag">#electronicmusic</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <strong>Niche High-Value Tags (Build Superfan Community):</strong>
+                <div class="hashtag-list" style="margin-top: 8px;">
+                    <span class="hashtag">#undergroundhouse</span>
+                    <span class="hashtag">#minimaldeephouse</span>
+                    <span class="hashtag">#melodichouse</span>
+                    <span class="hashtag">#deephousecommunity</span>
+                    <span class="hashtag">#authenticmusic</span>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 16px;">💡 2025 Hashtag Best Practices:</h4>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Quality over quantity:</strong> Niche hashtags with engaged communities beat high-volume tags 5:1</li>
+                <li><strong>Platform-specific:</strong> Each platform rewards different hashtag strategies. No one-size-fits-all approach</li>
+                <li><strong>First comment placement (Instagram):</strong> Hashtags in comments get 23% higher reach than caption</li>
+                <li><strong>#FYP critical (TikTok):</strong> Using #fyp and #foryoupage shows 43% reach increase</li>
+                <li><strong>Authenticity signals matter:</strong> #wipmusic, #feedbackwelcome build trust on discovery platforms</li>
+                <li><strong>Berlin geographic specificity:</strong> Location tags (#berlinmusic, #berlinartist) highly trusted by algorithms</li>
+                <li><strong>Test & measure monthly:</strong> Which hashtags drive highest-quality followers? Track and optimize</li>
+                <li><strong>Build owned hashtags:</strong> Your branded hashtags (#DOERD, #substanceovertrends) build loyal community</li>
+            </ul>
         </div>
 
         <!-- FOOTER -->
         <div class="footer">
-            <p>🎵 DOERD Social Media Content Examples Hub | Complete Artist Development Plan Resource</p>
-            <p style="margin-top: 15px; font-size: 12px;">Perfect for Monday 30-minute content planning sessions • Update weekly • Scale over time</p>
+            <p>🎵 DOERD Social Media Content Examples Hub + 2025 Hashtag Research</p>
+            <p>Perfect for Monday 30-minute content planning sessions • Update weekly • Scale over time</p>
+            <p>Last updated: December 2025 • Data Source: 2025 Hashtag Performance Research</p>
         </div>
     </div>
 
     <script>
+        // Hashtag data by platform and category
+        const hashtagData = {
+            "instagram": {
+                "engagement": "#deephouse #housemusic #newmusic #independentmusician #deephousemusic #berlinmusic #doerd #substanceovertrends",
+                "production": "#deephouse #deephousevibes #musicproduction #beatmaker #producerlife #sounddesign #studiodaily",
+                "release": "#newmusic #deephouse #deephousemusic #release #independentmusician #musicrelease #supportindependent",
+                "behind-scenes": "#deephouseproducer #studiodaily #creativealgorithm #artistlife #musicianlife #berlinmusic",
+                "personal": "#emotionalmusic #artistjourney #authenticart #musicwithmeaning #substanceovertrends"
+            },
+            "tiktok": {
+                "viral": "#deephouse #musicproduction #fyp #berlinmusic #doerd",
+                "production": "#musicproduction #beatmaker #deephouse #foryoupage #creativealgorithm",
+                "performance": "#djlife #deephouse #livemusic #fyp #dancefloor",
+                "behind-scenes": "#deephouse #studiodaily #musicproduction #creativeflow #emotionaldeephouse"
+            },
+            "youtube": {
+                "performances": "#deephouse #djset #housemusicmix #liveperformance #berlinmusic #doerd #clubmusic",
+                "tutorials": "#musicproduction #deephousetutorial #productiontutorial #ableton #sounddesign #doerd",
+                "vlogs": "#dayinthelife #musicproduction #deephouse #studiodaily #berlinartist #doerd",
+                "interviews": "#deephouse #interview #musicproducer #artisttalk #berlinmusic #doerd"
+            },
+            "facebook": {
+                "story": "#deephouse #musiccommunity #artistjourney #authenticmusic #musicwithmeaning",
+                "event": "#livemusic #deephouse #berlinmusic #musiccommunity #supportlocal",
+                "release": "#newmusic #deephousemusic #independentmusician #supportindependent #musicrelease",
+                "discussion": "#musictalks #deephouseproduction #producersofFacebook #musicindustry #artistlife"
+            },
+            "soundcloud": {
+                "original": "#deephouse #originalmusic #independentartist #sounddesign",
+                "wip": "#wipmusic #feedbackwelcome #deephouse #sounddesign",
+                "remix": "#deephouse #remix #independentmusician #deephouselove",
+                "djset": "#deephouse #djset #housemusicmix #liverecording"
+            },
+            "twitter": {
+                "release": "#deephousemusic #newmusic #supportindependent",
+                "production": "#musicproduction #deephouse",
+                "gig": "#deephouse #djlife #livemusic",
+                "industry": "#deephousemusic #musicindustry #independentartist",
+                "collab": "#musiccollaboration #deephouse #supportindependent"
+            },
+            "bandcamp": {
+                "original": "#deephouse #originalmusic #independentartist",
+                "ep": "#deephouse #housemusic #originalmusic",
+                "limited": "#deephouse #limitededition #collectoritem",
+                "merch": "#deephouse #merch #supportindependent"
+            },
+            "branded": {
+                "primary": "#DOERD",
+                "signature": "#MoodsCompilation",
+                "geographic": "#BerlinDeepHouse",
+                "philosophy": "#SubstanceOverTrends",
+                "unique": "#EmotionalDeepHouse",
+                "production": "#DOERDProduction",
+                "live": "#DOERDLive"
+            }
+        };
+
         // Platform switching
         document.querySelectorAll('.platform-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active from all buttons
+                // Remove active from all buttons and sections
                 document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
 
@@ -2100,7 +1536,6 @@
                         else tab.classList.remove('active');
                     });
 
-                    // Show first category cards
                     const firstCategory = categoryTabs[0].getAttribute('data-category');
                     updateCategoryCards(firstCategory);
                 }
@@ -2122,7 +1557,8 @@
         });
 
         function updateCategoryCards(category) {
-            document.querySelectorAll('.example-card').forEach(card => {
+            const cards = document.querySelectorAll('.example-card');
+            cards.forEach(card => {
                 if (card.getAttribute('data-category') === category) {
                     card.classList.add('active');
                 } else {
@@ -2131,12 +1567,21 @@
             });
         }
 
-        // Initialize first category
-        const firstTab = document.querySelector('.category-tab');
-        if (firstTab) {
-            const firstCategory = firstTab.getAttribute('data-category');
-            updateCategoryCards(firstCategory);
+        // Copy hashtags to clipboard
+        function copyHashtags(hashtags) {
+            navigator.clipboard.writeText(hashtags).then(() => {
+                // Visual feedback
+                event.target.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    event.target.textContent = 'Copy All';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
         }
+
+        // Initialize first platform
+        document.querySelector('.platform-btn').click();
     </script>
 </body>
 </html>
