@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOERD Monday Content Planning Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #32a8c6 0%, #218697 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .header .date-display {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title .icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input[type="date"],
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="date"]:focus,
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #32a8c6;
+            box-shadow: 0 0 0 3px rgba(50, 168, 198, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .ideas-container {
+            display: grid;
+            gap: 15px;
+        }
+
+        .idea-input {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .idea-input input {
+            flex: 1;
+        }
+
+        .idea-number {
+            font-weight: 600;
+            color: #32a8c6;
+            margin-top: 12px;
+            min-width: 30px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #f3f4f6;
+            border-color: #32a8c6;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #32a8c6;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .priority-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .priority-button {
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .priority-button:hover {
+            border-color: #32a8c6;
+            color: #32a8c6;
+        }
+
+        .priority-button.selected {
+            background: #32a8c6;
+            color: white;
+            border-color: #32a8c6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #32a8c6 0%, #218697 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(50, 168, 198, 0.3);
+        }
+
+        .btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #047857;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #1e40af;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .form-content {
+                padding: 25px 20px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .priority-select {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .field-counter {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 DOERD Monday Content Planning</h1>
+            <p>Weekly Content Brainstorm & Strategy Session</p>
+            <div class="date-display" id="currentDate"></div>
+        </div>
+
+        <div class="form-content">
+            <div class="info-box">
+                <strong>📋 How This Works:</strong>
+                Fill out this form every Monday to brainstorm your week's content ideas. You can add 5-7 content ideas, choose 3-4 to create, and set platform priorities for the week.
+            </div>
+
+            <form id="planningForm">
+
+                <!-- WEEK OVERVIEW SECTION -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">📅</span>
+                        Week Overview
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weekDate">Planning Date <span class="required">*</span></label>
+                        <input type="date" id="weekDate" name="weekDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="upcomingReleases">Upcoming Releases / Milestones This Week <span class="required">*</span></label>
+                        <textarea id="upcomingReleases" name="upcomingReleases" placeholder="e.g., New Spotify playlist push, KICKR EP anniversary, collaboration announcement..." required></textarea>
+                        <div class="field-counter"><span id="upcomingCount">0</span>/500 characters</div>
+                    </div>
+                </div>
+
+                <!-- CONTENT IDEAS SECTION -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">💡</span>
+                        Content Ideas (5-7 Brainstorm)
+                    </div>
+
+                    <div class="info-box" style="background: #f0fdf4; border-color: #86efac; color: #166534;">
+                        <strong>💭 Brainstorm Ideas:</strong>
+                        Think of 5-7 potential content pieces you could create this week. Be creative and include various categories.
+                    </div>
+
+                    <div class="ideas-container" id="ideasContainer">
+                        <div class="idea-input">
+                            <div class="idea-number">1.</div>
+                            <input type="text" name="idea1" placeholder="e.g., Studio setup tour video, DJ set from [Venue], Behind-the-scenes of new track..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">2.</div>
+                            <input type="text" name="idea2" placeholder="e.g., Production breakdown, TikTok trending audio, Fan shoutout post..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">3.</div>
+                            <input type="text" name="idea3" placeholder="e.g., Gig announcement, Music theory tip, Day-in-the-life vlog..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">4.</div>
+                            <input type="text" name="idea4" placeholder="e.g., Collaboration clip, Equipment review, Listening party..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">5.</div>
+                            <input type="text" name="idea5" placeholder="e.g., Live stream session, Throwback post, Educational content..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">6.</div>
+                            <input type="text" name="idea6" placeholder="(optional) Alternative idea..." maxlength="150">
+                        </div>
+                        <div class="idea-input">
+                            <div class="idea-number">7.</div>
+                            <input type="text" name="idea7" placeholder="(optional) Backup idea..." maxlength="150">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT SELECTION SECTION -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">✅</span>
+                        Choose 3-4 to Create This Week
+                    </div>
+
+                    <div class="info-box" style="background: #fef3c7; border-color: #fcd34d; color: #92400e;">
+                        <strong>🎯 Select Priority:</strong>
+                        Choose which 3-4 of the above ideas you'll actually create this week. Be realistic about your time.
+                    </div>
+
+                    <div class="form-group">
+                        <label>Which content ideas will you prioritize? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select1" name="selectedIdea" value="Idea 1">
+                                <label for="select1">Idea #1</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select2" name="selectedIdea" value="Idea 2">
+                                <label for="select2">Idea #2</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select3" name="selectedIdea" value="Idea 3">
+                                <label for="select3">Idea #3</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select4" name="selectedIdea" value="Idea 4">
+                                <label for="select4">Idea #4</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select5" name="selectedIdea" value="Idea 5">
+                                <label for="select5">Idea #5</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select6" name="selectedIdea" value="Idea 6">
+                                <label for="select6">Idea #6</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="select7" name="selectedIdea" value="Idea 7">
+                                <label for="select7">Idea #7</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PLATFORM PRIORITIES SECTION -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">🎯</span>
+                        Platform Priorities This Week
+                    </div>
+
+                    <div class="info-box" style="background: #ede9fe; border-color: #c4b5fd; color: #6d28d9;">
+                        <strong>📱 Focus Platforms:</strong>
+                        Which platforms should get most attention this week? Select the top 2-3.
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Platform Priorities (Choose 2-3) <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platSpotify" name="platform" value="Spotify">
+                                <label for="platSpotify">🎵 Spotify (Discovery & Streaming)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platInstagram" name="platform" value="Instagram">
+                                <label for="platInstagram">📸 Instagram (Visual Branding)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platTikTok" name="platform" value="TikTok">
+                                <label for="platTikTok">🎬 TikTok (Viral Discovery)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platYouTube" name="platform" value="YouTube">
+                                <label for="platYouTube">▶️ YouTube (Long-Form)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platSoundCloud" name="platform" value="SoundCloud">
+                                <label for="platSoundCloud">☁️ SoundCloud (Underground)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platTwitter" name="platform" value="Twitter/X">
+                                <label for="platTwitter">𝕏 Twitter/X (Engagement)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platEmail" name="platform" value="Email">
+                                <label for="platEmail">✉️ Email (Direct)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADDITIONAL NOTES SECTION -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="icon">📝</span>
+                        Additional Notes & Context
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Week Notes (optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any challenges, special circumstances, or important context for this week? e.g., Busy with gigs, working on new release, festival prep..."></textarea>
+                        <div class="field-counter"><span id="notesCount">0</span>/500 characters</div>
+                    </div>
+                </div>
+
+                <!-- BUTTONS SECTION -->
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">💾 Save & Download Results</button>
+                    <button type="reset" class="btn-reset">🔄 Clear Form</button>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    ✅ Your planning session has been saved! Check your downloads.
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
+        // Set default date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('weekDate').value = today;
+
+        // Character counters
+        document.getElementById('upcomingReleases').addEventListener('input', function() {
+            document.getElementById('upcomingCount').textContent = this.value.length;
+        });
+
+        document.getElementById('notes').addEventListener('input', function() {
+            document.getElementById('notesCount').textContent = this.value.length;
+        });
+
+        // Form submission
+        document.getElementById('planningForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Collect all form data
+            const formData = new FormData(this);
+            const data = {};
+
+            // Get all text inputs
+            data.weekDate = document.getElementById('weekDate').value;
+            data.upcomingReleases = document.getElementById('upcomingReleases').value;
+            
+            // Get all ideas
+            for (let i = 1; i <= 7; i++) {
+                const idea = document.querySelector(`input[name="idea${i}"]`).value;
+                if (idea) data[`idea${i}`] = idea;
+            }
+
+            // Get selected ideas to create
+            const selectedIdeas = Array.from(document.querySelectorAll('input[name="selectedIdea"]:checked'))
+                .map(el => el.value);
+            data.selectedIdeas = selectedIdeas.join(', ') || 'None selected';
+
+            // Get platform priorities
+            const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked'))
+                .map(el => el.value);
+            data.platforms = platforms.join(', ') || 'None selected';
+
+            // Get notes
+            data.notes = document.getElementById('notes').value;
+
+            // Create CSV content
+            let csvContent = "DOERD MONDAY CONTENT PLANNING SESSION\n";
+            csvContent += "=" .repeat(50) + "\n\n";
+            
+            csvContent += `Planning Date: ${data.weekDate}\n`;
+            csvContent += `Current Date: ${new Date().toLocaleDateString()}\n\n`;
+            
+            csvContent += "WEEK OVERVIEW\n";
+            csvContent += "-".repeat(50) + "\n";
+            csvContent += `Upcoming Releases/Milestones:\n${data.upcomingReleases}\n\n`;
+            
+            csvContent += "BRAINSTORMED CONTENT IDEAS (5-7)\n";
+            csvContent += "-".repeat(50) + "\n";
+            for (let i = 1; i <= 7; i++) {
+                if (data[`idea${i}`]) {
+                    csvContent += `${i}. ${data[`idea${i}`]}\n`;
+                }
+            }
+            
+            csvContent += "\nCHOSEN FOR THIS WEEK (3-4 PRIORITIES)\n";
+            csvContent += "-".repeat(50) + "\n";
+            csvContent += `${data.selectedIdeas}\n\n`;
+            
+            csvContent += "PLATFORM PRIORITIES (2-3 FOCUS)\n";
+            csvContent += "-".repeat(50) + "\n";
+            csvContent += `${data.platforms}\n\n`;
+            
+            if (data.notes) {
+                csvContent += "ADDITIONAL NOTES\n";
+                csvContent += "-".repeat(50) + "\n";
+                csvContent += `${data.notes}\n\n`;
+            }
+            
+            csvContent += "=" .repeat(50) + "\n";
+            csvContent += "Generated by DOERD Content Planning Form\n";
+
+            // Download file
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csvContent));
+            element.setAttribute('download', `DOERD_Planning_${data.weekDate}.txt`);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 4000);
+        });
+
+        // Reset form
+        document.querySelector('.btn-reset').addEventListener('click', function() {
+            setTimeout(() => {
+                document.getElementById('weekDate').value = today;
+            }, 100);
+        });
+    </script>
+</body>
+</html>
