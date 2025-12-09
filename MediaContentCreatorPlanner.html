@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOERD Content Planner Ultimate</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome für Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .doerd-gradient {
+            background: linear-gradient(135deg, #32a8c6 0%, #218697 100%);
+        }
+
+        .card-enter {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar Styling */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- Navbar / Header -->
+    <div class="doerd-gradient text-white py-8 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">DOERD <span class="font-light opacity-90">Content Planner</span></h1>
+                    <p class="mt-2 text-cyan-50 opacity-90 text-sm md:text-base">Der All-in-One Generator für Social Media, Releases & Community.</p>
+                </div>
+                <div class="mt-4 md:mt-0 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+                    <span class="text-xs font-bold uppercase tracking-wider opacity-75">Artist Focus</span>
+                    <div class="font-semibold">Deep House • Emotional • Authentic</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4 -mt-6">
+        
+        <!-- Controls Section -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Platform Select -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">1. Wähle eine Plattform</label>
+                    <div class="relative">
+                        <select id="platformSelect" class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-lg border-2 bg-gray-50 transition-colors hover:bg-white hover:border-cyan-300">
+                            <!-- Populated by JS -->
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Type Select -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">2. Wähle den Content-Typ</label>
+                    <div class="relative">
+                        <select id="contentTypeSelect" disabled class="block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-lg border-2 bg-gray-100 text-gray-400 disabled:cursor-not-allowed transition-colors">
+                            <option>Zuerst Plattform wählen...</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-300">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-100 text-cyan-600 mb-4">
+                <i class="fas fa-lightbulb text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900">Bereit für Ideen?</h3>
+            <p class="mt-1 text-gray-500">Wähle oben eine Plattform und Kategorie aus, um passende Beispiele zu laden.</p>
+        </div>
+
+        <!-- Content Display Area -->
+        <div id="contentArea" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8 card-enter">
+            
+            <!-- LEFT COLUMN: The Content Example -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Main Post Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="border-b border-gray-100 bg-gray-50/50 p-4 flex justify-between items-center">
+                        <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <i class="far fa-file-alt text-cyan-600"></i> Beispiel-Post
+                        </h2>
+                        <span id="formatBadge" class="bg-cyan-100 text-cyan-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-cyan-200">Format</span>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 id="exampleTitle" class="text-xl font-bold text-gray-900 mb-4"></h3>
+                        
+                        <!-- The "Post" Content Box -->
+                        <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 mb-6 relative group">
+                            <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="copyToClipboard('exampleContent')" class="text-xs bg-white border border-gray-300 hover:bg-gray-100 text-gray-600 px-2 py-1 rounded shadow-sm">
+                                    <i class="far fa-copy"></i> Kopieren
+                                </button>
+                            </div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Inhalt / Caption</h4>
+                            <div id="exampleContent" class="text-gray-700 whitespace-pre-wrap font-medium leading-relaxed font-mono text-sm"></div>
+                        </div>
+
+                        <!-- Why It Works / Engagement -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <h4 class="text-blue-800 font-bold text-sm mb-1 flex items-center gap-2">
+                                    <i class="fas fa-check-circle"></i> Warum es funktioniert
+                                </h4>
+                                <p id="whyItWorks" class="text-blue-900/80 text-sm"></p>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                                <h4 class="text-amber-800 font-bold text-sm mb-1 flex items-center gap-2">
+                                    <i class="fas fa-comments"></i> Engagement Hook
+                                </h4>
+                                <p id="engagementHook" class="text-amber-900/80 text-sm"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategy Info -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <i class="fas fa-chess-knight text-purple-500"></i> Plattform Strategie
+                    </h3>
+                    <p id="platformStrategy" class="text-gray-600 text-sm leading-relaxed"></p>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Hashtags & Quick Stats -->
+            <div class="space-y-6">
+                
+                <!-- Hashtag Card -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
+                        <h3 class="font-bold flex items-center gap-2">
+                            <i class="fas fa-hashtag"></i> Top Hashtags
+                        </h3>
+                        <button onclick="copyToClipboard('hashtagList')" class="text-xs bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white px-3 py-1 rounded transition-colors">
+                            Alle kopieren
+                        </button>
+                    </div>
+                    <div class="p-4 bg-gray-50 border-b border-gray-200">
+                        <p id="hashtagStrategy" class="text-xs text-gray-500 italic"></p>
+                    </div>
+                    <div class="p-4">
+                        <div id="hashtagList" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+
+                <!-- Tips / Notes -->
+                <div class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+                    <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i> Pro-Tipp
+                    </h3>
+                    <p id="proTip" class="text-cyan-50 text-sm leading-relaxed"></p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3">
+        <i class="fas fa-check text-green-400"></i>
+        <span>In die Zwischenablage kopiert!</span>
+    </div>
+
+    <script>
+        // --- DATA OBJECT ---
+        const platformData = {
+            instagram: {
+                name: "Instagram",
+                icon: "fa-instagram",
+                strategy: "Visuelles Branding. Nutzen Sie 5-8 Hashtags pro Post. Mischen Sie High-Volume Tags (#Music) mit Nischen-Tags (#BerlinProducer). Authentizität schlägt Perfektion.",
+                hashtagStrategy: "5-8 Tags mischen: Groß (#DJ) & Nische (#BerlinProducer)",
+                hashtags: [
+                    "#DeepHouseMusic", "#DeepHouseVibes", "#TechHouse", "#BerlinProducer", 
+                    "#ElectronicMusicProducer", "#MelodicHouse", "#MusicProduction", 
+                    "#EmotionalHouse", "#DJ", "#SoulfulHouse"
+                ],
+                content: [
+                    {
+                        category: "Studio & Production",
+                        title: "\"How I Made\" Series",
+                        format: "Reel (60 sek)",
+                        content: "Caption: Spent 3 hours creating this deep house groove from scratch. Started with a simple 808 bass line, layered in some ethereal pads, and finished with percussion that makes you move 🎹✨\n\nDM me what you'd add to this track!",
+                        why: "Zeigt Expertise und Prozess. Menschen lieben 'Behind-the-scenes'.",
+                        engagement: "Fragen Sie Follower, welches Element sie hinzufügen würden.",
+                        tip: "Verwenden Sie Trending Audio im Hintergrund, aber leise, um den eigenen Track zu featuren."
+                    },
+                    {
+                        category: "Behind-the-Scenes",
+                        title: "Day in the Life",
+                        format: "Story Series (8-10 Frames)",
+                        content: "Sequence:\n1. Morning Coffee\n2. Zoomed into DAW\n3. Sound check\n4. Mid-session struggle\n5. Final Mix reaction\n\nText Overlay: 'Feeling this vibe today 🔊'",
+                        why: "Baut eine parasoziale Beziehung auf. Zeigt Disziplin.",
+                        engagement: "Nutzen Sie Polls: 'Soll der Synth heller oder dunkler sein?'",
+                        tip: "Authentizität zuerst. Zeigen Sie auch Frustrationen, nicht nur Erfolge."
+                    },
+                    {
+                        category: "Releases",
+                        title: "Release Countdown",
+                        format: "Feed Post + Story",
+                        content: "Caption: 48 HOURS until 'Circular'. This track represents a journey of healing for me. \n\nPre-save link in bio 🔥",
+                        why: "Baut Spannung auf. Verbindet Emotion mit dem Release.",
+                        engagement: "Countdown-Sticker in der Story nutzen.",
+                        tip: "Posten Sie dies zur Prime-Time (Abends), wenn Ihre Follower online sind."
+                    }
+                ]
+            },
+            tiktok: {
+                name: "TikTok",
+                icon: "fa-tiktok",
+                strategy: "Virale Entdeckung. Nutzen Sie 3-5 Hashtags. Der Algorithmus mag Trending Audio + Nischen-Content. Rotieren Sie Hashtags wöchentlich.",
+                hashtagStrategy: "3-5 Tags max. Trending Audio nutzen.",
+                hashtags: [
+                    "#DeepHouse", "#NewMusic", "#MusicProducer", "#BeatMaker", 
+                    "#StudioVlogs", "#DJLife", "#ProducerLife", "#ElectronicMusic", 
+                    "#MusicForYou", "#IndieArtist"
+                ],
+                content: [
+                    {
+                        category: "Viral Discovery",
+                        title: "Trending Audio Transition",
+                        format: "Video (15-30s)",
+                        content: "Visual: Trending TikTok Sound (0-5s) -> Cut to YOU in Studio -> Your Track fades in.\n\nText: 'When the trending sound matches your deep house vibe 🔥'",
+                        why: "Nutzt den Algorithmus-Boost von Trending Audio um eigene Musik vorzustellen.",
+                        engagement: "Frage in Caption: 'Worth the wait?'",
+                        tip: "Der Hook muss in den ersten 2 Sekunden sitzen."
+                    },
+                    {
+                        category: "Production Challenge",
+                        title: "1-Hour Beat Challenge",
+                        format: "Speed Run Video",
+                        content: "Text: '1-HOUR BEAT CHALLENGE'\nVisual: Sped up footage of creating drums, bass, chords.\nEnd: Final track playing with your reaction.",
+                        why: "Zeigt Skill und bietet Befriedigung durch 'Completion'.",
+                        engagement: "Fragen: 'Welchen Part fandet ihr am besten?'",
+                        tip: "Nutzen Sie schnelle Schnitte, um die Dynamik hochzuhalten."
+                    },
+                    {
+                        category: "Relatable Humor",
+                        title: "Producer Struggles",
+                        format: "Meme / Reaction",
+                        content: "Text: 'When you find the perfect kick drum... but the DAW crashes.'\nVisual: Excited face -> Disappointed face.",
+                        why: "Verbindet Sie mit anderen Producern und Musikern (Community Building).",
+                        engagement: "Kommentare: 'Wem ist das schon passiert?'",
+                        tip: "Humor ist ein starker Treiber für Shares."
+                    }
+                ]
+            },
+            youtube: {
+                name: "YouTube",
+                icon: "fa-youtube",
+                strategy: "Long-Form Autorität. Hashtags in der Beschreibung dienen der Suche (SEO). Priorität: Watch-time.",
+                hashtagStrategy: "Top 3 Tags in Description. SEO Fokus.",
+                hashtags: [
+                    "#MusicProduction", "#StudioSession", "#DeepHouse", "#DJSet", 
+                    "#MusicianLife", "#ElectronicMusic", "#BeatProduction", 
+                    "#HouseMusic", "#MusicTutorial", "#ProducerTips"
+                ],
+                content: [
+                    {
+                        category: "Long-Form",
+                        title: "Full DJ Set Recording",
+                        format: "Video (45-60 min)",
+                        content: "Title: DOERD DJ Set @ [Venue] - Deep House Mix\n\nDescription: Full tracklist with timestamps. Links to all played artists. Subscribe for more sets.",
+                        why: "Hohe Autorität, zeigt Live-Skills, monetarisierbar durch Watch-Time.",
+                        engagement: "Angepinnter Kommentar mit Tracklist.",
+                        tip: "Gute Audioqualität ist wichtiger als Videoqualität, aber beides hilft."
+                    },
+                    {
+                        category: "Tutorial",
+                        title: "How I Made [Track Name]",
+                        format: "Tutorial (10-15 min)",
+                        content: "Sections: 1. Drums, 2. Chords, 3. Sound Design, 4. Mixing.\nZeigen Sie den Bildschirm und erklären Sie Entscheidungen.",
+                        why: "Zieht Suchverkehr an (Educational Content ist Evergreen).",
+                        engagement: "Fragen Sie nach dem größten Produktionsproblem der Zuschauer.",
+                        tip: "Erwähnen Sie verwendete Plugins (ggf. Affiliate Links in Beschreibung)."
+                    },
+                    {
+                        category: "Vlog",
+                        title: "Studio Tour 2025",
+                        format: "Vlog (8-12 min)",
+                        content: "Tour durch das Setup in Berlin. Erklären Sie nicht nur 'was', sondern 'warum' Sie dieses Gear nutzen.",
+                        why: "Gear-Enthusiasten lieben das. Zeigt Professionalität.",
+                        engagement: "Links zum Gear in der Beschreibung.",
+                        tip: "Seien Sie ehrlich über Budget-Optionen – das macht sympathisch."
+                    }
+                ]
+            },
+            soundcloud: {
+                name: "SoundCloud",
+                icon: "fa-soundcloud",
+                strategy: "Underground Discovery. Community-fokussiert. Nutzen Sie Tags für Nischen-Genres. Repost-Kultur ist wichtig.",
+                hashtagStrategy: "Nischen-Tags in Beschreibung & Titel.",
+                hashtags: [
+                    "#DeepHouse", "#DeepHouseMix", "#UnreleasedMusic", "#ProducerLife", 
+                    "#ElectronicMusic", "#OriginalMusic", "#BerlinElectronics", 
+                    "#IndieProducer", "#MelodicTechno", "#SoulfulHouse"
+                ],
+                content: [
+                    {
+                        category: "Unreleased / WIP",
+                        title: "Work in Progress Upload",
+                        format: "Audio Upload",
+                        content: "Title: DOERD - [Track Name] (WIP - Feedback Welcome)\nDescription: Still developing this. Curious about the direction. Too dark? Needs more energy?",
+                        why: "SC Community liebt Exklusivität und den Prozess.",
+                        engagement: "Direkte Frage nach Feedback in den Waveform-Kommentaren.",
+                        tip: "Nutzen Sie die 'Private Link' Funktion, um es erst engsten Fans zu schicken."
+                    },
+                    {
+                        category: "DJ Mix",
+                        title: "Studio Mix / Podcast",
+                        format: "Long Audio (60 min)",
+                        content: "Title: DOERD Studio Session - Deep House [Date]\nDescription: No talking, just vibes. Perfect for working/focus.",
+                        why: "Hörer nutzen SC oft für lange Hintergrundmusik.",
+                        engagement: "Tracklist in Description ist Pflicht.",
+                        tip: "Taggen Sie die gespielten Artists, damit diese reposten."
+                    }
+                ]
+            },
+            bandcamp: {
+                name: "Bandcamp",
+                icon: "fa-bandcamp",
+                strategy: "Direct-to-Fan Sales. Authentizität ist alles. Tags helfen bei der 'Explore' Funktion.",
+                hashtagStrategy: "Community & Genre Tags.",
+                hashtags: [
+                    "#DeepHouse", "#IndependentMusic", "#ElectronicMusic", "#SoulfulHouse", 
+                    "#BerlinMusic", "#MelodicHouse", "#ProducerDirect", 
+                    "#OriginalProduction", "#HouseMusicLovers", "#MusicsByIndependentArtists"
+                ],
+                content: [
+                    {
+                        category: "Releases",
+                        title: "EP Release mit Story",
+                        format: "Album Page",
+                        content: "Description: 'KICKR EP' documents 4 weeks of exploration. Each track tells a story: Awakening, Struggle, Peace. \n\nBest Quality: 24-bit WAV.",
+                        why: "Bandcamp Fans kaufen die Story und die Qualität, nicht nur das File.",
+                        engagement: "Persönliche 'Thank You' Nachricht bei Kauf einrichten.",
+                        tip: "Bieten Sie ein 'Full Discography' Bundle mit Rabatt an."
+                    },
+                    {
+                        category: "Merch",
+                        title: "Limited Edition Vinyl/Merch",
+                        format: "Merch Item",
+                        content: "Description: Only 100 copies. Numbered. Includes digital download.\nWhy Vinyl? To feel the music physically.",
+                        why: "Knappheit (Scarcity) treibt Verkäufe.",
+                        engagement: "Fotos vom physischen Produkt.",
+                        tip: "Nutzen Sie Bandcamp Fridays (keine Gebühren) für solche Drops."
+                    }
+                ]
+            },
+            resident_advisor: {
+                name: "Resident Advisor",
+                icon: "fa-calendar-alt",
+                strategy: "Industry Events. Fokus auf Event-Kategorisierung und professionellem Auftritt für Booker.",
+                hashtagStrategy: "Tags für Event-Genres & Venue.",
+                hashtags: [
+                    "#DeepHouse", "#DJ", "#TechHouse", "#BerlinClub", 
+                    "#ElectronicMusic", "#DJLife", "#HouseMusic", "#ClubMusic", 
+                    "#DanceMusic", "#Festival"
+                ],
+                content: [
+                    {
+                        category: "Gigs",
+                        title: "Gig Announcement (Detailed)",
+                        format: "Event Listing",
+                        content: "Title: DOERD @ Watergate - Deep House Session\nDesc: 3-hour journey through emotional house. Berlin underground vibes. \nLine-up: DOERD (3 hours).",
+                        why: "RA ist die Quelle der Wahrheit für Clubgänger.",
+                        engagement: "Link zum Ticketverkauf.",
+                        tip: "Halten Sie Ihr Artist Profil auf RA immer aktuell mit dem neuesten Mix."
+                    },
+                    {
+                        category: "Events",
+                        title: "Resident Night / Series",
+                        format: "Recurring Event",
+                        content: "Title: MOODS - DOERD's Emotional House Sessions\nDesc: Monthly deep dive. Each month explores a different emotion: 'Healing', 'Connection'.",
+                        why: "Branding einer eigenen Event-Reihe schafft Loyalität.",
+                        engagement: "Follow-Button auf RA nutzen.",
+                        tip: "Nutzen Sie Flyer-Artwork als Event-Bild."
+                    }
+                ]
+            },
+            discord: {
+                name: "Discord",
+                icon: "fa-discord",
+                strategy: "Community Deep Dive. Hier sind die Superfans. Content ist exklusiv, roh und direkt.",
+                hashtagStrategy: "Keine Hashtags, sondern Channel-Topics.",
+                hashtags: ["#announcements", "#production-tips", "#music-releases", "#live-listening", "#gig-countdown"],
+                content: [
+                    {
+                        category: "Community",
+                        title: "Exclusive Early Access",
+                        format: "Channel Post (#early-access)",
+                        content: "Message: 🔥 EXCLUSIVE: New track snippet (48h early!).\nFile: [Audio Upload]\nText: What do you think? Vibe check?",
+                        why: "Gibt Mitgliedern einen Grund zu bleiben (Value).",
+                        engagement: "Reaktionen (Emojis) als Feedback nutzen.",
+                        tip: "Antworten Sie hier schneller als auf Social Media."
+                    },
+                    {
+                        category: "Live Event",
+                        title: "Live Listening Party",
+                        format: "Voice Channel Event",
+                        content: "Announcement: 🎧 Join us Friday 8pm for a listening party! We'll listen to [Album] and discuss production.",
+                        why: "Echte Echtzeit-Verbindung.",
+                        engagement: "Q&A während des Hörens.",
+                        tip: "Nutzen Sie Stage Channels für bessere Audioqualität."
+                    }
+                ]
+            },
+            facebook: {
+                name: "Facebook",
+                icon: "fa-facebook",
+                strategy: "Event Discovery & Ältere Zielgruppe. Gut für Veranstaltungseinladungen und längere Texte.",
+                hashtagStrategy: "Weniger ist mehr. 1-3 Tags.",
+                hashtags: ["#DeepHouse", "#BerlinEvents", "#LiveMusic", "#DOERD"],
+                content: [
+                    {
+                        category: "Events",
+                        title: "Event Invitation",
+                        format: "Event Page Post",
+                        content: "Header: DOERD @ Kater Blau.\nDetails: Join me for 3 hours of melodic grooves. Tag someone you want to bring 👇",
+                        why: "FB Events haben immer noch starke Kalender-Funktionen.",
+                        engagement: "Nutzen Sie den 'Diskussion' Tab im Event für Updates.",
+                        tip: "Laden Sie Freunde persönlich ein."
+                    },
+                    {
+                        category: "Community",
+                        title: "Long-Form Storytelling",
+                        format: "Text Post + Image",
+                        content: "Text: 'Why I Created the MOODS Compilation... [400 words personal story]'.\nImage: Emotional studio shot.",
+                        why: "FB Algorithmus belohnt 'Time on Post' (Lesedauer).",
+                        engagement: "Fragen Sie nach ähnlichen Erfahrungen der Leser.",
+                        tip: "Keine Links im Haupttext, sondern im ersten Kommentar (Reichweite)."
+                    }
+                ]
+            },
+            twitter: {
+                name: "Twitter / X",
+                icon: "fa-twitter",
+                strategy: "Echtzeit & Networking. Branchen-News, schnelle Gedanken. 1-2 Hashtags max.",
+                hashtagStrategy: "1-2 Tags max. Professionalität.",
+                hashtags: [
+                    "#MusicProducer", "#NewMusic", "#ElectronicMusic", "#DeepHouse", 
+                    "#DJLife", "#MusicIndustry", "#IndependentArtist", 
+                    "#BerlinMusic", "#ProducerChat", "#UnsignedArtist"
+                ],
+                content: [
+                    {
+                        category: "Industry",
+                        title: "Thread: Lessons Learned",
+                        format: "Thread (3-5 Tweets)",
+                        content: "1/ 5 things I learned after releasing 50+ tracks:\n1. Consistency > Perfection\n2. Network is Net Worth\n...\n\n5/ What's your #1 lesson? 👇",
+                        why: "Zeigt Thought Leadership.",
+                        engagement: "Retweets und Bookmarks.",
+                        tip: "Der erste Tweet muss ein starker Hook sein."
+                    },
+                    {
+                        category: "Updates",
+                        title: "Gig Announcement (Short)",
+                        format: "Tweet + Image",
+                        content: "📍 LIVE: This Saturday @ Kater Blau. 3-hour set. Start 2am. \n\nTicket Link 👇",
+                        why: "Schnelle Info-Verbreitung.",
+                        engagement: "Taggen Sie die Venue.",
+                        tip: "Pinnen Sie den wichtigsten Tweet (z.B. aktueller Release) oben ans Profil."
+                    }
+                ]
+            },
+            email: {
+                name: "Email / Newsletter",
+                icon: "fa-envelope",
+                strategy: "Besitz der Zielgruppe. Höchste Conversion Rate. Persönlich und wertvoll.",
+                hashtagStrategy: "Keine Hashtags.",
+                hashtags: [],
+                content: [
+                    {
+                        category: "Newsletter",
+                        title: "Weekly Production Tip",
+                        format: "Email",
+                        content: "Subject: 📚 Weekly Tip: Sidechain Compression\n\nHi [Name],\nHere is something I learned this week...\n[Explanation]\n\nReply with your version!",
+                        why: "Bietet echten Mehrwert, baut Vertrauen auf.",
+                        engagement: "Aufforderung zur Antwort ('Reply'). Erhöht die Zustellbarkeit.",
+                        tip: "Segmentieren Sie die Liste (Fans vs. Producer)."
+                    },
+                    {
+                        category: "Release",
+                        title: "New Release Announcement",
+                        format: "Email",
+                        content: "Subject: 🔥 NEW DOERD: Listen to 'Circular'\n\nHi [Name],\nIt's out. Deep house with emotional depth.\n\n[Link Button]\n\nThanks for listening, Michael.",
+                        why: "Direkter Traffic auf Streaming-Dienste.",
+                        engagement: "Klicks auf den Link.",
+                        tip: "Senden Sie eine Follow-up Mail an die, die nicht geöffnet haben (48h später)."
+                    }
+                ]
+            }
+        };
+
+        // --- DOM ELEMENTS ---
+        const platformSelect = document.getElementById('platformSelect');
+        const contentTypeSelect = document.getElementById('contentTypeSelect');
+        const emptyState = document.getElementById('emptyState');
+        const contentArea = document.getElementById('contentArea');
+        
+        // Output Elements
+        const exampleTitle = document.getElementById('exampleTitle');
+        const formatBadge = document.getElementById('formatBadge');
+        const exampleContent = document.getElementById('exampleContent');
+        const whyItWorks = document.getElementById('whyItWorks');
+        const engagementHook = document.getElementById('engagementHook');
+        const platformStrategy = document.getElementById('platformStrategy');
+        const hashtagStrategy = document.getElementById('hashtagStrategy');
+        const hashtagList = document.getElementById('hashtagList');
+        const proTip = document.getElementById('proTip');
+
+        // --- INIT ---
+        function init() {
+            // Populate Platform Select
+            let platformOptions = '<option value="" disabled selected>Wählen...</option>';
+            for (const key in platformData) {
+                platformOptions += `<option value="${key}">${platformData[key].name}</option>`;
+            }
+            platformSelect.innerHTML = platformOptions;
+
+            // Event Listeners
+            platformSelect.addEventListener('change', handlePlatformChange);
+            contentTypeSelect.addEventListener('change', handleContentChange);
+        }
+
+        // --- HANDLERS ---
+        function handlePlatformChange() {
+            const platformKey = platformSelect.value;
+            const data = platformData[platformKey];
+
+            // Reset Content Type
+            contentTypeSelect.innerHTML = '<option value="" disabled selected>Kategorie wählen...</option>';
+            data.content.forEach((item, index) => {
+                contentTypeSelect.innerHTML += `<option value="${index}">${item.category}: ${item.title}</option>`;
+            });
+            contentTypeSelect.disabled = false;
+            
+            // Hide Content Area until type selected
+            contentArea.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            emptyState.innerHTML = '<h3 class="text-lg font-medium text-gray-900">Kategorie wählen</h3><p class="text-gray-500">Wähle nun einen Content-Typ für ' + data.name + '.</p>';
+        }
+
+        function handleContentChange() {
+            const platformKey = platformSelect.value;
+            const contentIndex = contentTypeSelect.value;
+            const pData = platformData[platformKey];
+            const cData = pData.content[contentIndex];
+
+            // Show Content Area
+            emptyState.classList.add('hidden');
+            contentArea.classList.remove('hidden');
+            
+            // Remove animation class to re-trigger it
+            contentArea.classList.remove('card-enter');
+            void contentArea.offsetWidth; // trigger reflow
+            contentArea.classList.add('card-enter');
+
+            // Fill Content Left
+            exampleTitle.textContent = cData.title;
+            formatBadge.textContent = cData.format;
+            exampleContent.textContent = cData.content;
+            whyItWorks.textContent = cData.why;
+            engagementHook.textContent = cData.engagement;
+            platformStrategy.innerHTML = `<strong>${pData.name} Strategie:</strong> ${pData.strategy}`;
+
+            // Fill Content Right (Hashtags & Tips)
+            hashtagStrategy.textContent = pData.hashtagStrategy;
+            
+            // Generate Hashtag Pills
+            if (pData.hashtags.length > 0) {
+                hashtagList.innerHTML = pData.hashtags.map(tag => 
+                    `<span onclick="copyText('${tag}')" class="cursor-pointer bg-gray-200 hover:bg-cyan-100 hover:text-cyan-700 text-gray-700 text-xs font-medium px-2.5 py-1 rounded transition-colors select-none" title="Klicken zum Kopieren">${tag}</span>`
+                ).join('');
+            } else {
+                hashtagList.innerHTML = '<span class="text-gray-400 text-sm italic">Keine Hashtags für diese Plattform nötig.</span>';
+            }
+
+            proTip.textContent = cData.tip;
+        }
+
+        // --- UTILS ---
+        function copyToClipboard(elementId) {
+            let text = "";
+            if (elementId === 'hashtagList') {
+                // Get all hashtags
+                const platformKey = platformSelect.value;
+                if(platformKey && platformData[platformKey].hashtags) {
+                    text = platformData[platformKey].hashtags.join(' ');
+                }
+            } else {
+                const el = document.getElementById(elementId);
+                text = el.innerText || el.textContent;
+            }
+            
+            copyText(text);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2000);
+        }
+
+        // Run Init
+        init();
+
+    </script>
+</body>
+</html>
