@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Places Berlin & Brandenburg - Interaktive Übersicht</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 10px 10px 0 0;
+            z-index: 1;
+        }
+
+        .controls {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 0.95em;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 107, 107, 0.2);
+            border-bottom: 2px solid #ff6b6b;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #ff6b6b;
+            font-size: 0.9em;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85em;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+        }
+
+        .status-closed {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+        }
+
+        .status-partial {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+
+        .size-small { color: #4caf50; }
+        .size-medium { color: #2196f3; }
+        .size-large { color: #ff9800; }
+        .size-xlarge { color: #f44336; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            color: #ff6b6b;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff9999;
+        }
+
+        .modal-title {
+            color: #ff6b6b;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            margin-right: 30px;
+        }
+
+        .modal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .info-label {
+            font-size: 0.8em;
+            color: #aaa;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1em;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .modal-description {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+        }
+
+        .legend {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.85em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏚️ Lost Places Berlin & Brandenburg</h1>
+            <p class="subtitle">Umfassende interaktive Übersicht verlassener und historischer Orte</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCount">19</div>
+                    <div class="stat-label">Orte erfasst</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="accessibleCount">0</div>
+                    <div class="stat-label">Teilweise zugänglich</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="categoryCount">0</div>
+                    <div class="stat-label">Kategorien</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="largeCount">0</div>
+                    <div class="stat-label">Große Anlagen</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Kartenseite -->
+            <div class="panel">
+                <div id="map"></div>
+                <div class="controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Nach Kategorie filtern:</label>
+                        <select id="categoryFilter">
+                            <option value="">Alle Kategorien</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Nach Größe filtern:</label>
+                        <select id="sizeFilter">
+                            <option value="">Alle Größen</option>
+                            <option value="Klein">Klein</option>
+                            <option value="Mittel">Mittel</option>
+                            <option value="Groß">Groß</option>
+                            <option value="Sehr Groß">Sehr Groß</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Nach Status filtern:</label>
+                        <select id="statusFilter">
+                            <option value="">Alle Status</option>
+                            <option value="Öffentlich">Öffentlich zugänglich</option>
+                            <option value="Teilweise">Teilweise zugänglich</option>
+                            <option value="Geschlossen">Geschlossen</option>
+                        </select>
+                    </div>
+                    <div class="legend">
+                        <strong style="color: #ff6b6b;">Legende:</strong>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #4caf50;"></div>
+                            <span>Öffentlich zugänglich</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ffc107;"></div>
+                            <span>Teilweise zugänglich</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f44336;"></div>
+                            <span>Geschlossen/Nicht zugänglich</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabellenseite -->
+            <div class="panel">
+                <div style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Suche nach Name, Stadt oder Kategorie...">
+                </div>
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Kategorie</th>
+                                <th>Größe</th>
+                                <th>Stadt</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-info" id="modalInfo"></div>
+            <div id="modalDescription"></div>
+        </div>
+    </div>
+
+    <script>
+        // Daten
+        const lostPlaces = [
+            {id: 1, Name: "Spreepark Plänterwald", Kategorie: "Freizeitpark", Größe: "Groß", Bezirk: "Treptow-Köpenick", Adresse: "Kiehnwerderallee 1-3, 12437 Berlin", Geschlossene: 2002, Status: "Teilweise zugänglich (Führungen)", Besonderheit: "Riesenrad, bekannter Lost Place, jetzt in Entwicklung", lat: 52.4456, lng: 13.6275},
+            {id: 2, Name: "Teufelsberg", Kategorie: "Abhörstation", Größe: "Groß", Bezirk: "Charlottenburg-Wilmersdorf", Adresse: "Teufelsseechaussee 10, 14193 Berlin", Geschlossene: 1990, Status: "Teilweise zugänglich (Führungen)", Besonderheit: "Ehem. NSA-Abhörstation, Street Art, Techno-Veranstaltungen", lat: 52.4868, lng: 13.2309},
+            {id: 3, Name: "Natur-Park Südgelände", Kategorie: "Bahngelände", Größe: "Groß", Bezirk: "Tempelhof-Schöneberg", Adresse: "Prellerweg 47-49, 12157 Berlin", Geschlossene: 1988, Status: "Öffentlich zugänglich", Besonderheit: "Ehem. Rangierbahnhof, Naturschutzgebiet, Lokhalle, Kunst", lat: 52.4670, lng: 13.3890},
+            {id: 4, Name: "Alte Eisfabrik", Kategorie: "Fabrik", Größe: "Mittel", Bezirk: "Mitte", Adresse: "Köpenicker Straße 40/41, 10997 Berlin", Geschlossene: 1991, Status: "Geschlossen/Unter Denkmalschutz", Besonderheit: "Älteste Eisfabrik Deutschlands, unter Denkmalschutz", lat: 52.5047, lng: 13.4231},
+            {id: 5, Name: "Mäusebunker", Kategorie: "Laborgebäude", Größe: "Groß", Bezirk: "Lichterfelde", Adresse: "Lichterfelde, Berlin", Geschlossene: 2020, Status: "Teilweise zugänglich (Veranstaltungen)", Besonderheit: "Tierversuchslabor, Brutalismus-Architektur, Denkmalschutz seit 2023", lat: 52.4320, lng: 13.3280},
+            {id: 6, Name: "Säuglings- und Kinderkrankenhaus Weißensee", Kategorie: "Krankenhaus", Größe: "Groß", Bezirk: "Lichtenberg", Adresse: "Hansastraße, 13088 Berlin", Geschlossene: 1990, Status: "Geschlossen", Besonderheit: "Beliebter Lost Place, Graffiti, beliebtes Fotomotiv", lat: 52.5640, lng: 13.5240},
+            {id: 7, Name: "Stadtbad Lichtenberg", Kategorie: "Badeanstalt", Größe: "Mittel", Bezirk: "Lichtenberg", Adresse: "Hubertusstraße 47, 10365 Berlin", Geschlossene: 1991, Status: "Teilweise zugänglich (bei Veranstaltungen)", Besonderheit: "Denkmalgeschützt, erbaut 1928, historische Bäder", lat: 52.5380, lng: 13.5680},
+            {id: 8, Name: "Rundlokschuppen Pankow", Kategorie: "Bahnanlage", Größe: "Groß", Bezirk: "Pankow", Adresse: "Pankow, Berlin", Geschlossene: 1999, Status: "Geschlossen", Besonderheit: "Letztes Rundhaus Deutschlands (1893), Drehscheibe mit 24 Gleisen", lat: 52.5850, lng: 13.4350},
+            {id: 9, Name: "Institut für Anatomie der FU Berlin", Kategorie: "Universität", Größe: "Mittel", Bezirk: "Steglitz-Zehlendorf", Adresse: "Königin-Luise-Straße 15, 14195 Berlin", Geschlossene: 2005, Status: "Abgerissen/Neubau 2024", Besonderheit: "Seziertische, Kühlräume, gruselige Atmosphäre", lat: 52.4530, lng: 13.2950},
+            {id: 10, Name: "Alte irakische Botschaft", Kategorie: "Botschaft", Größe: "Klein", Bezirk: "Treptow-Köpenick", Adresse: "Tschaikowskistraße 51, 13156 Berlin", Geschlossene: 2003, Status: "Geschlossen", Besonderheit: "Verfallen, geplündert, demoliert, Graffiti", lat: 52.4680, lng: 13.6450},
+            {id: 11, Name: "Blub Badeparadies", Kategorie: "Freizeitbad", Größe: "Groß", Bezirk: "Neukölln", Adresse: "Buschkrugallee 64, 12359 Berlin", Geschlossene: 2002, Status: "Abgerissen/Neubau geplant", Besonderheit: "35.000 m² Spaßbad, 2016 Großbrand, Wohnungen geplant", lat: 52.4350, lng: 13.6580},
+            {id: 12, Name: "Beelitz-Heilstätten", Kategorie: "Sanatorium", Größe: "Sehr Groß", Bezirk: "Beelitz, Brandenburg", Adresse: "Heilstätten, Beelitz, 14547 Brandenburg", Geschlossene: 1994, Status: "Teilweise zugänglich (Baumkronenpfad, Führungen)", Besonderheit: "200 Hektar, 60 Gebäude, Hitlers Aufenthaltsort 1916, Sowjet-Hospital", lat: 52.1650, lng: 13.1850},
+            {id: 13, Name: "Wünsdorf - verbotene Stadt", Kategorie: "Militärstadt", Größe: "Sehr Groß", Bezirk: "Zossen, Brandenburg", Adresse: "Wünsdorf, 15806 Zossen, Brandenburg", Geschlossene: 1994, Status: "Teilweise zugänglich (Führungen/Fototouren)", Besonderheit: "600 Hektar, bis zu 75.000 sowjetische Soldaten, Lenin-Statue, Haus der Offiziere", lat: 52.0720, lng: 13.3650},
+            {id: 14, Name: "Olympisches Dorf Elstal", Kategorie: "Olympische Stätte", Größe: "Groß", Bezirk: "Wustermark, Brandenburg", Adresse: "Rosa-Luxemburg-Allee 70, 14641 Wustermark", Geschlossene: 1992, Status: "In Entwicklung/Neubau", Besonderheit: "1936 Olympische Spiele, leeres Schwimmbad, Sowjetmilitärstützpunkt", lat: 52.5450, lng: 13.0980},
+            {id: 15, Name: "Kontrollpunkt Dreilinden", Kategorie: "Grenzanlage", Größe: "Mittel", Bezirk: "Berlin-Wannsee/Potsdam", Adresse: "Albrechts Teerofen, 14109 Berlin", Geschlossene: 1990, Status: "Teilweise zugänglich (Mauerweg)", Besonderheit: "Checkpoint Bravo, alte Raststätte, Autobahnbrücke, historisches Zeugnis", lat: 52.4150, lng: 13.1750},
+            {id: 16, Name: "Glienicker Brücke", Kategorie: "Grenzanlage", Größe: "Mittel", Bezirk: "Potsdam/Berlin", Adresse: "Zwischen Potsdam und Berlin", Geschlossene: 1989, Status: "Öffentlich zugänglich", Besonderheit: "Bridge of Spies, Agentenaustausche während Kalten Krieges", lat: 52.3950, lng: 13.1550},
+            {id: 17, Name: "Berliner Bürgerbräu", Kategorie: "Brauerei", Größe: "Mittel", Bezirk: "Köpenick", Adresse: "Am Müggelsee, Friedrichshagen, 12587 Berlin", Geschlossene: 2010, Status: "Geschlossen/Denkmalschutz", Besonderheit: "Seit 1869, älteste Brauerei, markante Gebäude am Wasser", lat: 52.4530, lng: 13.6650},
+            {id: 18, Name: "Flugplatz Staaken", Kategorie: "Flugplatz", Größe: "Groß", Bezirk: "Spandau", Adresse: "Staaken, Berlin", Geschlossene: 1945, Status: "Vollständig rückgebaut", Besonderheit: "Zeppelin-Hallen, Metropolis Film-Kulissen, Solarpark", lat: 52.5420, lng: 13.1280},
+            {id: 19, Name: "DDR-Regierungskrankenhaus Buch", Kategorie: "Krankenhaus", Größe: "Groß", Bezirk: "Pankow", Adresse: "Hobrechtsfelder Chaussee 100, 13125 Berlin", Geschlossene: 2007, Status: "Verschlossene Ruine", Besonderheit: "Geheimnis umgeben, nur mit Ausweis zugänglich, Spekulationen", lat: 52.6350, lng: 13.4850}
+        ];
+
+        let markers = [];
+        let map;
+
+        // Initialisiere Karte
+        function initMap() {
+            map = L.map('map').setView([52.52, 13.40], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            addMarkers();
+        }
+
+        // Füge Marker hinzu
+        function addMarkers(filtered = lostPlaces) {
+            markers.forEach(m => map.removeLayer(m.marker));
+            markers = [];
+
+            filtered.forEach(place => {
+                const color = getStatusColor(place.Status);
+                const marker = L.circleMarker([place.lat, place.lng], {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+
+                marker.bindPopup(`<strong>${place.Name}</strong><br>${place.Kategorie}`);
+                marker.on('click', () => showModal(place));
+
+                markers.push({marker: marker, place: place});
+            });
+        }
+
+        // Bestimme Farbe basierend auf Status
+        function getStatusColor(status) {
+            if (status.includes('Öffentlich')) return '#4caf50';
+            if (status.includes('Teilweise')) return '#ffc107';
+            return '#f44336';
+        }
+
+        // Zeige Modal
+        function showModal(place) {
+            const modal = document.getElementById('detailModal');
+            document.getElementById('modalTitle').textContent = place.Name;
+
+            const info = `
+                <div class="info-item">
+                    <div class="info-label">Kategorie</div>
+                    <div class="info-value">${place.Kategorie}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Größe</div>
+                    <div class="info-value"><span class="size-${place.Größe.toLowerCase()}">${place.Größe}</span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Stadt/Region</div>
+                    <div class="info-value">${place.Bezirk}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Adresse</div>
+                    <div class="info-value">${place.Adresse}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Geschlossen</div>
+                    <div class="info-value">${place.Geschlossene}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Status</div>
+                    <div class="info-value">${place.Status}</div>
+                </div>
+            `;
+
+            document.getElementById('modalInfo').innerHTML = info;
+            document.getElementById('modalDescription').innerHTML = `
+                <div class="modal-description">
+                    <strong>Besonderheit:</strong><br>${place.Besonderheit}
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        // Schließe Modal
+        document.querySelector('.close-btn').onclick = () => {
+            document.getElementById('detailModal').style.display = 'none';
+        };
+
+        window.onclick = (event) => {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Fülle Tabelle
+        function fillTable(filtered = lostPlaces) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="no-results">Keine Ergebnisse gefunden</td></tr>';
+                return;
+            }
+
+            filtered.forEach(place => {
+                const statusClass = place.Status.includes('Öffentlich') ? 'status-open' : 
+                                   place.Status.includes('Teilweise') ? 'status-partial' : 'status-closed';
+                const sizeClass = `size-${place.Größe.toLowerCase().replace(' ', '-')}`;
+
+                const row = `<tr onclick="showModal({
+                    Name: '${place.Name}',
+                    Kategorie: '${place.Kategorie}',
+                    Größe: '${place.Größe}',
+                    Bezirk: '${place.Bezirk}',
+                    Adresse: '${place.Adresse}',
+                    Geschlossene: ${place.Geschlossene},
+                    Status: '${place.Status}',
+                    Besonderheit: '${place.Besonderheit.replace(/'/g, "\\'")}',
+                    lat: ${place.lat},
+                    lng: ${place.lng}
+                })">
+                    <td><strong>${place.Name}</strong></td>
+                    <td>${place.Kategorie}</td>
+                    <td><span class="${sizeClass}">${place.Größe}</span></td>
+                    <td>${place.Bezirk}</td>
+                    <td><span class="status-badge ${statusClass}">${place.Status.split('(')[0].trim()}</span></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Filterfunktionen
+        function applyFilters() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const sizeFilter = document.getElementById('sizeFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            let filtered = lostPlaces.filter(place => {
+                const matchSearch = !searchText || 
+                    place.Name.toLowerCase().includes(searchText) ||
+                    place.Kategorie.toLowerCase().includes(searchText) ||
+                    place.Bezirk.toLowerCase().includes(searchText);
+
+                const matchCategory = !categoryFilter || place.Kategorie === categoryFilter;
+                const matchSize = !sizeFilter || place.Größe === sizeFilter;
+                const matchStatus = !statusFilter || place.Status.includes(statusFilter);
+
+                return matchSearch && matchCategory && matchSize && matchStatus;
+            });
+
+            fillTable(filtered);
+            addMarkers(filtered);
+        }
+
+        // Event Listener
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+        document.getElementById('sizeFilter').addEventListener('change', applyFilters);
+        document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+        // Initialisiere Filter-Optionen
+        function initFilters() {
+            const categories = [...new Set(lostPlaces.map(p => p.Kategorie))].sort();
+            const categorySelect = document.getElementById('categoryFilter');
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categorySelect.appendChild(option);
+            });
+
+            // Update Stats
+            document.getElementById('accessibleCount').textContent = lostPlaces.filter(p => p.Status.includes('zugänglich')).length;
+            document.getElementById('categoryCount').textContent = categories.length;
+            document.getElementById('largeCount').textContent = lostPlaces.filter(p => p.Größe === 'Groß' || p.Größe === 'Sehr Groß').length;
+        }
+
+        // Starten
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            fillTable();
+            initFilters();
+        });
+    </script>
+</body>
+</html>
