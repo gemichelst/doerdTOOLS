@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOERD Artist Hub - Development & Management</title>
+    <style>
+        :root {
+            --primary: #1DB954;
+            --secondary: #191414;
+            --accent: #FFD700;
+            --surface: #282828;
+            --surface-light: #404040;
+            --text: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --danger: #E74C3C;
+            --success: #27AE60;
+            --warning: #F39C12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--secondary);
+            padding: 30px 20px;
+            overflow-y: auto;
+            border-right: 2px solid var(--surface-light);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-section {
+            margin-bottom: 35px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: rgba(29, 185, 84, 0.2);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--secondary);
+            border-bottom: 2px solid var(--surface-light);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .header-info {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .info-badge {
+            background: var(--surface-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: var(--text-secondary);
+        }
+
+        .info-badge strong {
+            color: var(--primary);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        /* Tab System */
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Cards & Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--surface-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(29, 185, 84, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+        }
+
+        .card-status {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+        }
+
+        .status-planned {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498DB;
+        }
+
+        .card-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Progress Bars */
+        .progress-group {
+            margin-bottom: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--surface-light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Task Lists */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: var(--surface-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(29, 185, 84, 0.1);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox.checked {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .task-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .task-date {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--surface-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--surface-light);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        td {
+            padding: 16px;
+            border-top: 1px solid var(--surface-light);
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: rgba(29, 185, 84, 0.05);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .btn-primary:hover {
+            background: #1ed760;
+            box-shadow: 0 8px 16px rgba(29, 185, 84, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--surface-light);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(29, 185, 84, 0.2);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--surface-light);
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 16px;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
+        }
+
+        .form-input-inline {
+            padding: 6px 8px;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 12px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .form-input-inline:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.15);
+        }
+
+        .progress-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--surface-light);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .progress-slider:hover {
+            background: rgba(29, 185, 84, 0.3);
+        }
+
+        .progress-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(29, 185, 84, 0.4);
+        }
+
+        .progress-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(29, 185, 84, 0.4);
+        }
+
+        .submission-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .submission-item {
+            background: var(--surface-light);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            border-left: 3px solid var(--surface-light);
+            transition: all 0.2s ease;
+        }
+
+        .submission-item.submitted {
+            border-left-color: var(--warning);
+        }
+
+        .submission-item.accepted {
+            border-left-color: var(--success);
+        }
+
+        .submission-item.rejected {
+            border-left-color: var(--danger);
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 1px solid var(--surface-light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-left: 2px solid var(--surface-light);
+            padding-left: 20px;
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid var(--primary);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            background: var(--surface-light);
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+        }
+
+        .timeline-item.completed .timeline-dot {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .timeline-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid var(--surface-light);
+                max-height: 200px;
+                padding: 15px;
+                overflow-x: auto;
+                display: flex;
+                gap: 20px;
+            }
+
+            .logo {
+                white-space: nowrap;
+            }
+
+            .nav-section {
+                margin: 0;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header-info {
+                flex-wrap: wrap;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .tab-buttons {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(29, 185, 84, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">🎵 DOERD</div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Overview</div>
+                <div class="nav-item active" onclick="switchTab('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Development</div>
+                <div class="nav-item" onclick="switchTab('releases')">
+                    <span class="nav-icon">🎛️</span>
+                    Releases
+                </div>
+                <div class="nav-item" onclick="switchTab('labels')">
+                    <span class="nav-icon">🏷️</span>
+                    Label Strategy
+                </div>
+                <div class="nav-item" onclick="switchTab('submissions')">
+                    <span class="nav-icon">📨</span>
+                    Submissions
+                </div>
+                <div class="nav-item" onclick="switchTab('distribution')">
+                    <span class="nav-icon">🌐</span>
+                    Distribution
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Community</div>
+                <div class="nav-item" onclick="switchTab('social')">
+                    <span class="nav-icon">📱</span>
+                    Social Media
+                </div>
+                <div class="nav-item" onclick="switchTab('bookings')">
+                    <span class="nav-icon">🎤</span>
+                    Bookings
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Business</div>
+                <div class="nav-item" onclick="switchTab('income')">
+                    <span class="nav-icon">💰</span>
+                    Income Tracker
+                </div>
+                <div class="nav-item" onclick="switchTab('timeline')">
+                    <span class="nav-icon">📅</span>
+                    12-Month Plan
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div>
+                    <div class="header-title" id="pageTitle">Dashboard</div>
+                </div>
+                <div class="header-info">
+                    <div class="info-badge">Next Goal: <strong id="nextGoal">5 Label Submissions</strong></div>
+                    <div class="info-badge">12-Month Target: <strong>€1,200-2,200/month</strong></div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- DASHBOARD TAB -->
+                <div id="dashboard" class="tab-content active">
+                    <h2 style="margin-bottom: 30px;">12-Month Artist Development Progress</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="releaseCount">0</div>
+                            <div class="stat-label">Releases Planned</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="submissionCount">0</div>
+                            <div class="stat-label">Label Submissions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="followerTarget">25k</div>
+                            <div class="stat-label">Follower Goal</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="incomeGoal">€1.5k</div>
+                            <div class="stat-label">Monthly Income Target</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Key Milestones</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎵</span>
+                                    Release Pipeline
+                                </div>
+                                <div class="card-status status-active">3-4 Releases</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Release Progress</span>
+                                        <span id="releaseProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="releaseFill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px;">Target 3-4 quality releases across projects</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📱</span>
+                                    Social Growth
+                                </div>
+                                <div class="card-status status-pending">In Progress</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Follower Target</span>
+                                        <span id="socialProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="socialFill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px;">20k-30k combined followers on TikTok + Instagram</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎤</span>
+                                    DJ Bookings
+                                </div>
+                                <div class="card-status status-planned">Planning</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Booking Target</span>
+                                        <span id="bookingProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="bookingFill" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px;">10+ confirmed DJ gigs generating €400-600/month</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">💰</span>
+                                    Income Streams
+                                </div>
+                                <div class="card-status status-pending">Building</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="font-size: 12px; line-height: 1.8;">
+                                    <div>✓ Streaming: €300-500</div>
+                                    <div>✓ Beatport: €150-300</div>
+                                    <div>✓ Bookings: €400-600</div>
+                                    <div>✓ Bandcamp: €100-200</div>
+                                    <div>✓ Advances: €200-500</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RELEASES TAB -->
+                <div id="releases" class="tab-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                        <h2>Release Pipeline</h2>
+                        <button class="btn btn-primary" onclick="openReleaseModal()">+ Track Release</button>
+                    </div>
+
+                    <div class="grid" id="releaseGrid">
+                        <div class="card" data-release-id="1">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎛️</span>
+                                    Release #1: Deep House
+                                </div>
+                                <div class="card-status status-pending">In Production</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Track Name:</strong> <input type="text" class="form-input-inline" value="Untitled" placeholder="Track name" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                                    <strong>Target Label:</strong> Plastic City Records<br/>
+                                    <strong>Genre:</strong> Deep House<br/>
+                                    <strong>Target Date:</strong> <input type="month" class="form-input-inline" value="2025-02" style="width: 100%; padding: 4px; margin-top: 4px;"/>
+                                </div>
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Production Progress</span>
+                                        <span id="rel1-progress">60%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <input type="range" min="0" max="100" value="60" class="progress-slider" onchange="updateProgress(1, this.value)" style="width: 100%; cursor: pointer;"/>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">
+                                    <div>✓ Arrangement</div>
+                                    <div>✓ Mixing (in progress)</div>
+                                    <div>○ Mastering</div>
+                                    <div>○ Demo ready</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" data-release-id="2">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎛️</span>
+                                    Release #2: Tech House
+                                </div>
+                                <div class="card-status status-planned">Planned</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Track Name:</strong> <input type="text" class="form-input-inline" value="Untitled" placeholder="Track name" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                                    <strong>Target Label:</strong> <select class="form-input-inline" style="width: 100%; padding: 4px; margin-top: 4px;"><option>Toolroom</option><option>Innervisions</option><option>Other</option></select><br/>
+                                    <strong>Genre:</strong> Tech House<br/>
+                                    <strong>Target Date:</strong> <input type="month" class="form-input-inline" value="2025-04" style="width: 100%; padding: 4px; margin-top: 4px;"/>
+                                </div>
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Production Progress</span>
+                                        <span id="rel2-progress">20%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <input type="range" min="0" max="100" value="20" class="progress-slider" onchange="updateProgress(2, this.value)" style="width: 100%; cursor: pointer;"/>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">
+                                    <div>○ Arrangement</div>
+                                    <div>○ Mixing</div>
+                                    <div>○ Mastering</div>
+                                    <div>○ Demo ready</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" data-release-id="3">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎛️</span>
+                                    Release #3: Soulful House
+                                </div>
+                                <div class="card-status status-planned">Planned</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Track Name:</strong> <input type="text" class="form-input-inline" value="Untitled" placeholder="Track name" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                                    <strong>Target Label:</strong> <select class="form-input-inline" style="width: 100%; padding: 4px; margin-top: 4px;"><option>Defected</option><option>Ohral</option><option>8bit</option><option>Other</option></select><br/>
+                                    <strong>Genre:</strong> Soulful Deep House<br/>
+                                    <strong>Target Date:</strong> <input type="month" class="form-input-inline" value="2025-06" style="width: 100%; padding: 4px; margin-top: 4px;"/>
+                                </div>
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Production Progress</span>
+                                        <span id="rel3-progress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <input type="range" min="0" max="100" value="0" class="progress-slider" onchange="updateProgress(3, this.value)" style="width: 100%; cursor: pointer;"/>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">
+                                    <div>○ Arrangement</div>
+                                    <div>○ Mixing</div>
+                                    <div>○ Mastering</div>
+                                    <div>○ Demo ready</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Label Submission Checklist</h3>
+                    <div class="task-list" style="max-width: 600px;">
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <div class="task-content">
+                                <div class="task-title">Research 10+ target labels</div>
+                                <div class="task-desc">Listen to 5-10 recent releases on each label</div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <div class="task-content">
+                                <div class="task-title">Create professional EPK</div>
+                                <div class="task-desc">One-page artist overview with links and bio</div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <div class="task-content">
+                                <div class="task-title">Prepare demo tracks</div>
+                                <div class="task-desc">High-quality WAV files, properly tagged</div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <div class="task-content">
+                                <div class="task-title">Write personalized pitches</div>
+                                <div class="task-desc">1 paragraph explaining sonic fit per label</div>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                            <div class="task-content">
+                                <div class="task-title">Track submissions professionally</div>
+                                <div class="task-desc">Spreadsheet with dates, responses, feedback</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LABELS TAB -->
+                <div id="labels" class="tab-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                        <h2>Label Strategy & Submission Pipeline</h2>
+                        <button class="btn btn-primary" onclick="switchTab('submissions')">View Demo Submissions</button>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px;">🎯 Tier 1 Targets (Immediate)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Location</th>
+                                    <th>Genre Focus</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Plastic City Records</strong></td>
+                                    <td>Germany</td>
+                                    <td>Deep House</td>
+                                    <td><span class="card-status status-active">Active Relationship</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Toolroom Records</strong></td>
+                                    <td>UK</td>
+                                    <td>Tech House / Deep</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Innervisions</strong></td>
+                                    <td>Berlin</td>
+                                    <td>Deep House</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Defected Records</strong></td>
+                                    <td>UK</td>
+                                    <td>Soulful Deep House</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px; margin-top: 40px;">📈 Tier 2 Targets (Growth)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Location</th>
+                                    <th>Genre Focus</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Ohral Records</strong></td>
+                                    <td>Germany</td>
+                                    <td>Deep Tech-House</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>8bit Records</strong></td>
+                                    <td>UK</td>
+                                    <td>Tech House</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transa Records</strong></td>
+                                    <td>Germany</td>
+                                    <td>Deep/Melodic Tech</td>
+                                    <td><span class="card-status status-planned">Target</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px; margin-top: 40px;">📋 Submission Guidelines</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="task-list">
+                            <div class="task-item" style="background: none; padding: 0; border: none;">
+                                <span class="card-icon" style="margin: 0;">1️⃣</span>
+                                <div class="task-content">
+                                    <div class="task-title">Research thoroughly</div>
+                                    <div class="task-desc">Listen to 5-10 recent releases on each label before submitting</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <span class="card-icon" style="margin: 0;">2️⃣</span>
+                                <div class="task-content">
+                                    <div class="task-title">Identify sonic fit</div>
+                                    <div class="task-desc">Does your track align with their sound? If not, try different label</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <span class="card-icon" style="margin: 0;">3️⃣</span>
+                                <div class="task-content">
+                                    <div class="task-title">Write personalized pitch</div>
+                                    <div class="task-desc">1 paragraph explaining why this track suits this label specifically</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <span class="card-icon" style="margin: 0;">4️⃣</span>
+                                <div class="task-content">
+                                    <div class="task-title">Follow submission guidelines exactly</div>
+                                    <div class="task-desc">Format, metadata, timing, file types - no exceptions</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <span class="card-icon" style="margin: 0;">5️⃣</span>
+                                <div class="task-content">
+                                    <div class="task-title">Track submissions professionally</div>
+                                    <div class="task-desc">Spreadsheet with dates, responses, feedback - expect 4-6 weeks</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBMISSIONS TAB (NEW) -->
+                <div id="submissions" class="tab-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                        <h2>Demo Submission Tracker</h2>
+                        <button class="btn btn-primary" onclick="openSubmissionModal()">+ Log Submission</button>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <input type="text" id="submissionFilter" class="form-input" placeholder="🔍 Filter by label, track, or status..." onkeyup="filterSubmissions()"/>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Track / Release</th>
+                                    <th>Date Submitted</th>
+                                    <th>Status</th>
+                                    <th>Response</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="submissionsTableBody">
+                                <tr>
+                                    <td><strong>Plastic City Records</strong></td>
+                                    <td>Kickr EP (Deep House)</td>
+                                    <td>2024-11-15</td>
+                                    <td><span class="card-status status-active">✓ Accepted</span></td>
+                                    <td><strong style="color: var(--success);">Signed for Q1 2025</strong></td>
+                                    <td>Previous successful relationship</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Toolroom Records</strong></td>
+                                    <td>Release #2 (Tech House)</td>
+                                    <td>2024-12-09</td>
+                                    <td><span class="card-status status-pending">⏳ Pending</span></td>
+                                    <td>—</td>
+                                    <td>Expect response by 2025-01-20</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Innervisions</strong></td>
+                                    <td>Release #2 (Tech House)</td>
+                                    <td>2024-12-09</td>
+                                    <td><span class="card-status status-pending">⏳ Pending</span></td>
+                                    <td>—</td>
+                                    <td>Secondary target for same track</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Defected Records</strong></td>
+                                    <td>Release #3 (Soulful House)</td>
+                                    <td>2025-01-15</td>
+                                    <td><span class="card-status status-planned">📋 Draft</span></td>
+                                    <td>—</td>
+                                    <td>Ready to submit when track complete</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">📊 Submission Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalSubmissions">4</div>
+                            <div class="stat-label">Total Submissions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="acceptedCount">1</div>
+                            <div class="stat-label">Accepted</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="pendingCount">2</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">25%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">📅 Submission Checklist (Pre-Submit)</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="task-list">
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Research label's recent releases</div>
+                                    <div class="task-desc">Listen to last 5-10 releases to confirm sonic fit</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Check submission guidelines</div>
+                                    <div class="task-desc">File format, bitrate, metadata requirements</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Write personalized pitch</div>
+                                    <div class="task-desc">1 paragraph explaining why track fits this label's style</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Prepare demo file (WAV, 320kbps)</div>
+                                    <div class="task-desc">High quality, properly tagged metadata</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Include EPK link</div>
+                                    <div class="task-desc">Artist bio, links, press material (if available)</div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                <div class="task-content">
+                                    <div class="task-title">Submit via correct email/platform</div>
+                                    <div class="task-desc">Follow exact submission instructions on label website</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">⏱️ Expected Timeline</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div style="background: var(--surface-light); padding: 20px; border-radius: 8px; font-size: 13px; line-height: 2;">
+                            <div><strong>Submission to First Response:</strong> 4-6 weeks average</div>
+                            <div><strong>Follow-up if No Response:</strong> After 6 weeks (max 1 follow-up)</div>
+                            <div><strong>Decision Timeline:</strong> 2-8 weeks after positive interest</div>
+                            <div><strong>Contract Signing:</strong> 1-2 weeks after agreement</div>
+                            <div><strong>Release Date:</strong> Typically 8-12 weeks after signing</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DISTRIBUTION TAB -->
+                <div id="distribution" class="tab-content">
+                    <h2 style="margin-bottom: 30px;">Multi-Platform Distribution Architecture</h2>
+
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎧</span>
+                                    Beatport
+                                </div>
+                                <div class="card-status status-active">Priority</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> DJ sales & discovery</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Upload with label release. Highest per-stream payouts for professional DJs.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">🎯 Target: Top 100 charting</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎵</span>
+                                    Spotify / Apple Music
+                                </div>
+                                <div class="card-status status-active">Priority</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> Consumer discovery</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Via label distribution. High volume, lower per-stream rates.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">🎯 Target: Pitch to 50+ playlists</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">☁️</span>
+                                    SoundCloud
+                                </div>
+                                <div class="card-status status-pending">Community</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> Community & experimentation</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Upload 1-2x/week. Share unreleased, build loyal fan base.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">🎯 Direct artist-fan engagement</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎁</span>
+                                    Bandcamp
+                                </div>
+                                <div class="card-status status-pending">Community</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> Direct artist-fan sales</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Monthly releases. Limited editions & exclusives.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">💰 Highest artist payout rate</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📺</span>
+                                    YouTube
+                                </div>
+                                <div class="card-status status-pending">Authority</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> Long-form authority</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Monthly 30-60min sessions, studio breakdowns, interviews.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">🎯 Monthly minimum releases</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📧</span>
+                                    Email Newsletter
+                                </div>
+                                <div class="card-status status-planned">Building</div>
+                            </div>
+                            <div class="card-content">
+                                <p><strong>Purpose:</strong> Direct fan communication</p>
+                                <p style="margin-top: 10px; font-size: 13px;">Monthly "DOERD's Notes" via Substack/Beehiiv.</p>
+                                <p style="margin-top: 10px; font-size: 13px;">🎯 500+ subscribers in 6 months</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">📊 Key Insight</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="card-content">
+                            <p><strong>Don't upload to all platforms equally.</strong> Each serves a strategic purpose:</p>
+                            <ul style="margin-top: 15px; margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                                <li><strong>Professional platforms</strong> (Beatport, Traxsource) = higher per-stream payouts</li>
+                                <li><strong>Streaming platforms</strong> (Spotify) = volume & consumer discovery</li>
+                                <li><strong>Community platforms</strong> (SoundCloud, Bandcamp) = loyal fanbase building</li>
+                                <li><strong>Long-form</strong> (YouTube) = authority & educational content</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOCIAL MEDIA TAB -->
+                <div id="social" class="tab-content">
+                    <h2 style="margin-bottom: 30px;">Social Media Growth Strategy</h2>
+
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📱</span>
+                                    TikTok
+                                </div>
+                                <div class="card-status status-active">Primary</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Post Frequency:</strong> 4-5x/week<br/>
+                                    <strong>12-Month Target:</strong> 10k-15k followers
+                                </div>
+                                <div style="background: var(--surface-light); padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.8;">
+                                    <strong style="display: block; margin-bottom: 8px;">Content Format:</strong>
+                                    • 1-2 sec hook<br/>
+                                    • 10-15 sec content<br/>
+                                    • 2-3 sec CTA
+                                </div>
+                                <div style="margin-top: 12px; font-size: 12px; line-height: 1.8;">
+                                    <strong style="display: block; margin-bottom: 8px;">Strategy:</strong>
+                                    • Post during peak EU evening<br/>
+                                    • Use trending sounds within 3 days<br/>
+                                    • Text overlays for watch time<br/>
+                                    • Cross-post top TikToks to Reels
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📸</span>
+                                    Instagram
+                                </div>
+                                <div class="card-status status-active">Primary</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Post Frequency:</strong> 3-4x/week<br/>
+                                    <strong>12-Month Target:</strong> 5k-8k followers
+                                </div>
+                                <div style="background: var(--surface-light); padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.8;">
+                                    <strong style="display: block; margin-bottom: 8px;">Content Pillars (4-week rotation):</strong>
+                                    • Studio sessions (25%)<br/>
+                                    • Release announcements (30%)<br/>
+                                    • Lifestyle/Berlin (20%)<br/>
+                                    • Community engagement (15%)<br/>
+                                    • Educational (10%)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">▶️</span>
+                                    YouTube
+                                </div>
+                                <div class="card-status status-pending">Building</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Upload Frequency:</strong> 1x/month minimum<br/>
+                                    <strong>12-Month Target:</strong> 2k-3k subscribers
+                                </div>
+                                <div style="background: var(--surface-light); padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.8;">
+                                    <strong style="display: block; margin-bottom: 8px;">Content Types:</strong>
+                                    • 30-60min "DOERD Sessions" mixes<br/>
+                                    • Studio session breakdowns (1-2/month)<br/>
+                                    • Artist interviews (1/quarter)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📧</span>
+                                    Email Newsletter
+                                </div>
+                                <div class="card-status status-planned">Launch</div>
+                            </div>
+                            <div class="card-content">
+                                <div style="margin-bottom: 16px;">
+                                    <strong>Frequency:</strong> Monthly<br/>
+                                    <strong>Platform:</strong> Substack / Beehiiv
+                                </div>
+                                <div style="background: var(--surface-light); padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.8;">
+                                    <strong style="display: block; margin-bottom: 8px;">Content Focus:</strong>
+                                    • New releases & behind-the-scenes<br/>
+                                    • Personal reflections<br/>
+                                    • Free + €3-5/month paid tier
+                                </div>
+                                <p style="margin-top: 12px; font-size: 12px;">🎯 Goal: 500+ subscribers in 6 months</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">🎬 Content Pillars (DOERD Identity)</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="task-list">
+                            <div class="task-item" style="background: none; padding: 0; border: none;">
+                                <div class="task-content">
+                                    <div class="task-title">🎛️ Studio Sessions</div>
+                                    <div class="task-desc">Behind-the-scenes production work, creative process, track breakdowns</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-content">
+                                    <div class="task-title">💭 Emotional Storytelling (MOODS)</div>
+                                    <div class="task-desc">Personal reflections, music philosophy, emotional connection to tracks</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-content">
+                                    <div class="task-title">🏙️ Berlin/Marzahn Connection</div>
+                                    <div class="task-desc">Local scene, underground culture, neighborhood identity</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-content">
+                                    <div class="task-title">💬 Authentic Social Commentary</div>
+                                    <div class="task-desc">Via doerdinger account - critique of commercialism, genuine perspective</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOOKINGS TAB -->
+                <div id="bookings" class="tab-content">
+                    <h2 style="margin-bottom: 30px;">DJ Bookings & Live Performance Pipeline</h2>
+
+                    <div style="margin-bottom: 30px;">
+                        <button class="btn btn-primary" onclick="addBooking()">+ Log Booking</button>
+                    </div>
+
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">📍</span>
+                                    Phase 1: Local Berlin (Months 1-3)
+                                </div>
+                                <div class="card-status status-active">Current</div>
+                            </div>
+                            <div class="card-content">
+                                <p style="font-size: 13px; margin-bottom: 12px;"><strong>Target:</strong> 3-4 local gigs</p>
+                                <div class="task-list">
+                                    <div class="task-item">
+                                        <div class="task-checkbox checked" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Club X (Friedrichshain)</div>
+                                            <div class="task-date">✓ Booked: Dec 20, 2024 | €75</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Contact venue #2</div>
+                                            <div class="task-date">Target: January 2025</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Contact venue #3</div>
+                                            <div class="task-date">Target: February 2025</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🤝</span>
+                                    Phase 2: Booking Agents (Months 3-6)
+                                </div>
+                                <div class="card-status status-planned">Next</div>
+                            </div>
+                            <div class="card-content">
+                                <p style="font-size: 13px; margin-bottom: 12px;"><strong>Target:</strong> Secure agent + 5-6 gigs</p>
+                                <div class="task-list">
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Ludwig Sound (Munich)</div>
+                                            <div class="task-date">Status: Research phase</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">FMLY Agency (Brighton)</div>
+                                            <div class="task-date">Status: Research phase</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Serious Management (Berlin)</div>
+                                            <div class="task-date">Status: Research phase</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎪</span>
+                                    Phase 3: European Festivals (Months 6-12)
+                                </div>
+                                <div class="card-status status-planned">Planned</div>
+                            </div>
+                            <div class="card-content">
+                                <p style="font-size: 13px; margin-bottom: 12px;"><strong>Target:</strong> 2-3 festival slots</p>
+                                <div class="task-list">
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Research summer festivals</div>
+                                            <div class="task-date">Target: February 2025</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Prepare festival submissions</div>
+                                            <div class="task-date">Target: March 2025</div>
+                                        </div>
+                                    </div>
+                                    <div class="task-item">
+                                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                                        <div class="task-content">
+                                            <div class="task-title">Build international reputation</div>
+                                            <div class="task-date">Ongoing through Q2-Q3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">💰 Income Projection</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">€400-600</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">Monthly Income from Bookings</div>
+                                <div style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Based on 10+ confirmed gigs annually</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">€50-100</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">Per Gig Average</div>
+                                <div style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Conservative estimate for emerging artist</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">🎤 Booking Agencies (Details)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Agency</th>
+                                    <th>Location</th>
+                                    <th>Specialty</th>
+                                    <th>Network</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Ludwig Sound</strong></td>
+                                    <td>Munich, Germany</td>
+                                    <td>Tech House / Deep House</td>
+                                    <td>Strongest European network, €500+ deals since 2013</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>FMLY Agency</strong></td>
+                                    <td>Brighton, UK</td>
+                                    <td>Tech House / Deep House</td>
+                                    <td>UK/Europe focus, emerging artist friendly</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Serious Management</strong></td>
+                                    <td>Berlin, Germany</td>
+                                    <td>Electronic / House</td>
+                                    <td>German domestic + EU connections</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- INCOME TRACKER TAB -->
+                <div id="income" class="tab-content">
+                    <h2 style="margin-bottom: 30px;">Income Streams & Financial Tracking</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">€1,500</div>
+                            <div class="stat-label">12-Month Target</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">€70-170</div>
+                            <div class="stat-label">Current Monthly</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">10-15x</div>
+                            <div class="stat-label">Growth Multiplier</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px; margin-top: 40px;">Income Stream Breakdown</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎵</span>
+                                    Streaming Royalties
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Monthly Target</span>
+                                        <span>€300-500</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Spotify, Apple Music, etc. Requires consistent streaming volume.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎧</span>
+                                    Beatport Sales
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Monthly Target</span>
+                                        <span>€150-300</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Per-track DJ sales. Highest per-stream payout.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎤</span>
+                                    DJ Bookings
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Monthly Target</span>
+                                        <span>€400-600</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">10+ confirmed gigs annually. Highly variable.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎁</span>
+                                    Bandcamp Direct Sales
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Monthly Target</span>
+                                        <span>€100-200</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Direct artist-fan sales. Highest payout rate.</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">💼</span>
+                                    Label Advances
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-group">
+                                    <div class="progress-label">
+                                        <span>Monthly Target</span>
+                                        <span>€200-500</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <p style="font-size: 12px; margin-top: 12px; color: var(--text-secondary);">Advance payments for releases. Builds with each signed track.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">📊 Financial Growth Path</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div style="background: var(--surface-light); padding: 20px; border-radius: 8px; font-size: 13px; line-height: 2;">
+                            <div><strong>Current Stage:</strong> €70-170/month (developing)</div>
+                            <div style="margin-top: 15px;"><strong>12-Month Goal:</strong> €1,200-2,200/month</div>
+                            <div style="margin-top: 15px;"><strong>Growth Strategy:</strong> Diversified income from 5 different streams</div>
+                            <div style="margin-top: 15px;"><strong>Key Insight:</strong> No single stream exceeds €600/month. Sustainability through diversification.</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Management Trigger Points</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="task-list">
+                            <div class="task-item" style="background: none; padding: 0; border: none;">
+                                <div class="task-checkbox" style="border-color: var(--warning);"></div>
+                                <div class="task-content">
+                                    <div class="task-title">5+ Confirmed Bookings</div>
+                                    <div class="task-desc">Build credibility as performing artist</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-checkbox" style="border-color: var(--warning);"></div>
+                                <div class="task-content">
+                                    <div class="task-title">2-3 Label Releases</div>
+                                    <div class="task-desc">Prove professional production & industry relationships</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-checkbox" style="border-color: var(--warning);"></div>
+                                <div class="task-content">
+                                    <div class="task-title">10k Followers</div>
+                                    <div class="task-desc">Demonstrate audience & social proof</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-checkbox" style="border-color: var(--warning);"></div>
+                                <div class="task-content">
+                                    <div class="task-title">€1,000+ Monthly Income</div>
+                                    <div class="task-desc">Show financial viability</div>
+                                </div>
+                            </div>
+                            <div class="task-item" style="background: none; padding: 0; border: none; margin-top: 20px;">
+                                <div class="task-checkbox" style="border-color: var(--warning);"></div>
+                                <div class="task-content">
+                                    <div class="task-title">500k+ Annual Streams</div>
+                                    <div class="task-desc">Demonstrate audience traction</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TIMELINE TAB -->
+                <div id="timeline" class="tab-content">
+                    <h2 style="margin-bottom: 30px;">12-Month Strategic Timeline</h2>
+
+                    <h3 style="margin-bottom: 20px;">🚀 30-Day Action Plan (Immediate)</h3>
+                    <div class="timeline" style="max-width: 800px;">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-title">Week 1: Business Foundation</div>
+                            <div class="timeline-date">This Week</div>
+                            <ul style="margin-left: 20px; margin-top: 8px; font-size: 13px; line-height: 1.8;">
+                                <li>Set up business structure</li>
+                                <li>Create comprehensive spreadsheets</li>
+                                <li>Optimize all social profiles</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-title">Week 2: Professional Materials</div>
+                            <div class="timeline-date">Next Week</div>
+                            <ul style="margin-left: 20px; margin-top: 8px; font-size: 13px; line-height: 1.8;">
+                                <li>Complete professional EPK</li>
+                                <li>Research 10 target labels</li>
+                                <li>Prepare demo tracks</li>
+                                <li>Compile press list</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-title">Week 3: Launch Outreach</div>
+                            <div class="timeline-date">Week 3</div>
+                            <ul style="margin-left: 20px; margin-top: 8px; font-size: 13px; line-height: 1.8;">
+                                <li>Submit 5 demos to labels</li>
+                                <li>Schedule TikToks</li>
+                                <li>Film video clips</li>
+                                <li>Set up Bandcamp</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-title">Week 4: Infrastructure Complete</div>
+                            <div class="timeline-date">Week 4</div>
+                            <ul style="margin-left: 20px; margin-top: 8px; font-size: 13px; line-height: 1.8;">
+                                <li>Send press to 20+ outlets</li>
+                                <li>Reach out to 10 venues</li>
+                                <li>Research booking agents</li>
+                                <li>Set up newsletter</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 20px; margin-top: 40px;">📅 12-Month Success Milestones</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🎵</span>
+                                    Months 0-3: Build Foundation
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
+                                    <li>✓ 5+ label submissions</li>
+                                    <li>✓ 3-4 local Berlin gigs</li>
+                                    <li>✓ 2k social followers</li>
+                                    <li>✓ Newsletter launch</li>
+                                    <li>✓ First press features</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🚀</span>
+                                    Months 3-6: Accelerate Growth
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
+                                    <li>✓ First label release</li>
+                                    <li>✓ 5k social followers</li>
+                                    <li>✓ Booking agent secured</li>
+                                    <li>✓ 5-6 additional gigs</li>
+                                    <li>✓ 300k+ streams milestone</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">⭐</span>
+                                    Months 6-9: Build Authority
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
+                                    <li>✓ 2nd release out</li>
+                                    <li>✓ 8k social followers</li>
+                                    <li>✓ Festival bookings</li>
+                                    <li>✓ Podcast appearances</li>
+                                    <li>✓ €800-1,000/month income</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">🏆</span>
+                                    Months 9-12: Full Momentum
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
+                                    <li>✓ 3-4 total releases</li>
+                                    <li>✓ 10+ DJ bookings</li>
+                                    <li>✓ 20k-30k followers</li>
+                                    <li>✓ €1,200-2,200/month</li>
+                                    <li>✓ Management discussions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">📊 Success Metrics Summary</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Current</th>
+                                    <th>12-Month Target</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Releases</strong></td>
+                                    <td>1 (Plastic City)</td>
+                                    <td>3-4 quality labels</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Annual Streams</strong></td>
+                                    <td>~100k</td>
+                                    <td>1M+</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Monthly Income</strong></td>
+                                    <td>€70-170</td>
+                                    <td>€1,200-2,200</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>DJ Bookings</strong></td>
+                                    <td>0-2</td>
+                                    <td>10+</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Instagram Followers</strong></td>
+                                    <td>~1k</td>
+                                    <td>5k-8k</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TikTok Followers</strong></td>
+                                    <td>~500</td>
+                                    <td>10k-15k</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>YouTube Subscribers</strong></td>
+                                    <td>~100</td>
+                                    <td>2k-3k</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Combined Followers</strong></td>
+                                    <td>~1.6k</td>
+                                    <td>20k-30k</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Newsletter Subscribers</strong></td>
+                                    <td>0</td>
+                                    <td>500+</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Industry Recognition</strong></td>
+                                    <td>1 release</td>
+                                    <td>1-2 interviews, podcast features</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-top: 40px; margin-bottom: 20px;">🎯 Strategic Insight</h3>
+                    <div class="card" style="max-width: 100%;">
+                        <div class="card-content">
+                            <p><strong>DOERD's multi-project approach (DOERD/dört/doerdinger), authentic emotional storytelling (MOODS philosophy), and critique of modern commercialism are STRENGTHS in 2025, not weaknesses.</strong></p>
+                            <p style="margin-top: 15px;">The industry is moving away from manufactured hype toward genuine artists. This plan succeeds by:</p>
+                            <ul style="margin-left: 20px; margin-top: 12px; font-size: 14px; line-height: 1.8;">
+                                <li><strong>Maintaining artistic integrity</strong> while pursuing commercial viability</li>
+                                <li><strong>Building community</strong> over vanity metrics</li>
+                                <li><strong>Focusing on quality</strong> over algorithm hacking</li>
+                                <li><strong>Starting locally (Berlin)</strong> then expanding regionally, then internationally</li>
+                                <li><strong>Balancing multiple projects</strong> as complementary identities, not scattered efforts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update nav active state
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Update page title
+            const titles = {
+                dashboard: 'Dashboard',
+                releases: 'Release Pipeline',
+                labels: 'Label Strategy',
+                distribution: 'Distribution Strategy',
+                social: 'Social Media Growth',
+                bookings: 'DJ Bookings & Live',
+                income: 'Income Tracker',
+                timeline: '12-Month Plan'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabName];
+        }
+
+        // Task toggle
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle('checked');
+            checkbox.parentElement.parentElement.style.opacity = checkbox.classList.contains('checked') ? '0.6' : '1';
+        }
+
+        function filterSubmissions() {
+            const filter = document.getElementById('submissionFilter').value.toLowerCase();
+            const table = document.getElementById('submissionsTableBody');
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const label = row.cells[0].textContent.toLowerCase();
+                const track = row.cells[1].textContent.toLowerCase();
+                const status = row.cells[3].textContent.toLowerCase();
+                if (label.includes(filter) || track.includes(filter) || status.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+
+        function openSubmissionModal() {
+            const label = prompt('Label name:');
+            const track = prompt('Track/Release (e.g., Track Name (Genre)):');
+            const date = prompt('Date submitted (YYYY-MM-DD):');
+            if (label && track && date) {
+                const tbody = document.getElementById('submissionsTableBody');
+                const newRow = tbody.insertRow(0);
+                newRow.innerHTML = `
+                    <td><strong>${label}</strong></td>
+                    <td>${track}</td>
+                    <td>${date}</td>
+                    <td><span class="card-status status-pending">⏳ Pending</span></td>
+                    <td>—</td>
+                    <td><input type="text" class="form-input-inline" placeholder="Add notes..." style="width: 100%; padding: 4px;"/></td>
+                `;
+                updateSubmissionStats();
+                alert(`✓ Submission logged: ${label} (${track})`);
+            }
+        }
+
+        function updateSubmissionStats() {
+            const tbody = document.getElementById('submissionsTableBody');
+            const rows = tbody.getElementsByTagName('tr');
+            let accepted = 0, pending = 0;
+            for (let row of rows) {
+                const status = row.cells[3].textContent;
+                if (status.includes('Accepted')) accepted++;
+                if (status.includes('Pending')) pending++;
+            }
+            document.getElementById('totalSubmissions').textContent = rows.length;
+            document.getElementById('acceptedCount').textContent = accepted;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+
+        function addLabelNote() {
+            const labelName = prompt('Label name:');
+            const location = prompt('Location:');
+            const genre = prompt('Genre focus:');
+            if (labelName && location && genre) {
+                const table = document.getElementById('labelDatabase');
+                const newRow = table.getElementsByTagName('tbody')[0].insertRow();
+                newRow.innerHTML = `
+                    <td><strong>${labelName}</strong></td>
+                    <td>${location}</td>
+                    <td>${genre}</td>
+                    <td>Custom</td>
+                    <td><span class="card-status status-planned">Research</span></td>
+                    <td><input type="text" class="form-input-inline" placeholder="Add notes..." style="width: 100%;"/></td>
+                `;
+            }
+        }
+
+        // Data storage
+        let bookings = [
+            {id: 1, venue: 'Club X (Friedrichshain)', date: '2024-12-20', fee: 75, status: 'booked', city: 'Berlin'}
+        ];
+
+        let submissions = [
+            {label: 'Plastic City Records', release: '#1 (Deep House)', dateSent: '2024-12-09', status: 'accepted', response: 'Signed - Releasing Q1 2025', notes: 'Previous success'},
+            {label: 'Toolroom Records', release: '#2 (Tech House)', dateSent: '2024-12-15', status: 'pending', response: '—', notes: '4-6 weeks to respond'},
+            {label: 'Innervisions', release: '#2 (Tech House)', dateSent: '2024-12-15', status: 'pending', response: '—', notes: 'Secondary option'},
+        ];
+
+        // Modal functions
+        function openReleaseModal() {
+            const releaseNum = document.querySelectorAll('#releaseGrid .card').length + 1;
+            if (releaseNum <= 4) {
+                const newRelease = document.createElement('div');
+                newRelease.className = 'card';
+                newRelease.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-icon">🎛️</span>
+                            Release #${releaseNum}
+                        </div>
+                        <div class="card-status status-planned">Planned</div>
+                    </div>
+                    <div class="card-content">
+                        <div style="margin-bottom: 16px;">
+                            <strong>Track Name:</strong> <input type="text" class="form-input-inline" placeholder="New track" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                            <strong>Target Label:</strong> <input type="text" class="form-input-inline" placeholder="Label name" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                            <strong>Genre:</strong> <input type="text" class="form-input-inline" placeholder="Genre" style="width: 100%; padding: 4px; margin-top: 4px;"/><br/>
+                            <strong>Target Date:</strong> <input type="month" class="form-input-inline" style="width: 100%; padding: 4px; margin-top: 4px;"/>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label">
+                                <span>Production Progress</span>
+                                <span id="rel${releaseNum}-progress">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <input type="range" min="0" max="100" value="0" class="progress-slider" onchange="updateProgress(${releaseNum}, this.value)" style="width: 100%; cursor: pointer;"/>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="this.closest('.card').remove()" style="margin-top: 12px;">Remove</button>
+                    </div>
+                `;
+                document.getElementById('releaseGrid').appendChild(newRelease);
+            }
+        }
+
+        function updateProgress(releaseId, value) {
+            const progressLabel = document.getElementById(`rel${releaseId}-progress`);
+            if (progressLabel) {
+                progressLabel.textContent = value + '%';
+            }
+        }
+
+        function addBooking() {
+            const venue = prompt('Venue name:');
+            const date = prompt('Booking date (YYYY-MM-DD):');
+            const fee = prompt('Fee (€):');
+            if (venue && date && fee) {
+                bookings.push({id: bookings.length + 1, venue, date, fee: parseInt(fee), status: 'booked', city: 'Berlin'});
+                alert(`✓ Booking logged: ${venue} on ${date} (€${fee})`);
+            }
+        }
+
+        function addSubmission() {
+            const label = prompt('Label name:');
+            const release = prompt('Release # and genre (e.g., #2 (Tech House)):');
+            const dateSent = prompt('Date submitted (YYYY-MM-DD):');
+            if (label && release && dateSent) {
+                submissions.push({label, release, dateSent, status: 'pending', response: '—', notes: 'New submission'});
+                const tbody = document.getElementById('submissionsBody');
+                const newRow = tbody.insertRow();
+                newRow.innerHTML = `
+                    <td><strong>${label}</strong></td>
+                    <td>${release}</td>
+                    <td>${dateSent}</td>
+                    <td><span class="card-status status-pending">Pending</span></td>
+                    <td>—</td>
+                    <td>New submission - awaiting response</td>
+                `;
+                alert(`✓ Submission logged to ${label}`);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial active nav item
+            document.querySelector('.nav-item').classList.add('active');
+            
+            // Update progress bars
+            updateProgressBars();
+        });
+
+        function updateProgressBars() {
+            // Calculate release progress based on current data
+            const completedReleases = 1; // Plastic City signed
+            const totalReleases = 3;
+            const releaseProgress = Math.round((completedReleases / totalReleases) * 100);
+            document.getElementById('releaseProgress').textContent = releaseProgress + '%';
+            document.getElementById('releaseFill').style.width = releaseProgress + '%';
+
+            // Social progress (example: 2.5k out of 25k target)
+            const currentFollowers = 2500;
+            const targetFollowers = 25000;
+            const socialProgress = Math.round((currentFollowers / targetFollowers) * 100);
+            document.getElementById('socialProgress').textContent = socialProgress + '%';
+            document.getElementById('socialFill').style.width = socialProgress + '%';
+
+            // Booking progress (1 confirmed out of 10 target)
+            const currentBookings = bookings.length;
+            const targetBookings = 10;
+            const bookingProgress = Math.round((currentBookings / targetBookings) * 100);
+            document.getElementById('bookingProgress').textContent = bookingProgress + '%';
+            document.getElementById('bookingFill').style.width = bookingProgress + '%';
+        }
+    </script>
+</body>
+</html>
