@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicationeer - Job Application Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Design System */
+        :root {
+          /* Primitive Color Tokens */
+          --color-white: rgba(255, 255, 255, 1);
+          --color-black: rgba(0, 0, 0, 1);
+          --color-cream-50: rgba(252, 252, 249, 1);
+          --color-cream-100: rgba(255, 255, 253, 1);
+          --color-gray-200: rgba(245, 245, 245, 1);
+          --color-gray-300: rgba(167, 169, 169, 1);
+          --color-gray-400: rgba(119, 124, 124, 1);
+          --color-slate-500: rgba(98, 108, 113, 1);
+          --color-brown-600: rgba(94, 82, 64, 1);
+          --color-charcoal-700: rgba(31, 33, 33, 1);
+          --color-charcoal-800: rgba(38, 40, 40, 1);
+          --color-slate-900: rgba(19, 52, 59, 1);
+          --color-teal-300: rgba(50, 184, 198, 1);
+          --color-teal-400: rgba(45, 166, 178, 1);
+          --color-teal-500: rgba(33, 128, 141, 1);
+          --color-teal-600: rgba(29, 116, 128, 1);
+          --color-teal-700: rgba(26, 104, 115, 1);
+          --color-teal-800: rgba(41, 150, 161, 1);
+          --color-red-400: rgba(255, 84, 89, 1);
+          --color-red-500: rgba(192, 21, 47, 1);
+          --color-orange-400: rgba(230, 129, 97, 1);
+          --color-orange-500: rgba(168, 75, 47, 1);
+
+          /* RGB versions for opacity control */
+          --color-brown-600-rgb: 94, 82, 64;
+          --color-teal-500-rgb: 33, 128, 141;
+          --color-slate-900-rgb: 19, 52, 59;
+          --color-slate-500-rgb: 98, 108, 113;
+          --color-red-500-rgb: 192, 21, 47;
+          --color-red-400-rgb: 255, 84, 89;
+          --color-orange-500-rgb: 168, 75, 47;
+          --color-orange-400-rgb: 230, 129, 97;
+
+          /* Background color tokens (Light Mode) */
+          --color-bg-1: rgba(59, 130, 246, 0.08);
+          --color-bg-2: rgba(245, 158, 11, 0.08);
+          --color-bg-3: rgba(34, 197, 94, 0.08);
+          --color-bg-4: rgba(239, 68, 68, 0.08);
+          --color-bg-5: rgba(147, 51, 234, 0.08);
+          --color-bg-6: rgba(249, 115, 22, 0.08);
+          --color-bg-7: rgba(236, 72, 153, 0.08);
+          --color-bg-8: rgba(6, 182, 212, 0.08);
+
+          /* Semantic Color Tokens (Light Mode) */
+          --color-background: var(--color-cream-50);
+          --color-surface: var(--color-cream-100);
+          --color-text: var(--color-slate-900);
+          --color-text-secondary: var(--color-slate-500);
+          --color-primary: var(--color-teal-500);
+          --color-primary-hover: var(--color-teal-600);
+          --color-primary-active: var(--color-teal-700);
+          --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+          --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-btn-primary-text: var(--color-cream-50);
+          --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-error: var(--color-red-500);
+          --color-success: var(--color-teal-500);
+          --color-warning: var(--color-orange-500);
+          --color-info: var(--color-slate-500);
+          --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+          --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+          /* Typography */
+          --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+          --font-size-xs: 11px;
+          --font-size-sm: 12px;
+          --font-size-base: 14px;
+          --font-size-md: 14px;
+          --font-size-lg: 16px;
+          --font-size-xl: 18px;
+          --font-size-2xl: 20px;
+          --font-size-3xl: 24px;
+          --font-size-4xl: 30px;
+          --font-weight-normal: 400;
+          --font-weight-medium: 500;
+          --font-weight-semibold: 550;
+          --font-weight-bold: 600;
+          --line-height-tight: 1.2;
+          --line-height-normal: 1.5;
+          --letter-spacing-tight: -0.01em;
+
+          /* Spacing */
+          --space-0: 0;
+          --space-1: 1px;
+          --space-2: 2px;
+          --space-4: 4px;
+          --space-6: 6px;
+          --space-8: 8px;
+          --space-10: 10px;
+          --space-12: 12px;
+          --space-16: 16px;
+          --space-20: 20px;
+          --space-24: 24px;
+          --space-32: 32px;
+
+          /* Border Radius */
+          --radius-sm: 6px;
+          --radius-base: 8px;
+          --radius-md: 10px;
+          --radius-lg: 12px;
+          --radius-full: 9999px;
+
+          /* Shadows */
+          --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+          --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+          /* Animation */
+          --duration-fast: 150ms;
+          --duration-normal: 250ms;
+          --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dark mode colors */
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --color-gray-400-rgb: 119, 124, 124;
+            --color-teal-300-rgb: 50, 184, 198;
+            --color-gray-300-rgb: 167, 169, 169;
+            --color-gray-200-rgb: 245, 245, 245;
+
+            --color-bg-1: rgba(29, 78, 216, 0.15);
+            --color-bg-2: rgba(180, 83, 9, 0.15);
+            --color-bg-3: rgba(21, 128, 61, 0.15);
+            --color-bg-4: rgba(185, 28, 28, 0.15);
+            --color-bg-5: rgba(107, 33, 168, 0.15);
+            --color-bg-6: rgba(194, 65, 12, 0.15);
+            --color-bg-7: rgba(190, 24, 93, 0.15);
+            --color-bg-8: rgba(8, 145, 178, 0.15);
+
+            --color-background: var(--color-charcoal-700);
+            --color-surface: var(--color-charcoal-800);
+            --color-text: var(--color-gray-200);
+            --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+            --color-primary: var(--color-teal-300);
+            --color-primary-hover: var(--color-teal-400);
+            --color-primary-active: var(--color-teal-800);
+            --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+            --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+            --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+            --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+            --color-error: var(--color-red-400);
+            --color-success: var(--color-teal-300);
+            --color-warning: var(--color-orange-400);
+            --color-info: var(--color-gray-300);
+            --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+            --color-btn-primary-text: var(--color-slate-900);
+            --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+            --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+            --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+          }
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: var(--line-height-normal);
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color var(--duration-normal) var(--ease-standard);
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--color-surface);
+            border-right: 1px solid var(--color-border);
+            padding: var(--space-24);
+            transition: all var(--duration-normal) var(--ease-standard);
+            position: relative;
+            z-index: 100;
+        }
+
+        .sidebar.mobile-hidden {
+            transform: translateX(-100%);
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+            margin-bottom: var(--space-32);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .logo i {
+            font-size: var(--font-size-2xl);
+        }
+
+        .nav-section {
+            margin-bottom: var(--space-24);
+        }
+
+        .nav-title {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-12);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-standard);
+            margin-bottom: var(--space-4);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .nav-item:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .nav-item.active {
+            background-color: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            bottom: var(--space-24);
+            left: var(--space-24);
+            right: var(--space-24);
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-background);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-size: var(--font-size-sm);
+            transition: all var(--duration-fast) var(--ease-standard);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: var(--space-16);
+            left: var(--space-16);
+            z-index: 200;
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            border: none;
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-size: var(--font-size-lg);
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: var(--space-32);
+            overflow-y: auto;
+            background-color: var(--color-background);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-32);
+        }
+
+        .page-title {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-24);
+            margin-bottom: var(--space-32);
+        }
+
+        .stat-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            text-align: center;
+            transition: all var(--duration-normal) var(--ease-standard);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-primary);
+        }
+
+        .stat-value {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-24);
+            margin-bottom: var(--space-32);
+        }
+
+        .chart-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            height: 400px;
+        }
+
+        .chart-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-16);
+            color: var(--color-text);
+        }
+
+        .chart-canvas {
+            height: 300px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-8);
+            padding: var(--space-12) var(--space-20);
+            border: none;
+            border-radius: var(--radius-base);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-standard);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .btn-sm {
+            padding: var(--space-8) var(--space-12);
+            font-size: var(--font-size-xs);
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: var(--space-16);
+            text-align: left;
+            border-bottom: 1px solid var(--color-card-border-inner);
+        }
+
+        .table th {
+            background: var(--color-bg-1);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .table td {
+            font-size: var(--font-size-sm);
+        }
+
+        .table tr:hover {
+            background: var(--color-bg-1);
+        }
+
+        /* Status badges */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-4) var(--space-8);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+            text-transform: capitalize;
+        }
+
+        .status-waiting {
+            background: var(--color-bg-2);
+            color: var(--color-warning);
+        }
+
+        .status-interview {
+            background: var(--color-bg-1);
+            color: var(--color-primary);
+        }
+
+        .status-rejected {
+            background: var(--color-bg-4);
+            color: var(--color-error);
+        }
+
+        .status-accepted {
+            background: var(--color-bg-3);
+            color: var(--color-success);
+        }
+
+        .status-ready {
+            background: var(--color-bg-3);
+            color: var(--color-success);
+        }
+
+        .status-development {
+            background: var(--color-bg-2);
+            color: var(--color-warning);
+        }
+
+        .status-archived {
+            background: var(--color-bg-4);
+            color: var(--color-error);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--space-20);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-8);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+            color: var(--color-text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-size: var(--font-size-sm);
+            transition: border-color var(--duration-fast) var(--ease-standard);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-focus-ring);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+            font-family: var(--font-family-base);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform var(--duration-normal) var(--ease-standard);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-24);
+            padding-bottom: var(--space-16);
+            border-bottom: 1px solid var(--color-card-border-inner);
+        }
+
+        .modal-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            padding: var(--space-8);
+            border-radius: var(--radius-base);
+            transition: all var(--duration-fast) var(--ease-standard);
+        }
+
+        .modal-close:hover {
+            background: var(--color-secondary);
+            color: var(--color-text);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-12);
+            justify-content: flex-end;
+            margin-top: var(--space-24);
+            padding-top: var(--space-16);
+            border-top: 1px solid var(--color-card-border-inner);
+        }
+
+        /* Lists */
+        .item-list {
+            display: grid;
+            gap: var(--space-16);
+            margin-bottom: var(--space-24);
+        }
+
+        .item-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-20);
+            transition: all var(--duration-fast) var(--ease-standard);
+        }
+
+        .item-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-12);
+        }
+
+        .item-title {
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-md);
+            color: var(--color-text);
+        }
+
+        .item-actions {
+            display: flex;
+            gap: var(--space-8);
+        }
+
+        .item-meta {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .item-description {
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-normal);
+            margin-bottom: var(--space-12);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: var(--space-20);
+            right: var(--space-20);
+            z-index: 2000;
+        }
+
+        .toast {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-12);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-12);
+            min-width: 300px;
+            transform: translateX(100%);
+            transition: transform var(--duration-normal) var(--ease-standard);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--color-success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--color-error);
+        }
+
+        .toast-warning {
+            border-left: 4px solid var(--color-warning);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 150;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                padding: var(--space-16);
+                margin-top: 60px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-16);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: var(--space-16);
+            }
+
+            .modal {
+                width: 95%;
+                padding: var(--space-20);
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+        }
+
+        /* Loading states */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            border-top: 2px solid var(--color-primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Utilities */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-0 { margin-bottom: 0; }
+        .mb-8 { margin-bottom: var(--space-8); }
+        .mb-16 { margin-bottom: var(--space-16); }
+        .mb-24 { margin-bottom: var(--space-24); }
+        .mt-16 { margin-top: var(--space-16); }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-8 { gap: var(--space-8); }
+        .gap-12 { gap: var(--space-12); }
+        .gap-16 { gap: var(--space-16); }
+        .w-full { width: 100%; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="app" id="app">
+        <!-- Mobile menu toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <aside class="sidebar mobile-hidden" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-briefcase"></i>
+                <span>Applicationeer</span>
+            </div>
+            
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Hauptbereich</div>
+                    <div class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-page="applications">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Bewerbungen</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Management</div>
+                    <div class="nav-item" data-page="demo-tracks">
+                        <i class="fas fa-code"></i>
+                        <span>Demo Tracks</span>
+                    </div>
+                    <div class="nav-item" data-page="playlists">
+                        <i class="fas fa-list"></i>
+                        <span>Playlists</span>
+                    </div>
+                    <div class="nav-item" data-page="documents">
+                        <i class="fas fa-file-word"></i>
+                        <span>Dokumente</span>
+                    </div>
+                    <div class="nav-item" data-page="textblocks">
+                        <i class="fas fa-paragraph"></i>
+                        <span>Textblöcke</span>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Dunkles Theme</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard</h1>
+                    <div class="flex gap-12">
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i>
+                            Daten exportieren
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('applicationModal')">
+                            <i class="fas fa-plus"></i>
+                            Neue Bewerbung
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalApplications">0</div>
+                        <div class="stat-label">Bewerbungen gesendet</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalInterviews">0</div>
+                        <div class="stat-label">Interviews geplant</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="responseRate">0%</div>
+                        <div class="stat-label">Antwortrate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingResponses">0</div>
+                        <div class="stat-label">Ausstehende Antworten</div>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3 class="chart-title">Bewerbungen pro Monat</h3>
+                        <canvas id="applicationsChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="chart-title">Status-Verteilung</h3>
+                        <canvas id="statusChart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="mb-16">Aktuelle Bewerbungen</h3>
+                    <div class="table-container">
+                        <table class="table" id="recentApplicationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Unternehmen</th>
+                                    <th>Position</th>
+                                    <th>Datum</th>
+                                    <th>Status</th>
+                                    <th>Aktionen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Page -->
+            <div class="page" id="applications">
+                <div class="page-header">
+                    <h1 class="page-title">Bewerbungen</h1>
+                    <div class="flex gap-12">
+                        <button class="btn btn-secondary" onclick="exportApplications()">
+                            <i class="fas fa-download"></i>
+                            Export CSV
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('applicationModal')">
+                            <i class="fas fa-plus"></i>
+                            Neue Bewerbung
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="table-container">
+                        <table class="table" id="applicationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Unternehmen</th>
+                                    <th>Position</th>
+                                    <th>Datum gesendet</th>
+                                    <th>Status</th>
+                                    <th>Interview Datum</th>
+                                    <th>Kontakt</th>
+                                    <th>Aktionen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Tracks Page -->
+            <div class="page" id="demo-tracks">
+                <div class="page-header">
+                    <h1 class="page-title">Demo Tracks</h1>
+                    <div class="flex gap-12">
+                        <button class="btn btn-secondary" onclick="exportDemoTracks()">
+                            <i class="fas fa-download"></i>
+                            Export CSV
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('demoTrackModal')">
+                            <i class="fas fa-plus"></i>
+                            Neuer Demo Track
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="item-list" id="demoTracksList"></div>
+            </div>
+
+            <!-- Playlists Page -->
+            <div class="page" id="playlists">
+                <div class="page-header">
+                    <h1 class="page-title">Playlists</h1>
+                    <button class="btn btn-primary" onclick="openModal('playlistModal')">
+                        <i class="fas fa-plus"></i>
+                        Neue Playlist
+                    </button>
+                </div>
+                
+                <div class="item-list" id="playlistsList"></div>
+            </div>
+
+            <!-- Documents Page -->
+            <div class="page" id="documents">
+                <div class="page-header">
+                    <h1 class="page-title">Dokumente</h1>
+                    <button class="btn btn-primary" onclick="openModal('documentModal')">
+                        <i class="fas fa-plus"></i>
+                        Neues Dokument
+                    </button>
+                </div>
+                
+                <div class="flex gap-24">
+                    <div class="w-full">
+                        <h3 class="mb-16">Anschreiben</h3>
+                        <div class="item-list" id="coverLettersList"></div>
+                    </div>
+                    <div class="w-full">
+                        <h3 class="mb-16">Lebenslauf</h3>
+                        <div class="item-list" id="cvsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Textblocks Page -->
+            <div class="page" id="textblocks">
+                <div class="page-header">
+                    <h1 class="page-title">Textblöcke</h1>
+                    <button class="btn btn-primary" onclick="openModal('textblockModal')">
+                        <i class="fas fa-plus"></i>
+                        Neuer Textblock
+                    </button>
+                </div>
+                
+                <div class="item-list" id="textblocksList"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Application Modal -->
+    <div class="modal-overlay" id="applicationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="applicationModalTitle">Neue Bewerbung</h2>
+                <button class="modal-close" onclick="closeModal('applicationModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="applicationForm">
+                <div class="form-group">
+                    <label class="form-label" for="company">Unternehmen *</label>
+                    <input type="text" class="form-control" id="company" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="position">Position *</label>
+                    <input type="text" class="form-control" id="position" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="contactEmail">Kontakt E-Mail</label>
+                    <input type="email" class="form-control" id="contactEmail">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="dateSent">Datum gesendet</label>
+                    <input type="date" class="form-control" id="dateSent">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="form-control" id="status">
+                        <option value="Waiting for Response">Waiting for Response</option>
+                        <option value="Interview Scheduled">Interview Scheduled</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Accepted">Accepted</option>
+                    </select>
+                </div>
+                <div class="form-group" id="interviewGroup" style="display: none;">
+                    <label class="form-label" for="interviewDate">Interview Datum</label>
+                    <input type="date" class="form-control" id="interviewDate">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('applicationModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Demo Track Modal -->
+    <div class="modal-overlay" id="demoTrackModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="demoTrackModalTitle">Neuer Demo Track</h2>
+                <button class="modal-close" onclick="closeModal('demoTrackModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="demoTrackForm">
+                <div class="form-group">
+                    <label class="form-label" for="demoTitle">Titel *</label>
+                    <input type="text" class="form-control" id="demoTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demoDescription">Beschreibung</label>
+                    <textarea class="form-control" id="demoDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demoUrl">URL</label>
+                    <input type="url" class="form-control" id="demoUrl">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="techStack">Tech Stack</label>
+                    <input type="text" class="form-control" id="techStack" placeholder="z.B. React, Node.js, MongoDB">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demoStatus">Status</label>
+                    <select class="form-control" id="demoStatus">
+                        <option value="Ready">Ready</option>
+                        <option value="In Development">In Development</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('demoTrackModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Playlist Modal -->
+    <div class="modal-overlay" id="playlistModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="playlistModalTitle">Neue Playlist</h2>
+                <button class="modal-close" onclick="closeModal('playlistModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="playlistForm">
+                <div class="form-group">
+                    <label class="form-label" for="playlistName">Name *</label>
+                    <input type="text" class="form-control" id="playlistName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="playlistDescription">Beschreibung</label>
+                    <textarea class="form-control" id="playlistDescription" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="playlistUrls">URLs (eine pro Zeile)</label>
+                    <textarea class="form-control" id="playlistUrls" rows="5" placeholder="https://github.com/user/project1\nhttps://github.com/user/project2"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('playlistModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div class="modal-overlay" id="documentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="documentModalTitle">Neues Dokument</h2>
+                <button class="modal-close" onclick="closeModal('documentModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="documentForm">
+                <div class="form-group">
+                    <label class="form-label" for="documentTitle">Titel *</label>
+                    <input type="text" class="form-control" id="documentTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="documentType">Typ</label>
+                    <select class="form-control" id="documentType">
+                        <option value="Anschreiben">Anschreiben</option>
+                        <option value="Lebenslauf">Lebenslauf</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="documentContent">Inhalt</label>
+                    <textarea class="form-control" id="documentContent" rows="10"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('documentModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Textblock Modal -->
+    <div class="modal-overlay" id="textblockModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="textblockModalTitle">Neuer Textblock</h2>
+                <button class="modal-close" onclick="closeModal('textblockModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="textblockForm">
+                <div class="form-group">
+                    <label class="form-label" for="textblockName">Name *</label>
+                    <input type="text" class="form-control" id="textblockName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="textblockContent">Inhalt</label>
+                    <textarea class="form-control" id="textblockContent" rows="6" placeholder="Verwende {{VARIABLE}} für Platzhalter"></textarea>
+                    <small class="text-secondary">Verfügbare Variablen: {{COMPANY}}, {{POSITION}}, {{PLAYLIST_URLS}}, {{TECH_STACK}}</small>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('textblockModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Email Modal -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">E-Mail senden</h2>
+                <button class="modal-close" onclick="closeModal('emailModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="emailForm">
+                <div class="form-group">
+                    <label class="form-label" for="emailTo">An</label>
+                    <input type="email" class="form-control" id="emailTo" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emailSubject">Betreff</label>
+                    <input type="text" class="form-control" id="emailSubject" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emailBody">Nachricht</label>
+                    <textarea class="form-control" id="emailBody" rows="8"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('emailModal')">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">E-Mail senden</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Global app state
+        let appState = {
+            applications: [],
+            demoTracks: [],
+            playlists: [],
+            documents: [],
+            textblocks: [],
+            currentEditId: null,
+            currentEditType: null
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSampleData();
+            loadFromStorage();
+            setupEventListeners();
+            renderDashboard();
+            renderAllPages();
+            
+            // Set initial date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateSent').value = today;
+        });
+
+        // Load sample data
+        function loadSampleData() {
+            if (appState.applications.length === 0) {
+                appState.applications = [
+                    {
+                        id: 1,
+                        company: "TechCorp GmbH",
+                        position: "Senior Developer",
+                        date_sent: "2025-10-15",
+                        status: "Interview Scheduled",
+                        contact_email: "hr@techcorp.de",
+                        has_interview: true,
+                        interview_date: "2025-10-25",
+                        demo_sent: true,
+                        playlist_used: "Portfolio 2025"
+                    },
+                    {
+                        id: 2,
+                        company: "StartupXY",
+                        position: "Full Stack Engineer",
+                        date_sent: "2025-10-12",
+                        status: "Waiting for Response",
+                        contact_email: "jobs@startupxy.com",
+                        has_interview: false,
+                        demo_sent: true,
+                        playlist_used: "Web Development"
+                    },
+                    {
+                        id: 3,
+                        company: "Digital Solutions AG",
+                        position: "Frontend Developer",
+                        date_sent: "2025-10-08",
+                        status: "Rejected",
+                        contact_email: "recruiting@digitalsolutions.de",
+                        has_interview: false,
+                        demo_sent: false
+                    }
+                ];
+            }
+
+            if (appState.demoTracks.length === 0) {
+                appState.demoTracks = [
+                    {
+                        id: 1,
+                        title: "React Portfolio App",
+                        description: "Modern React application with responsive design",
+                        url: "https://github.com/user/portfolio-app",
+                        tech_stack: "React, TypeScript, Tailwind CSS",
+                        status: "Ready",
+                        companies_sent: ["TechCorp GmbH", "StartupXY"]
+                    },
+                    {
+                        id: 2,
+                        title: "E-Commerce Platform",
+                        description: "Full-stack e-commerce solution",
+                        url: "https://github.com/user/ecommerce-platform",
+                        tech_stack: "Node.js, Express, MongoDB, React",
+                        status: "In Development",
+                        companies_sent: []
+                    }
+                ];
+            }
+
+            if (appState.playlists.length === 0) {
+                appState.playlists = [
+                    {
+                        id: 1,
+                        name: "Portfolio 2025",
+                        description: "Current portfolio projects",
+                        urls: [
+                            "https://github.com/user/portfolio-app",
+                            "https://github.com/user/react-dashboard",
+                            "https://myportfolio.dev"
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: "Web Development",
+                        description: "Web development focused projects",
+                        urls: [
+                            "https://github.com/user/responsive-website",
+                            "https://github.com/user/js-calculator",
+                            "https://codepen.io/user/collections"
+                        ]
+                    }
+                ];
+            }
+
+            if (appState.documents.length === 0) {
+                appState.documents = [
+                    {
+                        id: 1,
+                        type: "Anschreiben",
+                        title: "Standard Cover Letter",
+                        content: "Sehr geehrte Damen und Herren,\n\nmit großem Interesse habe ich Ihre Stellenausschreibung gelesen..."
+                    },
+                    {
+                        id: 2,
+                        type: "Lebenslauf",
+                        title: "Current CV",
+                        content: "LEBENSLAUF\n\nPersönliche Daten:\nName: Max Mustermann\nAdresse: Musterstraße 1, 12345 Berlin..."
+                    }
+                ];
+            }
+
+            if (appState.textblocks.length === 0) {
+                appState.textblocks = [
+                    {
+                        id: 1,
+                        name: "Introduction",
+                        content: "Sehr geehrte Damen und Herren,\n\nmit großem Interesse habe ich Ihre Stellenausschreibung für die Position als {{POSITION}} gelesen. Als erfahrener Entwickler mit Fokus auf moderne Webtechnologien möchte ich mich gerne bei Ihnen bewerben.",
+                        variables: ["POSITION", "COMPANY"]
+                    },
+                    {
+                        id: 2,
+                        name: "Portfolio Reference",
+                        content: "Gerne können Sie sich meine aktuellen Projekte in meinem Portfolio ansehen: {{PLAYLIST_URLS}}. Diese zeigen meine Expertise in {{TECH_STACK}}.",
+                        variables: ["PLAYLIST_URLS", "TECH_STACK"]
+                    }
+                ];
+            }
+        }
+
+        // Storage functions
+        function saveToStorage() {
+            try {
+                const data = JSON.stringify(appState);
+                window.appStorage = data; // Use in-memory storage instead of localStorage
+            } catch (error) {
+                console.warn('Could not save to storage:', error);
+            }
+        }
+
+        function loadFromStorage() {
+            try {
+                if (window.appStorage) {
+                    const data = JSON.parse(window.appStorage);
+                    appState = { ...appState, ...data };
+                }
+            } catch (error) {
+                console.warn('Could not load from storage:', error);
+            }
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const page = this.dataset.page;
+                    switchPage(page);
+                });
+            });
+
+            // Mobile menu toggle
+            document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('mobile-open');
+                sidebar.classList.toggle('mobile-hidden');
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // Status change handler for application form
+            document.getElementById('status').addEventListener('change', function() {
+                const interviewGroup = document.getElementById('interviewGroup');
+                if (this.value === 'Interview Scheduled') {
+                    interviewGroup.style.display = 'block';
+                } else {
+                    interviewGroup.style.display = 'none';
+                }
+            });
+
+            // Form submissions
+            setupFormHandlers();
+        }
+
+        function setupFormHandlers() {
+            // Application form
+            document.getElementById('applicationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveApplication();
+            });
+
+            // Demo track form
+            document.getElementById('demoTrackForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveDemoTrack();
+            });
+
+            // Playlist form
+            document.getElementById('playlistForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                savePlaylist();
+            });
+
+            // Document form
+            document.getElementById('documentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveDocument();
+            });
+
+            // Textblock form
+            document.getElementById('textblockForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveTextblock();
+            });
+
+            // Email form
+            document.getElementById('emailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                sendEmail();
+            });
+        }
+
+        // Page navigation
+        function switchPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Close mobile menu
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.add('mobile-hidden');
+            sidebar.classList.remove('mobile-open');
+
+            // Render page content
+            switch(pageId) {
+                case 'dashboard':
+                    renderDashboard();
+                    break;
+                case 'applications':
+                    renderApplications();
+                    break;
+                case 'demo-tracks':
+                    renderDemoTracks();
+                    break;
+                case 'playlists':
+                    renderPlaylists();
+                    break;
+                case 'documents':
+                    renderDocuments();
+                    break;
+                case 'textblocks':
+                    renderTextblocks();
+                    break;
+            }
+        }
+
+        // Dashboard rendering
+        function renderDashboard() {
+            renderStats();
+            renderCharts();
+            renderRecentApplications();
+        }
+
+        function renderStats() {
+            const totalApplications = appState.applications.length;
+            const totalInterviews = appState.applications.filter(app => app.has_interview).length;
+            const responses = appState.applications.filter(app => app.status !== 'Waiting for Response').length;
+            const responseRate = totalApplications > 0 ? Math.round((responses / totalApplications) * 100) : 0;
+            const pending = appState.applications.filter(app => app.status === 'Waiting for Response').length;
+
+            document.getElementById('totalApplications').textContent = totalApplications;
+            document.getElementById('totalInterviews').textContent = totalInterviews;
+            document.getElementById('responseRate').textContent = responseRate + '%';
+            document.getElementById('pendingResponses').textContent = pending;
+        }
+
+        function renderCharts() {
+            renderApplicationsChart();
+            renderStatusChart();
+        }
+
+        function renderApplicationsChart() {
+            const ctx = document.getElementById('applicationsChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.applicationsChart) {
+                window.applicationsChart.destroy();
+            }
+
+            const monthlyData = getMonthlyApplicationData();
+
+            window.applicationsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: monthlyData.labels,
+                    datasets: [{
+                        label: 'Bewerbungen',
+                        data: monthlyData.data,
+                        borderColor: '#21808D',
+                        backgroundColor: 'rgba(33, 128, 141, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderStatusChart() {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.statusChart) {
+                window.statusChart.destroy();
+            }
+
+            const statusData = getStatusDistribution();
+
+            window.statusChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: statusData.labels,
+                    datasets: [{
+                        data: statusData.data,
+                        backgroundColor: [
+                            '#1FB8CD',
+                            '#FFC185',
+                            '#B4413C',
+                            '#5D878F'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getMonthlyApplicationData() {
+            const months = ['Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+            const data = [0, 0, 0, 0, 0];
+            
+            appState.applications.forEach(app => {
+                const date = new Date(app.date_sent);
+                const monthIndex = date.getMonth() - 7; // Adjust for Aug = 0
+                if (monthIndex >= 0 && monthIndex < 5) {
+                    data[monthIndex]++;
+                }
+            });
+
+            // Add some sample progression
+            data[0] = 8;
+            data[1] = 12;
+            data[2] = appState.applications.length;
+            
+            return { labels: months, data: data };
+        }
+
+        function getStatusDistribution() {
+            const statusCount = {
+                'Waiting for Response': 0,
+                'Interview Scheduled': 0,
+                'Rejected': 0,
+                'Accepted': 0
+            };
+
+            appState.applications.forEach(app => {
+                statusCount[app.status] = (statusCount[app.status] || 0) + 1;
+            });
+
+            return {
+                labels: Object.keys(statusCount),
+                data: Object.values(statusCount)
+            };
+        }
+
+        function renderRecentApplications() {
+            const tbody = document.querySelector('#recentApplicationsTable tbody');
+            const recentApplications = appState.applications.slice(-5).reverse();
+            
+            tbody.innerHTML = recentApplications.map(app => `
+                <tr>
+                    <td>${app.company}</td>
+                    <td>${app.position}</td>
+                    <td>${formatDate(app.date_sent)}</td>
+                    <td><span class="status status-${getStatusClass(app.status)}">${app.status}</span></td>
+                    <td>
+                        <div class="flex gap-8">
+                            <button class="btn btn-sm btn-secondary" onclick="editApplication(${app.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="composeEmail('${app.contact_email}', '${app.company}', '${app.position}')">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Applications page
+        function renderApplications() {
+            const tbody = document.querySelector('#applicationsTable tbody');
+            
+            tbody.innerHTML = appState.applications.map(app => `
+                <tr>
+                    <td>${app.company}</td>
+                    <td>${app.position}</td>
+                    <td>${formatDate(app.date_sent)}</td>
+                    <td><span class="status status-${getStatusClass(app.status)}">${app.status}</span></td>
+                    <td>${app.interview_date ? formatDate(app.interview_date) : '-'}</td>
+                    <td>${app.contact_email || '-'}</td>
+                    <td>
+                        <div class="flex gap-8">
+                            <button class="btn btn-sm btn-secondary" onclick="editApplication(${app.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="composeEmail('${app.contact_email}', '${app.company}', '${app.position}')">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="deleteApplication(${app.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Demo Tracks page
+        function renderDemoTracks() {
+            const container = document.getElementById('demoTracksList');
+            
+            container.innerHTML = appState.demoTracks.map(track => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">${track.title}</div>
+                            <div class="item-meta">${track.tech_stack || 'No tech stack specified'}</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="editDemoTrack(${track.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="deleteDemoTrack(${track.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-description">${track.description || 'No description provided'}</div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-16">
+                            <span class="status status-${getStatusClass(track.status)}">${track.status}</span>
+                            ${track.url ? `<a href="${track.url}" target="_blank" class="btn btn-sm btn-secondary"><i class="fas fa-external-link-alt"></i> View</a>` : ''}
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm text-secondary">Sent to ${track.companies_sent.length} companies</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Playlists page
+        function renderPlaylists() {
+            const container = document.getElementById('playlistsList');
+            
+            container.innerHTML = appState.playlists.map(playlist => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">${playlist.name}</div>
+                            <div class="item-meta">${playlist.urls.length} URLs</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="editPlaylist(${playlist.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="deletePlaylist(${playlist.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-description">${playlist.description || 'No description provided'}</div>
+                    <div class="mt-16">
+                        <div class="text-sm text-secondary mb-8">URLs:</div>
+                        ${playlist.urls.map(url => `<div class="text-sm mb-4"><a href="${url}" target="_blank">${url}</a></div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Documents page
+        function renderDocuments() {
+            const coverLettersContainer = document.getElementById('coverLettersList');
+            const cvsContainer = document.getElementById('cvsList');
+            
+            const coverLetters = appState.documents.filter(doc => doc.type === 'Anschreiben');
+            const cvs = appState.documents.filter(doc => doc.type === 'Lebenslauf');
+            
+            coverLettersContainer.innerHTML = coverLetters.map(doc => renderDocumentCard(doc)).join('');
+            cvsContainer.innerHTML = cvs.map(doc => renderDocumentCard(doc)).join('');
+        }
+
+        function renderDocumentCard(doc) {
+            return `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-title">${doc.title}</div>
+                        <div class="item-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="editDocument(${doc.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="exportToPDF(${doc.id})">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="deleteDocument(${doc.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-description">${doc.content.substring(0, 150)}${doc.content.length > 150 ? '...' : ''}</div>
+                </div>
+            `;
+        }
+
+        // Textblocks page
+        function renderTextblocks() {
+            const container = document.getElementById('textblocksList');
+            
+            container.innerHTML = appState.textblocks.map(textblock => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-title">${textblock.name}</div>
+                        <div class="item-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="editTextblock(${textblock.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="deleteTextblock(${textblock.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-description">${textblock.content.substring(0, 200)}${textblock.content.length > 200 ? '...' : ''}</div>
+                    <div class="mt-16">
+                        <div class="text-sm text-secondary">Variablen: ${textblock.variables ? textblock.variables.join(', ') : 'Keine'}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render all pages
+        function renderAllPages() {
+            renderApplications();
+            renderDemoTracks();
+            renderPlaylists();
+            renderDocuments();
+            renderTextblocks();
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            
+            // Reset form if opening new item modal
+            if (!appState.currentEditId) {
+                const form = document.querySelector(`#${modalId} form`);
+                if (form) form.reset();
+                
+                // Set default date for application form
+                if (modalId === 'applicationModal') {
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('dateSent').value = today;
+                }
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            appState.currentEditId = null;
+            appState.currentEditType = null;
+        }
+
+        // CRUD Operations
+        function saveApplication() {
+            const form = document.getElementById('applicationForm');
+            const formData = new FormData(form);
+            
+            const applicationData = {
+                company: document.getElementById('company').value,
+                position: document.getElementById('position').value,
+                date_sent: document.getElementById('dateSent').value,
+                status: document.getElementById('status').value,
+                contact_email: document.getElementById('contactEmail').value,
+                has_interview: document.getElementById('status').value === 'Interview Scheduled',
+                interview_date: document.getElementById('interviewDate').value || null,
+                demo_sent: false,
+                playlist_used: null
+            };
+
+            if (appState.currentEditId) {
+                // Update existing
+                const index = appState.applications.findIndex(app => app.id === appState.currentEditId);
+                if (index !== -1) {
+                    appState.applications[index] = { ...appState.applications[index], ...applicationData };
+                    showToast('Bewerbung aktualisiert!', 'success');
+                }
+            } else {
+                // Create new
+                const newId = Math.max(...appState.applications.map(app => app.id), 0) + 1;
+                appState.applications.push({ id: newId, ...applicationData });
+                showToast('Bewerbung hinzugefügt!', 'success');
+            }
+
+            saveToStorage();
+            closeModal('applicationModal');
+            renderDashboard();
+            renderApplications();
+        }
+
+        function editApplication(id) {
+            const application = appState.applications.find(app => app.id === id);
+            if (!application) return;
+
+            appState.currentEditId = id;
+            appState.currentEditType = 'application';
+
+            // Fill form
+            document.getElementById('company').value = application.company;
+            document.getElementById('position').value = application.position;
+            document.getElementById('contactEmail').value = application.contact_email || '';
+            document.getElementById('dateSent').value = application.date_sent;
+            document.getElementById('status').value = application.status;
+            document.getElementById('interviewDate').value = application.interview_date || '';
+
+            // Show/hide interview date field
+            const interviewGroup = document.getElementById('interviewGroup');
+            if (application.status === 'Interview Scheduled') {
+                interviewGroup.style.display = 'block';
+            } else {
+                interviewGroup.style.display = 'none';
+            }
+
+            document.getElementById('applicationModalTitle').textContent = 'Bewerbung bearbeiten';
+            openModal('applicationModal');
+        }
+
+        function deleteApplication(id) {
+            if (confirm('Bewerbung wirklich löschen?')) {
+                appState.applications = appState.applications.filter(app => app.id !== id);
+                saveToStorage();
+                showToast('Bewerbung gelöscht!', 'success');
+                renderDashboard();
+                renderApplications();
+            }
+        }
+
+        function saveDemoTrack() {
+            const demoData = {
+                title: document.getElementById('demoTitle').value,
+                description: document.getElementById('demoDescription').value,
+                url: document.getElementById('demoUrl').value,
+                tech_stack: document.getElementById('techStack').value,
+                status: document.getElementById('demoStatus').value,
+                companies_sent: []
+            };
+
+            if (appState.currentEditId) {
+                const index = appState.demoTracks.findIndex(track => track.id === appState.currentEditId);
+                if (index !== -1) {
+                    appState.demoTracks[index] = { ...appState.demoTracks[index], ...demoData };
+                    showToast('Demo Track aktualisiert!', 'success');
+                }
+            } else {
+                const newId = Math.max(...appState.demoTracks.map(track => track.id), 0) + 1;
+                appState.demoTracks.push({ id: newId, ...demoData });
+                showToast('Demo Track hinzugefügt!', 'success');
+            }
+
+            saveToStorage();
+            closeModal('demoTrackModal');
+            renderDemoTracks();
+        }
+
+        function editDemoTrack(id) {
+            const track = appState.demoTracks.find(t => t.id === id);
+            if (!track) return;
+
+            appState.currentEditId = id;
+            appState.currentEditType = 'demoTrack';
+
+            document.getElementById('demoTitle').value = track.title;
+            document.getElementById('demoDescription').value = track.description || '';
+            document.getElementById('demoUrl').value = track.url || '';
+            document.getElementById('techStack').value = track.tech_stack || '';
+            document.getElementById('demoStatus').value = track.status;
+
+            document.getElementById('demoTrackModalTitle').textContent = 'Demo Track bearbeiten';
+            openModal('demoTrackModal');
+        }
+
+        function deleteDemoTrack(id) {
+            if (confirm('Demo Track wirklich löschen?')) {
+                appState.demoTracks = appState.demoTracks.filter(track => track.id !== id);
+                saveToStorage();
+                showToast('Demo Track gelöscht!', 'success');
+                renderDemoTracks();
+            }
+        }
+
+        function savePlaylist() {
+            const urls = document.getElementById('playlistUrls').value
+                .split('\n')
+                .map(url => url.trim())
+                .filter(url => url.length > 0);
+
+            const playlistData = {
+                name: document.getElementById('playlistName').value,
+                description: document.getElementById('playlistDescription').value,
+                urls: urls
+            };
+
+            if (appState.currentEditId) {
+                const index = appState.playlists.findIndex(playlist => playlist.id === appState.currentEditId);
+                if (index !== -1) {
+                    appState.playlists[index] = { ...appState.playlists[index], ...playlistData };
+                    showToast('Playlist aktualisiert!', 'success');
+                }
+            } else {
+                const newId = Math.max(...appState.playlists.map(playlist => playlist.id), 0) + 1;
+                appState.playlists.push({ id: newId, ...playlistData });
+                showToast('Playlist hinzugefügt!', 'success');
+            }
+
+            saveToStorage();
+            closeModal('playlistModal');
+            renderPlaylists();
+        }
+
+        function editPlaylist(id) {
+            const playlist = appState.playlists.find(p => p.id === id);
+            if (!playlist) return;
+
+            appState.currentEditId = id;
+            appState.currentEditType = 'playlist';
+
+            document.getElementById('playlistName').value = playlist.name;
+            document.getElementById('playlistDescription').value = playlist.description || '';
+            document.getElementById('playlistUrls').value = playlist.urls.join('\n');
+
+            document.getElementById('playlistModalTitle').textContent = 'Playlist bearbeiten';
+            openModal('playlistModal');
+        }
+
+        function deletePlaylist(id) {
+            if (confirm('Playlist wirklich löschen?')) {
+                appState.playlists = appState.playlists.filter(playlist => playlist.id !== id);
+                saveToStorage();
+                showToast('Playlist gelöscht!', 'success');
+                renderPlaylists();
+            }
+        }
+
+        function saveDocument() {
+            const documentData = {
+                title: document.getElementById('documentTitle').value,
+                type: document.getElementById('documentType').value,
+                content: document.getElementById('documentContent').value
+            };
+
+            if (appState.currentEditId) {
+                const index = appState.documents.findIndex(doc => doc.id === appState.currentEditId);
+                if (index !== -1) {
+                    appState.documents[index] = { ...appState.documents[index], ...documentData };
+                    showToast('Dokument aktualisiert!', 'success');
+                }
+            } else {
+                const newId = Math.max(...appState.documents.map(doc => doc.id), 0) + 1;
+                appState.documents.push({ id: newId, ...documentData });
+                showToast('Dokument hinzugefügt!', 'success');
+            }
+
+            saveToStorage();
+            closeModal('documentModal');
+            renderDocuments();
+        }
+
+        function editDocument(id) {
+            const doc = appState.documents.find(d => d.id === id);
+            if (!doc) return;
+
+            appState.currentEditId = id;
+            appState.currentEditType = 'document';
+
+            document.getElementById('documentTitle').value = doc.title;
+            document.getElementById('documentType').value = doc.type;
+            document.getElementById('documentContent').value = doc.content;
+
+            document.getElementById('documentModalTitle').textContent = 'Dokument bearbeiten';
+            openModal('documentModal');
+        }
+
+        function deleteDocument(id) {
+            if (confirm('Dokument wirklich löschen?')) {
+                appState.documents = appState.documents.filter(doc => doc.id !== id);
+                saveToStorage();
+                showToast('Dokument gelöscht!', 'success');
+                renderDocuments();
+            }
+        }
+
+        function saveTextblock() {
+            const content = document.getElementById('textblockContent').value;
+            const variables = extractVariables(content);
+
+            const textblockData = {
+                name: document.getElementById('textblockName').value,
+                content: content,
+                variables: variables
+            };
+
+            if (appState.currentEditId) {
+                const index = appState.textblocks.findIndex(tb => tb.id === appState.currentEditId);
+                if (index !== -1) {
+                    appState.textblocks[index] = { ...appState.textblocks[index], ...textblockData };
+                    showToast('Textblock aktualisiert!', 'success');
+                }
+            } else {
+                const newId = Math.max(...appState.textblocks.map(tb => tb.id), 0) + 1;
+                appState.textblocks.push({ id: newId, ...textblockData });
+                showToast('Textblock hinzugefügt!', 'success');
+            }
+
+            saveToStorage();
+            closeModal('textblockModal');
+            renderTextblocks();
+        }
+
+        function editTextblock(id) {
+            const textblock = appState.textblocks.find(tb => tb.id === id);
+            if (!textblock) return;
+
+            appState.currentEditId = id;
+            appState.currentEditType = 'textblock';
+
+            document.getElementById('textblockName').value = textblock.name;
+            document.getElementById('textblockContent').value = textblock.content;
+
+            document.getElementById('textblockModalTitle').textContent = 'Textblock bearbeiten';
+            openModal('textblockModal');
+        }
+
+        function deleteTextblock(id) {
+            if (confirm('Textblock wirklich löschen?')) {
+                appState.textblocks = appState.textblocks.filter(tb => tb.id !== id);
+                saveToStorage();
+                showToast('Textblock gelöscht!', 'success');
+                renderTextblocks();
+            }
+        }
+
+        // Utility functions
+        function extractVariables(content) {
+            const matches = content.match(/\{\{([^}]+)\}\}/g);
+            if (!matches) return [];
+            return matches.map(match => match.replace(/[{}]/g, ''));
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE');
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Waiting for Response': 'waiting',
+                'Interview Scheduled': 'interview',
+                'Rejected': 'rejected',
+                'Accepted': 'accepted',
+                'Ready': 'ready',
+                'In Development': 'development',
+                'Archived': 'archived'
+            };
+            return statusMap[status] || 'waiting';
+        }
+
+        // Email functions
+        function composeEmail(to, company, position) {
+            document.getElementById('emailTo').value = to || '';
+            document.getElementById('emailSubject').value = `Bewerbung als ${position} bei ${company}`;
+            
+            // Create email body with textblock content if available
+            let emailBody = `Sehr geehrte Damen und Herren,\n\n`;
+            emailBody += `anbei sende ich Ihnen meine Bewerbung für die Position als ${position}.\n\n`;
+            emailBody += `Mit freundlichen Grüßen\nIhr Bewerber`;
+            
+            document.getElementById('emailBody').value = emailBody;
+            openModal('emailModal');
+        }
+
+        function sendEmail() {
+            const to = document.getElementById('emailTo').value;
+            const subject = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            
+            // Simulate email sending
+            const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink);
+            
+            closeModal('emailModal');
+            showToast('E-Mail-Client geöffnet!', 'success');
+        }
+
+        // Export functions
+        function exportData() {
+            const data = {
+                applications: appState.applications,
+                demoTracks: appState.demoTracks,
+                playlists: appState.playlists,
+                documents: appState.documents,
+                textblocks: appState.textblocks,
+                exported: new Date().toISOString()
+            };
+            
+            downloadJSON(data, 'applicationeer-export.json');
+            showToast('Daten exportiert!', 'success');
+        }
+
+        function exportApplications() {
+            const csv = convertToCSV(appState.applications, [
+                'id', 'company', 'position', 'date_sent', 'status', 
+                'contact_email', 'interview_date', 'demo_sent', 'playlist_used'
+            ]);
+            downloadCSV(csv, 'bewerbungen.csv');
+            showToast('Bewerbungen exportiert!', 'success');
+        }
+
+        function exportDemoTracks() {
+            const csv = convertToCSV(appState.demoTracks, [
+                'id', 'title', 'description', 'url', 'tech_stack', 'status'
+            ]);
+            downloadCSV(csv, 'demo-tracks.csv');
+            showToast('Demo Tracks exportiert!', 'success');
+        }
+
+        function exportToPDF(docId) {
+            const doc = appState.documents.find(d => d.id === docId);
+            if (!doc) return;
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            
+            // Add title
+            pdf.setFontSize(16);
+            pdf.text(doc.title, 20, 20);
+            
+            // Add content
+            pdf.setFontSize(12);
+            const lines = pdf.splitTextToSize(doc.content, 170);
+            pdf.text(lines, 20, 40);
+            
+            // Download
+            pdf.save(`${doc.title}.pdf`);
+            showToast('PDF heruntergeladen!', 'success');
+        }
+
+        // Helper functions for export
+        function convertToCSV(data, headers) {
+            if (!data.length) return '';
+            
+            const csvHeaders = headers.join(',');
+            const csvRows = data.map(item => 
+                headers.map(header => {
+                    const value = item[header] || '';
+                    return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
+                }).join(',')
+            );
+            
+            return [csvHeaders, ...csvRows].join('\n');
+        }
+
+        function downloadJSON(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            downloadBlob(blob, filename);
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv' });
+            downloadBlob(blob, filename);
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-color-scheme') || 
+                                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-color-scheme', newTheme);
+            
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (newTheme === 'dark') {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dunkles Theme';
+            } else {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Helles Theme';
+            }
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toastContainer.removeChild(toast), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
