@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getReviewed - Automatische Review-Analyse</title>
+    <link rel="stylesheet" href="getreviewed.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <div class="logo">
+                    <span class="logo-icon">📊</span>
+                    <h1>getReviewed</h1>
+                </div>
+                <p class="welcome-subtitle">Automatische Review-Analyse für Ihr Unternehmen</p>
+                <p class="welcome-description">
+                    Sammeln und analysieren Sie Kundenbewertungen von allen wichtigen Plattformen an einem Ort. 
+                    Erhalten Sie wertvolle Einblicke in die Performance Ihres Unternehmens.
+                </p>
+                <div class="welcome-features">
+                    <div class="feature">
+                        <span class="feature-icon">⭐</span>
+                        <span>Multi-Plattform Integration</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">📈</span>
+                        <span>KPI Dashboard</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🔄</span>
+                        <span>Automatische Updates</span>
+                    </div>
+                </div>
+                <button class="btn btn--primary btn--lg" onclick="startSetup()">
+                    <span>Jetzt starten</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup Screen -->
+    <div id="setupScreen" class="screen">
+        <div class="setup-container">
+            <div class="setup-header">
+                <h2>Einrichtung</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">Schritt 1 von 4: Unternehmensdaten</p>
+            </div>
+
+            <!-- Step 1: Company Info -->
+            <div class="setup-step active" id="step1">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Unternehmensinformationen</h3>
+                        <div class="form-group">
+                            <label class="form-label">Firmenname</label>
+                            <input type="text" class="form-control" id="companyName" placeholder="z.B. TechFlow Solutions">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Branche</label>
+                            <select class="form-control" id="companyIndustry">
+                                <option value="">Branche auswählen</option>
+                                <option value="software">Software-Entwicklung</option>
+                                <option value="consulting">Beratung</option>
+                                <option value="retail">Einzelhandel</option>
+                                <option value="hospitality">Gastgewerbe</option>
+                                <option value="healthcare">Gesundheitswesen</option>
+                                <option value="finance">Finanzwesen</option>
+                                <option value="other">Sonstiges</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Website</label>
+                            <input type="url" class="form-control" id="companyWebsite" placeholder="https://ihr-unternehmen.de">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Beschreibung (optional)</label>
+                            <textarea class="form-control" id="companyDescription" rows="3" placeholder="Kurze Beschreibung Ihres Unternehmens..."></textarea>
+                        </div>
+                        <button class="btn btn--primary" onclick="nextStep()">Weiter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Platform Selection -->
+            <div class="setup-step" id="step2">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Review-Plattformen auswählen</h3>
+                        <p>Wählen Sie die Plattformen aus, von denen Sie Reviews sammeln möchten:</p>
+                        <div class="platform-grid" id="platformGrid"></div>
+                        <div class="step-actions">
+                            <button class="btn btn--outline" onclick="prevStep()">Zurück</button>
+                            <button class="btn btn--primary" onclick="nextStep()">Weiter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: URL Input -->
+            <div class="setup-step" id="step3">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>URLs hinzufügen</h3>
+                        <p>Geben Sie die URLs für Ihre Review-Profile ein:</p>
+                        <div class="url-inputs" id="urlInputs"></div>
+                        <div class="step-actions">
+                            <button class="btn btn--outline" onclick="prevStep()">Zurück</button>
+                            <button class="btn btn--primary" onclick="nextStep()">Weiter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Review and Confirm -->
+            <div class="setup-step" id="step4">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Einrichtung bestätigen</h3>
+                        <div class="setup-summary" id="setupSummary"></div>
+                        <div class="step-actions">
+                            <button class="btn btn--outline" onclick="prevStep()">Zurück</button>
+                            <button class="btn btn--primary" onclick="startScraping()">Scraping starten</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scraping Screen -->
+    <div id="scrapingScreen" class="screen">
+        <div class="scraping-container">
+            <div class="scraping-header">
+                <h2>Reviews werden gesammelt...</h2>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="foregroundToggle" onclick="toggleView('foreground')">Vordergrund</button>
+                    <button class="toggle-btn" id="backgroundToggle" onclick="toggleView('background')">Hintergrund</button>
+                </div>
+            </div>
+            
+            <div class="scraping-content" id="scrapingContent">
+                <div class="progress-section">
+                    <div class="circular-progress" id="circularProgress">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-ring-fill" cx="60" cy="60" r="50" id="progressCircle"></circle>
+                        </svg>
+                        <div class="progress-text-center" id="progressPercent">0%</div>
+                    </div>
+                    <div class="status-text" id="statusText">Initialisierung...</div>
+                </div>
+                
+                <div class="platforms-progress" id="platformsProgress"></div>
+            </div>
+            
+            <div class="scraping-minimized hidden" id="scrapingMinimized">
+                <div class="mini-progress">
+                    <div class="mini-progress-bar">
+                        <div class="mini-progress-fill" id="miniProgressFill"></div>
+                    </div>
+                    <span id="miniStatusText">Sammle Reviews...</span>
+                </div>
+                <button class="btn btn--outline btn--sm" onclick="toggleView('foreground')">Details anzeigen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="screen">
+        <div class="dashboard-container">
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1>Dashboard</h1>
+                    <div class="company-info" id="dashboardCompanyInfo">
+                        <span class="company-name">TechFlow Solutions</span>
+                        <span class="company-industry">Software-Entwicklung</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn--outline" onclick="refreshData()">
+                        <span class="refresh-icon">🔄</span>
+                        Aktualisieren
+                    </button>
+                </div>
+            </header>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon">⭐</div>
+                    <div class="kpi-content">
+                        <div class="kpi-value" id="avgRating">4.4</div>
+                        <div class="kpi-label">Durchschnittsbewertung</div>
+                        <div class="kpi-trend positive">↗ +0.2</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-content">
+                        <div class="kpi-value" id="totalReviews">127</div>
+                        <div class="kpi-label">Gesamt Reviews</div>
+                        <div class="kpi-trend positive">↗ +12</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">💬</div>
+                    <div class="kpi-content">
+                        <div class="kpi-value" id="responseRate">68%</div>
+                        <div class="kpi-label">Antwortrate</div>
+                        <div class="kpi-trend neutral">→ ±0%</div>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">😊</div>
+                    <div class="kpi-content">
+                        <div class="kpi-value" id="sentimentScore">82%</div>
+                        <div class="kpi-label">Sentiment Score</div>
+                        <div class="kpi-trend positive">↗ +5%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label class="form-label">Zeitraum</label>
+                    <select class="form-control" id="timeFilter">
+                        <option value="all">Alle Zeit</option>
+                        <option value="7days">Letzte 7 Tage</option>
+                        <option value="30days" selected>Letzte 30 Tage</option>
+                        <option value="3months">Letzte 3 Monate</option>
+                        <option value="6months">Letzte 6 Monate</option>
+                        <option value="1year">Letztes Jahr</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="form-label">Sortierung</label>
+                    <select class="form-control" id="sortFilter">
+                        <option value="date">Datum (neueste zuerst)</option>
+                        <option value="rating">Bewertung (höchste zuerst)</option>
+                        <option value="platform">Plattform</option>
+                        <option value="helpful">Hilfreichkeit</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="form-label">Plattform</label>
+                    <div class="platform-filters" id="platformFilters"></div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3>Reviews nach Plattform</h3>
+                    <div class="chart-container" id="platformChart"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Bewertungen über Zeit</h3>
+                    <div class="chart-container" id="timeChart"></div>
+                </div>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="reviews-section">
+                <h3>Aktuelle Reviews</h3>
+                <div class="reviews-list" id="reviewsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="getreviewed.js"></script>
+</body>
+</html>
