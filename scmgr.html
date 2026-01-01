@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundCloud Manager</title>
+    <link rel="stylesheet" href="scmgr.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Account Selection Screen -->
+    <div id="account-selection" class="account-selection">
+        <div class="container">
+            <div class="account-selection-header">
+                <h1>SoundCloud Manager</h1>
+                <p>Wählen Sie ein Konto aus oder verbinden Sie ein neues</p>
+            </div>
+            
+            <div class="accounts-grid" id="accounts-grid">
+                <!-- Account cards will be populated by JavaScript -->
+            </div>
+            
+            <button class="btn btn--outline connect-new-btn" id="connect-new-btn">
+                <span class="icon">+</span>
+                Neues Konto verbinden
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="main-app" class="main-app hidden">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <span class="icon">♪</span>
+                    SoundCloud Manager
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="current-account" id="current-account">
+                    <!-- Current account info -->
+                </div>
+                <button class="btn btn--secondary account-switcher" id="account-switcher">
+                    Konto wechseln
+                </button>
+            </div>
+        </nav>
+
+        <div class="app-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-section="dashboard">
+                        <span class="icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="#" class="nav-item" data-section="playlists">
+                        <span class="icon">📝</span>
+                        Playlists
+                    </a>
+                    <a href="#" class="nav-item" data-section="tracks">
+                        <span class="icon">🎵</span>
+                        Tracks
+                    </a>
+                    <a href="#" class="nav-item" data-section="insights">
+                        <span class="icon">📈</span>
+                        Insights
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section active">
+                    <div class="section-header">
+                        <h2>Dashboard</h2>
+                        <p id="welcome-text">Willkommen zurück!</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-tracks">0</div>
+                            <div class="stat-label">Tracks</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-playlists">0</div>
+                            <div class="stat-label">Playlists</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-plays">0</div>
+                            <div class="stat-label">Plays</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-followers">0</div>
+                            <div class="stat-label">Follower</div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h3>Schnelle Aktionen</h3>
+                        <div class="action-buttons">
+                            <button class="btn btn--primary" id="upload-track-btn">
+                                <span class="icon">⬆</span>
+                                Track hochladen
+                            </button>
+                            <button class="btn btn--secondary" id="create-playlist-btn">
+                                <span class="icon">+</span>
+                                Playlist erstellen
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Playlists Section -->
+                <section id="playlists-section" class="section">
+                    <div class="section-header">
+                        <h2>Playlists</h2>
+                        <div class="section-actions">
+                            <div class="search-box">
+                                <input type="text" placeholder="Playlists durchsuchen..." id="playlist-search">
+                            </div>
+                            <select id="playlist-sort" class="form-control">
+                                <option value="name">Nach Name sortieren</option>
+                                <option value="date">Nach Datum sortieren</option>
+                                <option value="tracks">Nach Track-Anzahl sortieren</option>
+                                <option value="plays">Nach Plays sortieren</option>
+                            </select>
+                            <button class="btn btn--primary" id="new-playlist-btn">
+                                <span class="icon">+</span>
+                                Neue Playlist
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-grid" id="playlists-grid">
+                        <!-- Playlists will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Tracks Section -->
+                <section id="tracks-section" class="section">
+                    <div class="section-header">
+                        <h2>Tracks</h2>
+                        <div class="section-actions">
+                            <div class="search-box">
+                                <input type="text" placeholder="Tracks durchsuchen..." id="track-search">
+                            </div>
+                            <select id="track-sort" class="form-control">
+                                <option value="name">Nach Name sortieren</option>
+                                <option value="date">Nach Datum sortieren</option>
+                                <option value="duration">Nach Dauer sortieren</option>
+                                <option value="plays">Nach Plays sortieren</option>
+                            </select>
+                            <button class="btn btn--primary" id="new-track-btn">
+                                <span class="icon">⬆</span>
+                                Track hochladen
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tracks-list" id="tracks-list">
+                        <!-- Tracks will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Insights Section -->
+                <section id="insights-section" class="section">
+                    <div class="section-header">
+                        <h2>Insights</h2>
+                        <div class="section-actions">
+                            <select id="insights-timerange" class="form-control">
+                                <option value="7">Letzte 7 Tage</option>
+                                <option value="30">Letzte 30 Tage</option>
+                                <option value="90">Letzte 90 Tage</option>
+                                <option value="all">Alle Zeit</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <h3>Plays über Zeit</h3>
+                            <canvas id="plays-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <h3>Referral Sources</h3>
+                            <canvas id="referral-chart"></canvas>
+                        </div>
+                        
+                        <div class="top-tracks-card">
+                            <h3>Top Tracks</h3>
+                            <div id="top-tracks-list">
+                                <!-- Top tracks will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="geographic-data-card">
+                            <h3>Geografische Daten</h3>
+                            <div id="geographic-data">
+                                <!-- Geographic data will be populated -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Playlist Modal -->
+    <div id="playlist-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="playlist-modal-title">Playlist bearbeiten</h3>
+                <button class="modal-close" id="playlist-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="playlist-form">
+                    <div class="form-group">
+                        <label class="form-label">Cover-Bild</label>
+                        <div class="image-upload" id="playlist-cover-upload">
+                            <img id="playlist-cover-preview" src="" alt="Cover Preview" class="hidden">
+                            <div class="upload-placeholder">
+                                <span class="icon">📷</span>
+                                <p>Bild hochladen</p>
+                            </div>
+                            <input type="file" id="playlist-cover-input" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="playlist-title" class="form-label">Titel</label>
+                        <input type="text" id="playlist-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="playlist-description" class="form-label">Beschreibung</label>
+                        <textarea id="playlist-description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="playlist-private"> Privat
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--secondary" id="playlist-cancel">Abbrechen</button>
+                <button type="submit" form="playlist-form" class="btn btn--primary" id="playlist-save">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Modal -->
+    <div id="track-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="track-modal-title">Track bearbeiten</h3>
+                <button class="modal-close" id="track-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="track-form">
+                    <div class="form-group">
+                        <label class="form-label">Cover-Bild</label>
+                        <div class="image-upload" id="track-cover-upload">
+                            <img id="track-cover-preview" src="" alt="Cover Preview" class="hidden">
+                            <div class="upload-placeholder">
+                                <span class="icon">📷</span>
+                                <p>Bild hochladen</p>
+                            </div>
+                            <input type="file" id="track-cover-input" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="track-title" class="form-label">Titel</label>
+                        <input type="text" id="track-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="track-description" class="form-label">Beschreibung</label>
+                        <textarea id="track-description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="track-genre" class="form-label">Genre</label>
+                        <select id="track-genre" class="form-control">
+                            <option value="Electronic">Electronic</option>
+                            <option value="Techno">Techno</option>
+                            <option value="House">House</option>
+                            <option value="Ambient">Ambient</option>
+                            <option value="Trance">Trance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="track-tags" class="form-label">Tags</label>
+                        <input type="text" id="track-tags" class="form-control" placeholder="tag1, tag2, tag3">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="track-private"> Privat
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="track-download"> Download erlauben
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="track-comments"> Kommentare erlauben
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--secondary" id="track-cancel">Abbrechen</button>
+                <button type="submit" form="track-form" class="btn btn--primary" id="track-save">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Upload Modal -->
+    <div id="upload-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Track hochladen</h3>
+                <button class="modal-close" id="upload-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-placeholder">
+                        <span class="icon">⬆</span>
+                        <p>Datei hier ablegen oder klicken zum Durchsuchen</p>
+                    </div>
+                    <input type="file" id="file-input" accept="audio/*" class="hidden">
+                </div>
+                <div class="progress-bar hidden" id="progress-container">
+                    <div class="progress-fill" id="progress-fill"></div>
+                    <span class="progress-text" id="progress-text">0%</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--secondary" id="upload-cancel">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Teilen</h3>
+                <button class="modal-close" id="share-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Link kopieren</label>
+                    <div class="copy-link">
+                        <input type="text" id="share-link" class="form-control" readonly>
+                        <button class="btn btn--secondary" id="copy-link-btn">Kopieren</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Social Media</label>
+                    <div class="social-buttons">
+                        <button class="btn btn--outline social-btn" data-platform="facebook">Facebook</button>
+                        <button class="btn btn--outline social-btn" data-platform="twitter">Twitter</button>
+                        <button class="btn btn--outline social-btn" data-platform="instagram">Instagram</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="confirm-title">Bestätigung</h3>
+                <button class="modal-close" id="confirm-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Sind Sie sicher?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--secondary" id="confirm-cancel">Abbrechen</button>
+                <button type="button" class="btn btn--primary" id="confirm-ok">Bestätigen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Lade Daten...</p>
+    </div>
+
+    <script src="scmgr.js"></script>
+</body>
+</html>
